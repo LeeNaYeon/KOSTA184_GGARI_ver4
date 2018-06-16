@@ -13,7 +13,6 @@
     <meta name="description" content="edustar">
     <meta name="author" content="khanalprem">
     <meta name="copyright" content="khanalprem">
-
     <!--title-->
     <title>PostIT</title>
 
@@ -22,7 +21,6 @@
 
     <!-- stylesheet start -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
-
 </head>
 <style>
 

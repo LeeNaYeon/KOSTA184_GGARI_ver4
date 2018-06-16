@@ -195,28 +195,28 @@
                 <!--Column-->
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">9300</h2>
+                        <h2 class="counter " id="menteeCount">9300</h2>
                         <h3>누적 멘티 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">10111</h2>
+                        <h2 class="counter " id="mentoCount">10111</h2>
                         <h3>누적 멘토 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">9575</h2>
+                        <h2 class="counter " id="studyCount">9575</h2>
                         <h3>누적 스터디 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">7864</h2>
+                        <h2 class="counter " id="reviewCount">7864</h2>
                         <h3>리뷰 수</h3>
                     </div>
                 </div>
