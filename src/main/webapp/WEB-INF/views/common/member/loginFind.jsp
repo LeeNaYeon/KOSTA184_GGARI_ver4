@@ -7,7 +7,9 @@
 	
 	.col-md-5{margin-left: auto; margin-right: auto;}	
 	/* #findButton{margin-left: 80px} */
-	
+	input[type="text"]{
+       text-transform:none;
+    }
 	
 	
 	
@@ -36,7 +38,7 @@
                                 <input type="text" name="userName" placeholder="이름을 입력해주세요.">
                             </div>                            
                             <div class="form-group">
-                                <input type="password" name="userEmail" placeholder="이메일을 입력해주세요.">
+                                <input type="text" name="userEmail" placeholder="이메일을 입력해주세요.">
                             </div> 
                             </div>
                             

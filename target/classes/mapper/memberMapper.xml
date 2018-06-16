@@ -4,23 +4,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
-<insert id="insertMentee" parameterType="menteeDTO">
+	<sql id="menteeColumn">
+	   user_id,user_pwd,user_name,user_phone,user_email,user_photo
+	</sql>
+	
+	<resultMap type="menteeDTO" id="menteeSelectMap">
+	  <id column="user_id" property="userId"/>
+	  <result column="user_pwd" property="userPwd"/>
+	  <result column="user_name" property="userName"/>
+	  <result column="user_phone" property="userPhone"/>
+	  <result column="user_email" property="userEmail"/>
+	  <result column="user_photo" property="userPhoto"/>
+	</resultMap>
+
+   <insert id="insertMentee" parameterType="menteeDTO">
       insert into mentee
       values(#{userId},#{userPwd},#{userName},#{userPhone},#{userEmail},#{userPhoto})
    </insert>
 
    <insert id="insertApplicant" parameterType="applicantDTO">
       insert into applicant
-      values(#{userId},#{applicantResume},#{applicantMajor},#{applicantMajor2},#{applicantMajor3},#{applicantStatus})
+      values(#{userId},#{applicantResume},#{applicantMajor1},#{applicantMajor2},#{applicantMajor3},#{applicantStatus})
    </insert>
    
-   <insert id="inserInterested" parameterType="interestedDTO">
+   <insert id="insertInterested" parameterType="interestedDTO">
       insert into interested 
-      values('inter'||lpad(inter_seq.nextval,4,'0'), #{userId}, #{interField}, #{interField2}, #{interField3})
+      values('inter'||lpad(inter_seq.nextval,4,'0'), #{userId}, #{interField1}, #{interField2}, #{interField3})
    </insert>
 
-	 <select id="idcheck" resultType="int">
+	<select id="idcheck" resultType="int">
 		select count(*) from mentee where user_Id=#{value}
+	</select>
+	
+<!-- 	<insert id="insertAuthority" parameterType="string">
+      insert into authority 
+      values(#{_parameter}, 'mentee')
+   </insert> -->
+   
+   <!-- id에 해당하는 정보 검색 -->
+	<select id="selectMemberById" parameterType="string"   resultMap="menteeSelectMap">
+	  select <include refid="menteeColumn"/>
+	  from mentee
+	  where user_id=#{_parameter}
 	</select>
    
 </mapper> 

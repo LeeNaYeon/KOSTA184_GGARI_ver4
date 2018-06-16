@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 
@@ -50,7 +52,7 @@
          $.ajax({
             type:"POST",
             url:"${pageContext.request.contextPath}/idcheckAjax",            
-            data:"id="+id, 
+            data:"${_csrf.parameterName}=${_csrf.token}&&id="+id,	
             success:function(data){                  
                if(data=="fail"){
                $("#idCheckView").html("  "+id+" 아이디 사용할 수 없습니다.").css("color","red");
@@ -63,6 +65,22 @@
          });//ajax 
       });//keyup
       
+      
+       //비밀번호체크
+         $("input[name=userPwd]").keyup(function(){
+               
+            var pwd=$(this).val().trim();
+            if(pwd.length<8){
+               $("#pwdView").html("8글자이상 입력해주세요").css("color","red");
+               checkResultId="";
+               return;
+            }else{
+               $("#pwdView").html("사용 가능합니다.").css("color","green");
+               checkResultId="";
+               return;
+            }         
+         });//keyup
+      
       //비밀번호체크
       $("input[name=pwdCheck]").keyup(function(){
          
@@ -74,14 +92,19 @@
             checkResultId="";
             return;
          }else{
-            $("#pwdCheckView").html("사용 가능합니다.").css("color","blue");
+            $("#pwdCheckView").html("사용 가능합니다.").css("color","green");
          }
       });//keyup
       
       //체크박스
       $("#joinButton").on("click", function() {
          
+         
          if($("#joinForm :input[name=userName]").val().trim()==""){
+              alert("이름을 입력하세요");            
+              return false;
+           } 
+         if($("#joinForm :input[name=userId]").val().trim()==""){
             alert("아이디를 입력하세요");            
             return false;
          }
@@ -105,6 +128,12 @@
             alert("이메일을 입력하세요");            
             return false;
          }
+         
+         if($("#joinForm :input[name=userEmail]").val().trim().indexOf('@')<0){
+             alert("올바른 이메일 형식이 아닙니다.");            
+             return false;
+          }
+         
          if($("#personalData:checked").size() < 1){
             alert("개인정보 수집에 동의해주세요.");            
             return false;
@@ -115,11 +144,11 @@
              return false;
           
           } else{
-             $('input[type="checkbox"]:checked').each(function(index,item){            
+             $('input[type=checkbox]:checked').each(function(index,item){            
                 var indexplus = index+1;
                 $('#interField'+indexplus).attr('value',$(this).val());
              });
-             return/*  false */;
+             return ;
           }    
          
             
@@ -149,25 +178,29 @@
             <div class="row">
                 <div class="login-form">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="navbar-brand">
+                        <div class="navbar-brand"  style="margin-bottom: 30px">
                             <!-- <img src="images/logo.png" class="img-responsive" alt=""> -->
-                            postIt로고
+                            <span style="font-size:40px; color:orange;"><strong>Let's code together</strong></span>
                         </div>
                     </div>
-                       
-                       <form method="post" action="${pageContext.request.contextPath}/join/Mentee" id="joinForm" enctype="multipart/form-data">
-                        
-                     
+                    
+                       <form method="post" action="${pageContext.request.contextPath}/join/Mentee?${_csrf.parameterName}=${_csrf.token}" id="joinForm" enctype="multipart/form-data">
+             			<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
+             			<input type="hidden" name="_csrf" value="{{#_csrf}}token{{/_csrf}}" />
+             			
+             			
                         <div class="form-join">
                             <input type="text" placeholder="이름을 입력해주세요" name="userName">
                         </div>
                         <div class="form-join" >                                          
                             <input type="text" placeholder="아이디를 입력해주세요" name="userId">
-                        <span id="idCheckView"></span>
+                        	<span id="idCheckView"></span>
                         </div>
+                        
                         <div class="form-join">
                             <input type="password" placeholder="비밀번호를 입력해주세요" name="userPwd" >
-                        </div>
+                        	<span id="pwdView"></span>
+                        </div>                        
                         <div class="form-join">
                             <input type="password" placeholder="비밀번호를 확인해주세요" name="pwdCheck">
                             <span id="pwdCheckView"></span>
@@ -310,9 +343,11 @@
                        <div class="col-md-12 col-sm-12 col-xs-12">
                            <button type="submit" class="login-btn btn" id="joinButton">가입하기</button>
                        </div>
-                       <input type="hidden" name="interField1" value="">
-                       <input type="hidden" name="interField2" value="">
-                       <input type="hidden" name="interField3" value="">
+                       <input type="hidden" name="interField1" value="" id="interField1">
+                       <input type="hidden" name="interField2" value="" id="interField2">
+                       <input type="hidden" name="interField3" value="" id="interField3">
+                       
+                       
                      </form>
                     
                     

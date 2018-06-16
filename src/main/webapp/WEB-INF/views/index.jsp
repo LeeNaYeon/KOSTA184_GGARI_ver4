@@ -1,5 +1,9 @@
-   <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+<%@page import="org.springframework.security.core.context.SecurityContextImpl"%>
+<%@page import="java.util.Enumeration"%>
+
    <style>
 
 
@@ -30,7 +34,12 @@
 	}
 
 </style>
-       
+
+<%-- <sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.userName" /> 님 환영합니다. 
+		<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
+	</sec:authorize>
+        --%>
        <!-- banner slider -->
     <div class="banner-slider">
         <div class="main-slider owl-carousel owl-theme">
@@ -187,28 +196,28 @@
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
                         <h2 class="counter ">9300</h2>
-                        <h3>Shield</h3>
+                        <h3>누적 멘티 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
                         <h2 class="counter ">10111</h2>
-                        <h3>Total trophy</h3>
+                        <h3>누적 멘토 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
                         <h2 class="counter ">9575</h2>
-                        <h3>Online students</h3>
+                        <h3>누적 스터디 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
                         <h2 class="counter ">7864</h2>
-                        <h3>booked</h3>
+                        <h3>리뷰 수</h3>
                     </div>
                 </div>
             </div>

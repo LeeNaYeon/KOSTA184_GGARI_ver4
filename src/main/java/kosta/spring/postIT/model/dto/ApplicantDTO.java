@@ -4,19 +4,19 @@ public class ApplicantDTO {
 
 	private String userId;
 	private String applicantResume;
-	private String applicantMajor;
+	private String applicantMajor1;
 	private String applicantMajor2;
 	private String applicantMajor3;
 	private String applicantStatus;
 	
 	public ApplicantDTO() {}
 	
-	public ApplicantDTO(String userId, String applicantResume, String applicantMajor, String applicantMajor2,
+	public ApplicantDTO(String userId, String applicantResume, String applicantMajor1, String applicantMajor2,
 			String applicantMajor3, String applicantStatus) {
 		super();
 		this.userId = userId;
 		this.applicantResume = applicantResume;
-		this.applicantMajor = applicantMajor;
+		this.applicantMajor1 = applicantMajor1;
 		this.applicantMajor2 = applicantMajor2;
 		this.applicantMajor3 = applicantMajor3;
 		this.applicantStatus = applicantStatus;
@@ -34,11 +34,11 @@ public class ApplicantDTO {
 	public void setApplicantResume(String applicantResume) {
 		this.applicantResume = applicantResume;
 	}
-	public String getApplicantMajor() {
-		return applicantMajor;
+	public String getApplicantMajor1() {
+		return applicantMajor1;
 	}
-	public void setApplicantMajor(String applicantMajor) {
-		this.applicantMajor = applicantMajor;
+	public void setApplicantMajor1(String applicantMajor1) {
+		this.applicantMajor1 = applicantMajor1;
 	}
 	public String getApplicantMajor2() {
 		return applicantMajor2;

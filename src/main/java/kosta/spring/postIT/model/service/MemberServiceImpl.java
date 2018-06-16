@@ -1,28 +1,82 @@
 package kosta.spring.postIT.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kosta.spring.postIT.model.dao.AuthoritiesDAO;
 import kosta.spring.postIT.model.dao.MemberDAO;
 import kosta.spring.postIT.model.dto.ApplicantDTO;
+import kosta.spring.postIT.model.dto.AuthorityDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.util.RoleConstants;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberDAO memberDAO;
-	@Override
-	public int insertMentee(MenteeDTO menteeDTO, InterestedDTO interestedDTO, ApplicantDTO applicantDTO) {
-		int re = memberDAO.insertMentee(menteeDTO, null, null);
-		return 0;
-	}
 	
+	@Autowired
+    private PasswordEncoder passworEncoder;
+	
+	@Autowired
+	private AuthoritiesDAO authDAO;
+	
+
+	@Override
+	@Transactional
+	public int insertMentee(MenteeDTO menteeDTO,InterestedDTO interestedDTO) {
+		
+		//비밀번호를 암호화..
+		menteeDTO.setUserPwd(passworEncoder.encode(menteeDTO.getUserPwd()));
+		
+		//member테이블에 insert
+		memberDAO.insertMentee(menteeDTO);
+		
+		//권한 등록
+		authDAO.insertAuthority(new AuthorityDTO(menteeDTO.getUserId(), RoleConstants.ROLE_MENTEE));
+		
+		//관심분야 등록
+		memberDAO.insertMenteeInter(interestedDTO);
+
+		//에러이동 추가 예정
+		return 0;
+	
+	}
+
+
 	@Override
 	public String idcheck(String userId) {
 		int count=memberDAO.idcheck(userId);
 		return (count==0) ? "ok":"fail"; 
 	}
+
+
+	@Override
+	@Transactional
+	public int insertMento(MenteeDTO menteeDTO, ApplicantDTO applicantDTO) {
+		
+		//비밀번호를 암호화..
+		menteeDTO.setUserPwd(passworEncoder.encode(menteeDTO.getUserPwd()));
+		
+		//member테이블에 insert
+		memberDAO.insertMentee(menteeDTO);
+		
+		//권한 등록
+		authDAO.insertAuthority(new AuthorityDTO(menteeDTO.getUserId(), RoleConstants.ROLE_MENTEE));
+		
+		//관심분야 등록
+		memberDAO.insertMento(applicantDTO);
+		
+		//에러이동 추가 예정
+		return 0;
+	}
+
+
+	
+	
 
 }

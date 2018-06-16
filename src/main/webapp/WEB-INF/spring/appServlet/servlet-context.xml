@@ -46,5 +46,6 @@
 		</beans:bean>
 	</interceptors>
 	
-	<context:component-scan base-package="kosta.spring.postIT" />
+	<!-- <context:component-scan base-package="kosta.spring.postIT" /> -->
+	<context:component-scan base-package="kosta.spring.postIT.controller" />
 </beans:beans>
