@@ -1,22 +1,17 @@
 package kosta.spring.postIT.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CrSubAsgnDTO {
-	private String crSubasgnCode;
 	private String crAsgnCode;
 	private String userId;
 	private String crSubasgnTitle;
 	private String crSubasgnContent;
 	private String crSubasgnDate;
+	
 	private String crSubasgnFile;
-
-	public String getCrSubasgnCode() {
-		return crSubasgnCode;
-	}
-
-	public void setCrSubasgnCode(String crSubasgnCode) {
-		this.crSubasgnCode = crSubasgnCode;
-	}
-
+	private MultipartFile file;
+	
 	public String getCrAsgnCode() {
 		return crAsgnCode;
 	}
@@ -63,5 +58,13 @@ public class CrSubAsgnDTO {
 
 	public void setCrSubasgnFile(String crSubasgnFile) {
 		this.crSubasgnFile = crSubasgnFile;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 }
