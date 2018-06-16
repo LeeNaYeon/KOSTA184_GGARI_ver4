@@ -13,10 +13,7 @@
 		<put-attribute name="crFooter" value="/WEB-INF/views/tiles/crFooter.jsp"/>
 	</definition>
 	
-	<!-- controller에서 정한 viewName에 따라 content영역 page 설정 -->
-	<definition name="*" extends="layout">
-		<put-attribute name="content" value="/WEB-INF/views/{1}.jsp"/>
-	</definition>
+
 	
 	
 	<definition name="*/*/*" extends="layout">
@@ -24,8 +21,13 @@
 	</definition>
 	
 	
-	<definition name="*/*/*/*" extends="crLayout">
+  <definition name="*/*/*/*" extends="crLayout">
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}/{4}.jsp"/>
-	</definition>
+	</definition> 
 	
+	<!-- controller에서 정한 viewName에 따라 content영역 page 설정 -->
+	<!-- <definition name="*" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/{1}.jsp"/>
+	</definition> -->
+	 
 </tiles-definitions>
