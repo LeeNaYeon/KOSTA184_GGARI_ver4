@@ -12,15 +12,15 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session) {
 
-//		return "index";
+		return "main/mainpage/index";
 		
-		session.setAttribute("courseCode", "a1");
-		return "redirect:/cr/notice/selectList";
+//		session.setAttribute("courseCode", "a1");
+//		return "redirect:/cr/notice/selectList";
 	}
 	
 	@RequestMapping("/index")
 	public String gohome() {
-		return "index";
+		return "main/mainpage/index";
 	}
 	
 	@RequestMapping("/loginForm")
