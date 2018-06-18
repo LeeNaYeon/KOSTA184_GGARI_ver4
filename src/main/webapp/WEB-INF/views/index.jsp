@@ -174,7 +174,7 @@
             <p>내 레벨을 파악하고 꼭 맞는 스터디를 안내받으세요!</p>
             <p>1분 정도 소요됩니다.</p>
             <div class="lecture-btn">
-                <a href="teacher.html" class="btn">레벨테스트 시작하기</a>
+                <a href="${pageContext.request.contextPath}/course/levelTest/choice" class="btn">레벨테스트 시작하기</a>
             </div>
         </div>
         <div class="title sec-title" id="leveltestImg">

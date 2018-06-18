@@ -8,7 +8,17 @@ public class MenteeDTO {
 		private String userPhone;
 		private String userEmail;
 		private String userPhoto;
+		private MentoDTO mentoDTO;
 		
+		
+		public MentoDTO getMentoDTO() {
+			return mentoDTO;
+		}
+
+		public void setMentoDTO(MentoDTO mentoDTO) {
+			this.mentoDTO = mentoDTO;
+		}
+
 		public MenteeDTO() {} 
 		
 		public MenteeDTO(String userId, String userPwd, String userName, String userPhone, String userEmail,

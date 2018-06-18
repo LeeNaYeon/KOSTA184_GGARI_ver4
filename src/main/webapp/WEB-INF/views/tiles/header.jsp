@@ -79,7 +79,7 @@
 								
 								<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
 								<li>
-									 <a href="#"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
+									 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
 									 	<sec:authorize access="isAuthenticated()">
 											<sec:authentication property="principal.userName" />님 MyPage 
 											<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
