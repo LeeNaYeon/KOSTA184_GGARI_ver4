@@ -9,6 +9,8 @@ public class MentoDTO {
 	private String mentoMajor2;
 	private String mentoMajor3;
 	
+	private MenteeDTO menteeDTO; //1:1ÀÇ °ü°è
+	
 	public MentoDTO() {}
 	
 	public MentoDTO(String userId, String mentoResume, String mentoDesc, String mentoMajor, String mentoMajor2,
@@ -58,8 +60,12 @@ public class MentoDTO {
 	public void setMentoMajor3(String mentoMajor3) {
 		this.mentoMajor3 = mentoMajor3;
 	}
-	
-	
+	public MenteeDTO getMenteeDTO() {
+		return menteeDTO;
+	}
+	public void setMenteeDTO(MenteeDTO menteeDTO) {
+		this.menteeDTO = menteeDTO;
+	}
 	
 	
 	

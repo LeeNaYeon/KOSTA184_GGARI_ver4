@@ -32,6 +32,22 @@
 	.testimonial2 .sec-title p {
 	    color: #ffffff;
 	}
+	
+	 #menteeCount{
+	color:orange;
+	} 
+	
+	#mentoCount{
+	color:orange;
+	}
+	
+	#studyCount{
+	color:orange;
+	}
+	
+	#reviewCount{
+	color:orange;
+	}
 
 </style>
 
@@ -62,7 +78,7 @@
                         <div class="content">
                             <h2>Let's code together</h2>
                             <p>문구 들어갈 자리 입니다. 같이 정해보아요^^</p>
-                            <a  href="#" class="btn btn-primary">더 알아보기</a>
+                            <a  href="${pageContext.request.contextPath}/countTest" class="btn btn-primary">더 알아보기</a>
                         </div>
                     </div>
                 </div>
@@ -76,7 +92,7 @@
             <div class="title sec-title">
                 <h2>추천 강좌</h2>
                 <p>문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다.  </p>
-                <p><a href="#">전체강좌 보러가기</a></p>
+                <p><a href="course">전체강좌 보러가기</a></p>
             </div>
             
             <div class="pupular-course-inner">
@@ -195,28 +211,28 @@
                 <!--Column-->
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">9300</h2>
+                        <h1 class="counter " id="menteeCount">${MenteeCount}</h1>
                         <h3>누적 멘티 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">10111</h2>
+                        <h1 class="counter " id="mentoCount">${MentoCount}</h1>
                         <h3>누적 멘토 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">9575</h2>
+                        <h1 class="counter " id="studyCount">${CourseCount}</h1>
                         <h3>누적 스터디 수</h3>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6 ">
                     <div class="counter-area ">
-                        <h2 class="counter ">7864</h2>
+                        <h1 class="counter " id="reviewCount">${RepCount}</h1>
                         <h3>리뷰 수</h3>
                     </div>
                 </div>
@@ -239,9 +255,9 @@
                             <img src="${pageContext.request.contextPath}/resources/images/users/1.jpg" alt="">
                         </div>
                         <div class="testi-content">
-                            <h4><a href="#">John deon</a></h4>
+                            <h4>${mentoRepList[0].repWriter}</h4>
                             <span>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                ${mentoRepList[0].repContent}
                             </span>
                         </div>
                     </div>
@@ -250,9 +266,9 @@
                             <img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="">
                         </div>
                         <div class="testi-content">
-                            <h4><a href="#">khanal prem</a></h4>
+                            <h4>${mentoRepList[1].repWriter}</h4>
                             <span>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                            	${mentoRepList[1].repContent}
                             </span>
                         </div>
                     </div>
@@ -261,9 +277,9 @@
                             <img src="${pageContext.request.contextPath}/resources/images/users/1.jpg" alt="">
                         </div>
                         <div class="testi-content">
-                            <h4><a href="#">dahal dipen</a></h4>
+                            <h4>${mentoRepList[2].repWriter}</h4>
                             <span>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                            	${mentoRepList[2].repContent}
                             </span>
                         </div>
                     </div>
@@ -272,9 +288,9 @@
                             <img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="">
                         </div>
                         <div class="testi-content">
-                            <h4><a href="#">anjel sharma</a></h4>
+                            <h4>${mentoRepList[3].repWriter}</h4>
                             <span>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                            	${mentoRepList[3].repContent}
                             </span>
                         </div>
                     </div>

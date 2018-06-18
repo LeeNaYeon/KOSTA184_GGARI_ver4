@@ -9,8 +9,11 @@ import kosta.spring.postIT.model.dao.AuthoritiesDAO;
 import kosta.spring.postIT.model.dao.MemberDAO;
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.AuthorityDTO;
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.util.RoleConstants;
 
 @Service
@@ -73,6 +76,34 @@ public class MemberServiceImpl implements MemberService {
 		
 		//에러이동 추가 예정
 		return 0;
+	}
+
+
+	@Override
+	public int selectCountMentee(MenteeDTO menteeDTO) {
+		return memberDAO.selectCountMentee(menteeDTO);
+	}
+
+
+	@Override
+	public int selectCountMento(MentoDTO mentoDTO) {
+		return memberDAO.selectCountMento(mentoDTO);
+	}
+	
+	@Override
+	public int selectCountCourse(CourseDTO courseDTO) {
+		return memberDAO.selectCountCourse(courseDTO);
+	}
+	
+	@Override
+	public int selectCountReputation(MentoReputationDTO mentoReputationDTO) {
+		return memberDAO.selectCountReputation(mentoReputationDTO);
+	}
+
+
+	@Override
+	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
+		return memberDAO.selectReputation(mentoReputationDTO);
 	}
 
 
