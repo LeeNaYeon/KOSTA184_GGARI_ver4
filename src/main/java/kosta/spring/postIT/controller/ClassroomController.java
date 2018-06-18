@@ -2,6 +2,7 @@ package kosta.spring.postIT.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
+import kosta.spring.postIT.model.dto.CrFeedbackDTO;
 import kosta.spring.postIT.model.dto.CrNoticeDTO;
+import kosta.spring.postIT.model.dto.CrNoticeReplyDTO;
 import kosta.spring.postIT.model.dto.CrSubAsgnDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.service.ClassroomService;
@@ -142,6 +146,16 @@ public class ClassroomController {
 	@RequestMapping("cr/asgn/subAsgnSelectForm/{crAsgnCode}/{userId}")
 	public String moveSelectForm(Model model, @PathVariable String crAsgnCode, @PathVariable String userId) {
 		model.addAttribute("crSubAsgnDTO", classroomService.selectSubAsgn(crAsgnCode, userId));
+		
+		MenteeDTO menteeDTO= classroomService.selectFeedback(classroomService.selectSubAsgn(crAsgnCode, userId));
+		if(menteeDTO !=null) {
+			CrFeedbackDTO crFeedbackDTO = menteeDTO.getFeedback();
+			model.addAttribute("menteeDTO", menteeDTO);
+			model.addAttribute("crFeedbackDTO", crFeedbackDTO);
+		}
+		
+		
+		
 		return "mentee/classroom/crAsgn/subAsgnSelectForm";
 	}
 
@@ -155,21 +169,64 @@ public class ClassroomController {
 		classroomService.insertNotice(crNoticeDTO);
 		return "redirect:/cr/notice/selectList";
 	}
-	
+
+	@RequestMapping("cr/notice/updateForm/{crNoticeCode}")
+	public String moveUpdateForm(Model model, @PathVariable String crNoticeCode) {
+		model.addAttribute("crNoticeDTO", classroomService.selectNotice(crNoticeCode));
+		return "mento/classroom/crNotice/noticeUpdateForm";
+	}
+
+	@RequestMapping("cr/notice/update")
+	public String updateNotice(CrNoticeDTO crNoticeDTO) {
+		classroomService.updateNotice(crNoticeDTO);
+		return "redirect:/cr/notice/selectList";
+	}
+
 	@RequestMapping("cr/notice/delete/{crNoticeCode}")
 	public String deleteNotice(@PathVariable String crNoticeCode) {
 		System.out.println("-------------------" + crNoticeCode);
 		classroomService.deleteNotice(crNoticeCode);
 		return "redirect:/cr/notice/selectList";
 	}
-	
+
 	@RequestMapping("cr/notice/selectList")
 	public String selectNoticeList(HttpSession session, Model model) {
 		MenteeDTO mento = classroomService.selectNoticeList((String) session.getAttribute("courseCode"));
+		List<CrNoticeReplyDTO> crNoticeReplyList = classroomService.selectNoticeReply();
 		model.addAttribute("mento", mento);
+		model.addAttribute("noticeReplyList", crNoticeReplyList);
+		
+		saveCourseInfo(session);
+		showDeadlineSubject(session);
 		return "mentee/classroom/crNotice/noticeSelectList";
 	}
-	
-	
 
+	@RequestMapping("cr/noticeReply/insert")
+	public String insertNoticeReply(CrNoticeReplyDTO crNoticeReplyDTO) {
+		classroomService.insertNoticeReply(crNoticeReplyDTO);
+		return "redirect:/cr/notice/selectList";
+	}
+	
+	@RequestMapping("cr/feedback/insert")
+	public String insertFeedback(CrFeedbackDTO crFeedbackDTO) {
+		classroomService.insertFeedback(crFeedbackDTO);
+		return "redirect:/cr/asgn/subAsgnSelectForm/"+crFeedbackDTO.getCrAsgnCode()+"/"+crFeedbackDTO.getUserId();
+	}
+	
+	public void saveCourseInfo(HttpSession session) {
+		String courseCode = (String)session.getAttribute("courseCode");
+		CourseDTO courseDTO = classroomService.selectCourseInfo(courseCode);
+		session.setAttribute("courseName", courseDTO.getCourseTitle());
+		String startDate = courseDTO.getCourseStartDate().substring(0, 10);
+		String endDate = courseDTO.getCourseEndDate().substring(0, 10);
+		session.setAttribute("courseStartDate", startDate);
+		session.setAttribute("courseEndDate", endDate);
+	}
+	
+	public void showDeadlineSubject(HttpSession session) {
+		String courseCode = (String)session.getAttribute("courseCode");
+		List<CrAsgnDTO> list = classroomService.selectDeadlineSubject(courseCode);
+		session.setAttribute("deadlineList", list);
+	}
+	
 }

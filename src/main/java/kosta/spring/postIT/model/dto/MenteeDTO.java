@@ -13,6 +13,8 @@ public class MenteeDTO {
 		
 		private List<CrAsgnDTO> asgns;
 		private List<CrNoticeDTO> notices;
+		private List<CrNoticeReplyDTO> replys;
+		private CrFeedbackDTO feedback;
 		
 		public MenteeDTO() {} 
 		
@@ -78,7 +80,22 @@ public class MenteeDTO {
 		public void setNotices(List<CrNoticeDTO> notices) {
 			this.notices = notices;
 		}
-		
+
+		public List<CrNoticeReplyDTO> getReplys() {
+			return replys;
+		}
+
+		public void setReplys(List<CrNoticeReplyDTO> replys) {
+			this.replys = replys;
+		}
+
+		public CrFeedbackDTO getFeedback() {
+			return feedback;
+		}
+
+		public void setFeedback(CrFeedbackDTO feedback) {
+			this.feedback = feedback;
+		}
 		
 		
 }
