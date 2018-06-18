@@ -2,17 +2,22 @@ package kosta.spring.postIT.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartRequest;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 import kosta.spring.postIT.model.service.MyPageService;
+
+
 
 @Controller
 public class MyPageController {
@@ -98,7 +103,7 @@ public class MyPageController {
 		String[] values = request.getParameterValues("classDay");
 
 		String courseCode = null;
-		String userId = request.getParameter("");
+		String userId = "lny4011";
 		String courseTitle = request.getParameter("classTitle");
 		String courseTopGroup = request.getParameter("classification");
 		String courseSubGroup = request.getParameter("classification");
@@ -120,7 +125,20 @@ public class MyPageController {
 		CourseDTO dto = new CourseDTO(courseCode, userId, courseTitle, courseTopGroup, courseSubGroup, courseDetail,
 				courseLevel, courseRecruitMax, courseRecruitCurrent, courseRecruitPerid, courseStartDate, courseEndDate,
 				courseFrequency, courseStartTime, courseEndTime, courseLoc, coursePrice, courseUrl, courseBackpic);
-
+		
+		System.out.println(dto.toString());
+		
+		/*
+		int maxSize = 30*1024*1024;
+		String encoding = "UTF-8";
+		
+		ServletContext context = session.getServletContext();
+		String saveDir = context.getRealPath("Upload");*/
+		
+		/*
+		MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
+		*/
+		
 		int result = myPageService.courseInsert(dto, values);
 		model.addAttribute("result", result);
 
@@ -135,7 +153,6 @@ public class MyPageController {
 		String email = request.getParameter("email");
 		String userId = request.getParameter("userId");
 		String resume = request.getParameter("resume");
-		
 		
 		String [] classes = request.getParameterValues("classification");
 		

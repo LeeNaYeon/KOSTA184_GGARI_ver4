@@ -38,7 +38,6 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public MenteeDTO selectMember(String userId) {
-		System.out.println(userId);
 		return myPageDAO.selectMento(userId);
 	}
 

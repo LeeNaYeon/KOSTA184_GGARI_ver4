@@ -1,7 +1,5 @@
 package kosta.spring.postIT.model.dto;
 
-import java.util.List;
-
 public class MenteeDTO {
 
 		private String userId;
@@ -10,20 +8,28 @@ public class MenteeDTO {
 		private String userPhone;
 		private String userEmail;
 		private String userPhoto;
-		private MentoDTO mentoDTO;
+		private InterestedDTO interestedDTO;
+		private MentoDTO mento;
+		
+		
 		
 		
 		public MentoDTO getMentoDTO() {
-			return mentoDTO;
+			return mento;
 		}
 
 		public void setMentoDTO(MentoDTO mentoDTO) {
-			this.mentoDTO = mentoDTO;
+			this.mento = mentoDTO;
 		}
 
-		private List<CrAsgnDTO> asgns;
-		private List<CrNoticeDTO> notices;
-		
+		public InterestedDTO getInterestedDTO() {
+			return interestedDTO;
+		}
+
+		public void setInterestedDTO(InterestedDTO interestedDTO) {
+			this.interestedDTO = interestedDTO;
+		}
+
 		public MenteeDTO() {} 
 		
 		public MenteeDTO(String userId, String userPwd, String userName, String userPhone, String userEmail,
@@ -71,22 +77,6 @@ public class MenteeDTO {
 		}
 		public void setUserPhoto(String userPhoto) {
 			this.userPhoto = userPhoto;
-		}
-
-		public List<CrAsgnDTO> getAsgns() {
-			return asgns;
-		}
-
-		public void setAsgns(List<CrAsgnDTO> asgns) {
-			this.asgns = asgns;
-		}
-
-		public List<CrNoticeDTO> getNotices() {
-			return notices;
-		}
-
-		public void setNotices(List<CrNoticeDTO> notices) {
-			this.notices = notices;
 		}
 		
 		

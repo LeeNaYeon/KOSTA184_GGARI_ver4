@@ -27,7 +27,7 @@ public class CourseController {
 		ModelAndView mv = new ModelAndView();	
 		
 		//test용
-		courseCode="c0017";
+		courseCode="c0100";
 		//userId="jang";
 		
 		//스터디기본정보

@@ -33,19 +33,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public int courseInsert(CourseDTO courseDTO) {
 		int result =0;
 		result += session.insert("myPageMapper.courseInsert", courseDTO);
-		/**
-		 * 방금 추가 된 코스의 코드를 가져오는 메소드.
-		 */
 		courseCode = session.selectOne("myPageMapper.getCourseCode");
-		System.out.println(courseCode);
-/*		select max(course_code) from course;*/		
 		return result;
 	}
 
 	@Override
 	public MenteeDTO selectMento(String userId) {
-		// TODO Auto-generated method stub
-		System.out.println(userId);
 		MenteeDTO menteeDTO = session.selectOne("myPageMapper.memberInfoCollect", userId);
 		return menteeDTO;
 	}
