@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.dto;
 
+import java.util.List;
+
 public class MenteeDTO {
 
 		private String userId;
@@ -12,24 +14,11 @@ public class MenteeDTO {
 		private MentoDTO mento;
 		
 		
+		private List<CrAsgnDTO> asgns;
+		private List<CrNoticeDTO> notices;
+		private List<CrNoticeReplyDTO> replys;
+		private CrFeedbackDTO feedback;
 		
-		
-		public MentoDTO getMentoDTO() {
-			return mento;
-		}
-
-		public void setMentoDTO(MentoDTO mentoDTO) {
-			this.mento = mentoDTO;
-		}
-
-		public InterestedDTO getInterestedDTO() {
-			return interestedDTO;
-		}
-
-		public void setInterestedDTO(InterestedDTO interestedDTO) {
-			this.interestedDTO = interestedDTO;
-		}
-
 		public MenteeDTO() {} 
 		
 		public MenteeDTO(String userId, String userPwd, String userName, String userPhone, String userEmail,
@@ -78,7 +67,38 @@ public class MenteeDTO {
 		public void setUserPhoto(String userPhoto) {
 			this.userPhoto = userPhoto;
 		}
-		
+
+		public List<CrAsgnDTO> getAsgns() {
+			return asgns;
+		}
+
+		public void setAsgns(List<CrAsgnDTO> asgns) {
+			this.asgns = asgns;
+		}
+
+		public List<CrNoticeDTO> getNotices() {
+			return notices;
+		}
+
+		public void setNotices(List<CrNoticeDTO> notices) {
+			this.notices = notices;
+		}
+
+		public List<CrNoticeReplyDTO> getReplys() {
+			return replys;
+		}
+
+		public void setReplys(List<CrNoticeReplyDTO> replys) {
+			this.replys = replys;
+		}
+
+		public CrFeedbackDTO getFeedback() {
+			return feedback;
+		}
+
+		public void setFeedback(CrFeedbackDTO feedback) {
+			this.feedback = feedback;
+		}
 		
 		
 }
