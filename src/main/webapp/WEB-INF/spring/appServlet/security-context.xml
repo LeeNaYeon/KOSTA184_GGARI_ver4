@@ -8,7 +8,7 @@
 
 	<!-- <context:component-scan base-package="kosta.ggari.postIT,kosta.spring.postIT" /> -->
 	<context:component-scan
-    base-package="kosta.spring.postIT.model,kosta.spring.postIT.security.handler,kosta.spring.postIT.security.provider" />
+    base-package="kosta.spring.postIT.model,kosta.spring.postIT.security.handler,kosta.spring.postIT.security.provider,kosta.spring.postIT.down" />
 
 	<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder" />
 

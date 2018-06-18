@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import kosta.spring.postIT.model.dao.ClassroomDAO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
 import kosta.spring.postIT.model.dto.CrFeedbackDTO;
+import kosta.spring.postIT.model.dto.CrNoticeDTO;
 import kosta.spring.postIT.model.dto.CrSubAsgnDTO;
+import kosta.spring.postIT.model.dto.MenteeDTO;
 
 @Service
 public class ClassroomServiceImpl implements ClassroomService {
@@ -23,80 +25,93 @@ public class ClassroomServiceImpl implements ClassroomService {
 
 	@Override
 	public int updateAsgn(CrAsgnDTO crAsgnDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.updateAsgn(crAsgnDTO);
 	}
 
 	@Override
 	public int deleteAsgn(String crAsgnCode) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.deleteAsgn(crAsgnCode);
 	}
 
 	@Override
-	public List<CrAsgnDTO> selectAsgnList(String courseCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public MenteeDTO selectAsgnList(String courseCode) {
+		return classroomDAO.selectAsgnList(courseCode);
 	}
 
 	@Override
-	public CrAsgnDTO selectAsgn(String crAsgnCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public MenteeDTO selectAsgn(String courseCode, String crAsgnCode, boolean state) {
+		if (state) {
+			int re = classroomDAO.asgnReadnumUpdate(crAsgnCode);
+			if (re == 0) {
+				//throw new RuntimeException("조회수 증가 오류입니다.");
+			}
+		}
+		return classroomDAO.selectAsgn(courseCode);
 	}
 
+	@Override
+	public CrAsgnDTO selectAsgnNoJoin(String crAsgnCode) {
+		return classroomDAO.selectAsgnNoJoin(crAsgnCode);
+	}
+	
 	@Override
 	public int insertSubAsgn(CrSubAsgnDTO crSubAsgnDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.insertSubAsgn(crSubAsgnDTO);
 	}
 
 	@Override
 	public int updateSubAsgn(CrSubAsgnDTO crSubAsgnDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.updateSubAsgn(crSubAsgnDTO);
 	}
 
 	@Override
-	public int deleteSubAsgn(CrSubAsgnDTO crSubAsgnDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteSubAsgn(String crAsgnCode, String userId) {
+		return classroomDAO.deleteSubAsgn(crAsgnCode,userId);
 	}
 
 	@Override
 	public List<CrSubAsgnDTO> selectSubAngnList(String crAsgnCode) {
-		// TODO Auto-generated method stub
-		return null;
+		return classroomDAO.selectSubAngnList(crAsgnCode);
 	}
 
 	@Override
-	public CrSubAsgnDTO selectSubAsgn(String crSubasgnCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public CrSubAsgnDTO selectSubAsgn(String crAsgnCode, String userId) {
+		return classroomDAO.selectSubAsgn(crAsgnCode,userId);
 	}
-
+	
 	@Override
 	public int insertFeedback(CrFeedbackDTO crFeedbackDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.insertFeedback(crFeedbackDTO);
 	}
 
 	@Override
 	public int updateFeedback(CrFeedbackDTO crFeedbackDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.updateFeedback(crFeedbackDTO);
 	}
 
 	@Override
 	public int deleteFeedback(String crFeedCode) {
-		// TODO Auto-generated method stub
-		return 0;
+		return classroomDAO.deleteFeedback(crFeedCode);
 	}
 
 	@Override
 	public CrFeedbackDTO selectFeedback(String crSubasgnCode) {
-		// TODO Auto-generated method stub
-		return null;
+		return classroomDAO.selectFeedback(crSubasgnCode);
+	}
+
+	@Override
+	public int insertNotice(CrNoticeDTO crNoticeDTO) {
+		return classroomDAO.insertNotice(crNoticeDTO);
+	}
+
+	@Override
+	public MenteeDTO selectNoticeList(String courseCode) {
+		return classroomDAO.selectNoticeList(courseCode);
+	}
+
+	@Override
+	public int deleteNotice(String crNoticeCode) {
+		return classroomDAO.deleteNotice(crNoticeCode);
 	}
 
 }

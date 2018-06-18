@@ -1,103 +1,59 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <!--meta tag start-->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="edustar">
-    <meta name="author" content="khanalprem">
-    <meta name="copyright" content="khanalprem">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-    <!--title-->
-    <title>Edustar-Educational html5 template</title>
+	<script type="text/javascript">
+		function checkValid() {
+		    var f = window.document.insertAsgnForm;
+		      
+		   if ( f.crAsgnTitle.value == "") {
+		       alert( "과제제목을 입력해 주세요." );
+		       f.crAsgnTitle.focus();
+		      return false;
+		    }
+		   if ( f.crAsgnContent.value == "" ) {
+		      alert( "과제내용을 입력해 주세요." );
+		      f.crAsgnContent.focus();
+		      return false;
+		   }
 
-    <!-- faveicon start   -->
-    <link rel="icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" type="image/x-icon">
+		    return true;
+		}
+		
+	</script>
 
-    <!-- stylesheet start -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
-
-</head>
-
-<body>
-    <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1 style="text-transform: none;">
-            	<a href="#" style="font-size: 20px;">지능정보사회를 위한 응용 Web Framework 개발자 양성과정 3회차 (2018.02.26 ~ 2018.06.27)</a><br><br>
-            	<a href="#" style="font-size: 13px;">postIT 클래스룸 장희정 멘토</a>
-            </h1>
-        </div>
-    </section>
-    <section class="blog-page inner-page">
-        <div class="container">
-            <div class="blog-page-inner clear">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="sidebar">
-                            <div class="sidebar-widget category-widget">
-                                <div class="title sidebar-widget-title">
-                                    <h3>주제</h3>
-                                </div>
-                                <ul>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/cr/notice/noticeSelectList">공지</a>
-                                    </li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/cr/asgn/asgnSelectList">과제</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="sidebar-widget category-widget">
-                                <div class="title sidebar-widget-title">
-                                    <h3>곧 마감되는 과제</h3>
-                                </div>
-                                <ul>
-                                    <li>
-                                        <a href="#">6월 3일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 4일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 5일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 6일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 7일 과제입니다.</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-8">
                         <div class="title inner-page-title">
 	                        <h3>과제물 등록</h3>
 	                    </div>
-	                    <form>
+	                    <form name="insertAsgnForm" method="post" action="${pageContext.request.contextPath}/cr/asgn/insert" onsubmit="return checkValid()">
 	                        <div class="row">
 	                            <div class="col-sm-12 ">
+	                            	<!-- course code가 마이페이지에서 이페이지로 넘어올때 넘겨줘야하는데 그게 없으니 일단 이렇게 함 -->
+	                               	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" > 
+	                               	<input type="hidden" name="userId" value="bogummy"/>
+	                               	<input type="hidden" name="courseCode" value="${sessionScope.courseCode}"/>
 	                                <div class="form-group">
 	                                    <label>과제제목 :</label>
-	                                    <input type="text" name="title" class="form-control" placeholder="title">
+	                                    <input type="text" name="crAsgnTitle" class="form-control" placeholder="title">
 	                                </div>
 	                                <div class="form-group">
 	                                    <label>과제내용 :</label>
-	                                    <textarea rows="6" name="content" class="form-control" placeholder="content"></textarea>
+	                                    <textarea rows="8" name="crAsgnContent" class="form-control" placeholder="content" style="height: 400px;"></textarea>
 	                                </div>
 	                                <div class="form-group">
 	                                    <label>마감기간 :</label>
-	                                    <input type="text" name="deadline" class="form-control" placeholder="deadline">
+	                                    <input type="date" id="datePicker" name="crAsgnDeadline" class="form-control" placeholder="deadline">
+	                                	<script>
+	                            			document.getElementById("datePicker").valueAsDate = new Date();
+	                                	</script>
 	                                </div>
 	                            </div>
 	                            <div class="col-md-12">
 	                                <div class="form-group" style="text-align: right;">
-	                                    <a class="btn btn-primary" href="#">과제등록</a>
-	                                </div>
+	                                	<input type="submit" class="btn btn-primary" value="과제등록">
+	                                	<input type="reset" class="btn btn-primary" value="다시쓰기">
+									</div>
 	                            </div>
 	                        </div>
 	                    </form>               
@@ -112,17 +68,3 @@
     <!-- scroll top -->
     <a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
     <!-- srolltop end -->
-
-    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.mixitup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.fancybox.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.counterup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/owl.carousel.min.js"></script>
-    <!-- <script src=js/countdown.js></script> -->
-    <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
-</body>
-
-</html>

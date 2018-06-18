@@ -10,6 +10,7 @@ public class CrAsgnDTO {
 	private String crAsgnDate;
 	private String crAsgnContent;
 	private int crAsgnReadnum;
+	
 	public String getCrAsgnCode() {
 		return crAsgnCode;
 	}
@@ -38,7 +39,8 @@ public class CrAsgnDTO {
 		return crAsgnDeadline;
 	}
 	public void setCrAsgnDeadline(String crAsgnDeadline) {
-		this.crAsgnDeadline = crAsgnDeadline;
+		String arr[] = crAsgnDeadline.split(" ");
+		this.crAsgnDeadline = arr[0];
 	}
 	public String getCrAsgnDate() {
 		return crAsgnDate;
