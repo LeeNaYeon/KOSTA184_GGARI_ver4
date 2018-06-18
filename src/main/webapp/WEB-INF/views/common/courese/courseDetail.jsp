@@ -1,3 +1,9 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -292,7 +298,7 @@
        border: 1px solid #dcdcdc;
        box-sizing: border-box;
        color: #777;
-       margin: 5px 0 0 0;
+       margin: 0;
    }
    
    .icon {
@@ -310,7 +316,7 @@
    .fixed {
        position: fixed;
        top: 90px;
-       left: 63.65%;
+       left: 63.6%;
        margin-left: 15pc;
    }
    
@@ -324,36 +330,102 @@
    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
    <script>
-   
+
       $(function(){
+    	  //advertise
+    	  //footer
+			var userVal = "";
+			<sec:authorize access="isAuthenticated()"> 
+				userVal = "<sec:authentication property='principal.userId' />";
+			</sec:authorize> 
+    	  
+    	  //alert("userId2 :"+userId2); 
+    	     	           
+           $(window).scroll(function(){
+	            var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+	            var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
+	            //console.log("scrollT"+scrollT);
+	            //console.log("scrollH"+scrollH);
+	            var endZone = $("#footer").offset().top-scrollH+500;
+	                     
+	            //console.log("endZone"+endZone);
+	           // console.log("scrollT"+scrollT);
+	
+	            if (scrollT>600) {
+	             	$('#advertise').attr('class','fixed');
+	             } /*  else if (endZone<scrollT) {          	 
+	             	$('#advertise').attr('class','bottom');
+				 }  */ else{               
+				 	$('#advertise').attr('class','');
+	             }
+         });    
          
-         $(window).scroll(function(){
-            var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-                var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-                
-                //console.log(scrollT);
+         //찜하기 
+          $("#bookmark-action-button").on("click",function(){
+        	 
+             //var id=$(this).val().trim();
+           	var courseCode = $("#courseCode").val();
+            var favVal = $("#favButtonVal").html();
+            var mentoUserId = $("#mentoUserId").val();
 
-                if (scrollT>600) {
-                   $('#advertise').attr('class','fixed');
-                 } else{
-                    $('#advertise').attr('class','');
-                 }
+        	if(favVal.match('찜하기')){
+         		if(userVal.length==0){
+        			alert("로그인을 해주세요");  
+        			return false; 
+	        	}  
+         		if(userVal==mentoUserId){
+    				alert("멘토입니다.");  
+    				return false; 
+        		}
+         		       		
+         		$.ajax({
+                    type:"POST",
+                    url:"${pageContext.request.contextPath}/course/favInsert",            
+                    data:"${_csrf.parameterName}=${_csrf.token}&&id="+userVal+"&&courseCode="+courseCode,	
+                    success:function(data){                  
+                       if(data=="ok"){
+                    	   $("#favButtonIcon").attr('class','icon bookmarked');
+                           $("#favButtonVal").html("찜 취소");                      		
+                       }                           
+                    }//callback         
+                 });//ajax 
                 
-                
-                
-                
-         });         
+        	} else{
+        	               
+                 $.ajax({
+                     type:"POST",
+                     url:"${pageContext.request.contextPath}/course/favDelete",            
+                     data:"${_csrf.parameterName}=${_csrf.token}&&id="+userVal+"&&courseCode="+courseCode,	
+                     success:function(data){                  
+                        if(data=="ok"){
+                        	$("#favButtonIcon").attr('class','icon');
+                            $("#favButtonVal").html("찜하기");                     		
+                        }                           
+                     }//callback         
+                  });//ajax        		
+        	} 
+          });//onclick 
+          
+          //결재하기
+           $("#purchase-action-button").on("click",function(){
+        	  	var mentoUserId = $("#mentoUserId").val();
+        	 
+				if(userVal==mentoUserId){
+    				alert("멘토입니다.");  
+    				return false; 
+        		}	    
+				if(userVal.length==0){
+        			alert("로그인을 해주세요");  
+        			return false; 
+	        	}   
+				
+				alert("결재하기 폼으로 이동예정");
+				
+				
+          });//onclick         
+          
       });
-   
-   
-   
-   
    </script>
-
-
-
-
-
 
    <!-- 여기부터 수정 -->
    
@@ -374,11 +446,12 @@
             <div id="product-header-texts">
                <div class="level-mark">
                   <div class="label">LEVEL</div>
-                  <div class="level">입문2</div>
+                  <div class="level">${courseDTO.courseLevel}</div>
+                  <input type="hidden" value="${courseDTO.courseCode }" id="courseCode">
                </div>
-               <span class="area">인천-부평</span>
+               <span class="area">${courseDTO.courseLoc}</span>
                <h1 style="text-align:center;">
-                  뉴질랜드에서 온 Thomas의 <br>영알못도 웃고가는 하루!
+                  ${courseDTO.courseTitle}
                </h1>
             </div><hr style="margin:0">
          </header>
@@ -388,48 +461,118 @@
                <div id="product-description" class="section-wrap">
                   <h1 class="section-label">스터디<br>소개</h1>
                   <div class="section-content" style="border-top-width: 0px;">
-                     여러 상황에서, 여러 주제에 대해 영어로 수다 떨 수 있게 되는 게 목표인 스터디입니다! 실생활에서 대화할 법한
-                     주제들을 골라서 유용하게 사용하실 수 있는 패턴 알려드려요~ 점점 영어가 재밌게 느껴지실 거에요 <br>매 회
-                     마다 상황이나 주제를 정합니다. 그때그때마다 이야기 주제는 바뀔 수 있지만, 큰 틀은 유지할 계획이예요!<br>
-                     <br>[Topics to be covered]<br>취미, Hopes/꿈, 가족, 친구 <br>음식/술,
-                     영화/TV, 음악, 연예인/이상형<br>쇼핑/돈, 연애, 여행, 맛집/요리<br>
-                     <br>1. Catching up<br>재미있게 회화를 배워가려면 서로서로 친하고 편안한 분위기가
-                     중요해요! 며칠간 어떤 일이 있었는지 그냥 친구처럼 나누는 시간입니다.<br>
-                     <br>2. 주제 별 Vocabulary&amp;Pattern<br>주제가 여행이라면~<br>"여행"과
-                     관련된 대화를 진행할 때 사용할 수 있는 단어와 패턴을 배웁니다.<br>여행가고 싶은 기분을 표현하고 싶다면?<br>내
-                     여행 루트를 친구에게 설명하고 싶다면?<br>영어로 이런 상황이 왔을 때, 단어만 바꿔서 유용하게 쓸 수 있는
-                     패턴들을 알려드려요.<br>
-                     <br>3. Topic Questions<br>주제와 관련된 질문들로 대화를 진행합니다.<br>
-                     <br>여행 주제로 예를 들면,<br>- 최근에 여행갔던 적<br>- 여행을 자주 가는
-                     편인지? 가장 좋은 여행 경험?<br>등에 대해 이야기를 나눕니다.
+                  
+                  	${courseDTO.courseDetail}
+                	
                   </div>
                </div>
+               
+               <c:set var="start" scope="session" value="${courseDTO.courseStartDate}" />
+               <c:set var="end" scope="session" value="${courseDTO.courseEndDate}" />
+               <%
+                  String end = ((String) session.getAttribute("end")).substring(0, 10);
+                  String start = ((String) session.getAttribute("start")).substring(0, 10);
+
+                  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                  Date d1 = formatter.parse(end);
+                  Date d2 = formatter.parse(start);
+
+                  long difference = d1.getTime() - d2.getTime();
+
+                  long differenceDay = difference / (1000 * 60 * 60 * 24 * 7 ) / 4;
+                  long differenceDay1 = difference / (1000 * 60 * 60 * 24 * 7 );
+
+                  int result = (int) Math.ceil(differenceDay);
+                  int result1 = (int) Math.ceil(differenceDay1);
+               %>
+               <c:set var="datePerid" scope="session" value="${courseDTO.courseRecruitPerid}" />
+               <%
+                  String dateYear = ((String) session.getAttribute("datePerid")).substring(2, 4);
+               	  String dateMonth = ((String) session.getAttribute("datePerid")).substring(4, 6);
+               	  String dateDay = ((String) session.getAttribute("datePerid")).substring(6, 8);
+               %>
+               <c:set var="startTime" scope="session" value="${courseDTO.courseStartTime}" />
+               <%
+                  String startHour = ((String) session.getAttribute("startTime")).substring(0, 2);
+               	  String startMinute = ((String) session.getAttribute("startTime")).substring(2, 4);
+               %>
+               <c:set var="endTime" scope="session" value="${courseDTO.courseEndTime}" />
+               <%
+                  String endHour = ((String) session.getAttribute("endTime")).substring(0, 2);
+               	  String endMinute = ((String) session.getAttribute("endTime")).substring(2, 4);
+               %>
+               <c:set var="startDate" scope="session" value="${courseDTO.courseStartDate}" />
+               <%
+                  String startMonth = ((String) session.getAttribute("startDate")).substring(5, 7);
+               	  String startDay = ((String) session.getAttribute("startDate")).substring(8, 10);              	  
+               	  String day = "" ;
+                
+                  SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
+                  Date nDate = dateFormat.parse((String) session.getAttribute("startDate")) ;            
+                  Calendar cal = Calendar.getInstance() ;
+                  cal.setTime(nDate);
+                 
+                  int dayNum = cal.get(Calendar.DAY_OF_WEEK) ;                                                
+                  switch(dayNum){
+					case 1:
+					    day = "일";
+					    break ;
+					case 2:
+					    day = "월";
+					    break ;
+					case 3:
+					    day = "화";
+					    break ;
+					case 4:
+					    day = "수";
+					    break ;
+					case 5:
+					    day = "목";
+					    break ;
+					case 6:
+					    day = "금";
+					    break ;
+					case 7:
+					    day = "토";
+					    break ;                         
+                   }
+               %>
+			   <c:set var="courseUrl" scope="session" value="${courseDTO.courseUrl}" />
+               <%
+                  String courseUrl = (String) session.getAttribute("courseUrl");
+               	  if(courseUrl==null){
+               		courseUrl="URL이 없습니다.";
+               	  }
+               %>
                <div id="product-detail" class="section-wrap">
                   <h2 class="section-label">상세 정보</h2>
                   <div class="section-content">
                      <dl id="detail-list" class="product-detail">
                         <dt>모집기간:</dt>
-                        <dd>18/05/31~18/06/06</dd>
+                        <dd><%=dateYear%>년 <%=dateMonth%>월 <%=dateDay%>일까지</dd>
                         <dt class="right-column">인원:</dt>
-                        <dd class="right-column">6명</dd>
+                        <dd class="right-column">${courseDTO.courseRecruitMax}명</dd>
                         <dt>일정:</dt>
-                        <dd>2개월, 주 1회</dd>
+                        <dd><%=result%>개월, 주 ${courseDTO.courseFrequency}회</dd>
                         <dt class="right-column">지역:</dt>
-                        <dd class="right-column">수원-수원역</dd>
+                        <dd class="right-column">${courseDTO.courseLoc}</dd>
                         <dt style="width: 150px;">오픈카톡방URL:</dt>
-                        <dd style="width: 270px;">kosta.com</dd>
+                        <dd style="width: 270px;">&nbsp<%=courseUrl%></dd>
                         <dt>시간:</dt>
                         <dd class="item" style="width: 320px;">
                            <span class="item-name">
-                              <!-- react-text: 2432 -->A그룹<!-- /react-text -->
-                              <!-- react-text: 2433 --> <!-- /react-text -->
-                              <!-- react-text: 2434 -->(월)<!-- /react-text -->
-                           </span> <span class="item-description">20:00-22:00</span>
+                              <c:forEach items="${courseDayList}" var="list">	                              
+	                              <c:forEach items="${list.courseDateDTO}" var="courseDay">
+	                              		(${courseDay.day})
+	                              </c:forEach>                          
+                              </c:forEach>
+                           </span> <span class="item-description"><%=startHour%>:<%=startMinute%> - <%=endHour%>:<%=endMinute%></span>
                            <div class="participation-info">
                               <!-- react-text: 2437 -->
                               지금 신청하면
                               <!-- /react-text -->
-                              <span class="date">7월 2일 (월)</span>
+                              <span class="date"><%=startMonth%>월 <%=startDay%>일 (<%=day%>)</span>
                               <!-- react-text: 2439 -->
                               첫 스터디 시작!
                               <!-- /react-text -->
@@ -445,116 +588,113 @@
                   <header class="section-label">
                      <h1 style="font-size: 14pt;">리더 소개</h1>
                      <img src="https://cdn.studysearch.co.kr/images/users/65235/profile/1518656373" class="leader-profile-image">
+                  	////////${courseDTO.mentoDTO.menteeDTO.userPhoto}
+                  
                   </header>
                   <div class="section-content">
-                     <span class="leader-greeting">안녕하세요</span> <br>
+                     <span class="leader-greeting"> </span> <br>
                      <div class="leader-introduction">
-                        저는 뉴저지 아틀란틱 시티에서 온 카렌(karen)입니다.<br>
-                        <br>도심보단 자연을 좋아하고 사람만나는 걸 좋아하고 영화와 모든 장르의 음악을 사랑하는 저는 미국
-                        시민권자로 24년 이민 생활을 했구요, 필라델피아에 있는 temple university를 다녔습니다. <br>
-                        <br>이미 고등학교를 졸업하고 한국어로 혀가 굳어진 저로서는 영어를 한다는 건 쉬운 일은 아니였습니다.
-                        생존하기 위해 해야 했던 영어라서 정말 닥치는 대로 했어요. 말하기 부끄럽다? 난 모르겠다? 그런 생각을 할 틈조차
-                        없었죠. 우선 생활에서 배워지는 영어부터 시작했습니다. Hi, How are you? Thank you 조차하기
-                        어려웠던 저의 가장 큰 스승은 제가 일했던 가게의 오는 미국인 손님들이었습니다. 미국인 손님들에게 발음, 문장,
-                        표현 등등을 물어보았고 그 답을 알고 외우고 연습해서 그 다음날 반드시 실생활에서 직접 해보았습니다. 지금도
-                        기억납니다. 내가 외우고 연습한 문장들을 그들에게 말했을 때 그들이 내말을 알아듣고 응답을 해주었을 때 느꼈던 그
-                        희열감은 말로 표현 할 수 없었습니다. 그리고 나서 대학에 들어가 제대로 된 영어를 공부하게 되었습니다.<br>
-                        <br>제가 스터디서치를 하고 싶었던 큰 이유는 한국에 와서 영어과외와 전화영어로 영어를 가르치면서
-                        공통적으로 한국에 사는 여러분들이 가지고 있는 어려운 부분들이 보이더라구요.모국어가 아닌 제 2 외국어인 영어를
-                        그거도 한국에 살면서 잘하기란 결코 쉬운 일이 아닙니다. abcd 알파벳 발음부터 한국어가 가지고 있지 않은 수많은
-                        경우수가 있는 문법, 어휘, 표현 등등 아무리 배워도 단어하나 입 밖으로 꺼내기 어려운 현실... <br>
-                        <br>하지만 !!!! 저와함께 하는 스터디서치를 통해 천천히 하나하나 소통하며 해나가봐요!<br>그리고
-                        여러분의 숨겨진 영어 실력을 찾아드리고 자신감을 얻게 해드립니다!<br>혼자는 어렵지만 같이는 쉬우니까요!<br>난공불락의
-                        성 “English" 같이 도전해보아요!!!
+                        ${courseDTO.mentoDTO.mentoDesc}
                      </div>
                   </div>
                </div>
             </section><hr style="margin:0">
+            
 
-
-            <section id="review-info" class="section-content1">
-               <header>
-                  <h1 id="review-count" class="heading">리더에 대한 후기</h1>
-               </header>
-               <ul id="reviews">
-                  <li class="review"><a name="review-5681"></a>
-                  <div class="heading writer-photo-wrap">
-                        <div class="writer-photo"
-                           style="display: inline-block; background-image: url(&quot;https://cdn.studysearch.co.kr/images/users/106906/profile/1518666770&quot;); background-size: cover; background-position: 50% 50%;"></div>
-                     </div>
-                     <div class="review-content-wrap trailing" style="margin: 0 0 20px 0 ">
-                        <span class="writer-name">모민구</span>
-                        <p class="review-content">리더님이 다양한 주제로 스터디를 진행해주셔서 재미있고 유쾌한
-                           스터디를 할 수 있었습니다.</p>
-                        <a class="review-product-title" href="/product/6000/">미국 24년
-                           거주 Karen의 거침없이 영어로 내뱉기!</a><span class="review-written-at"><a
-                           href="?review=5681">
-                              <!-- react-text: 2580 -->2018<!-- /react-text -->
-                              <!-- react-text: 2581 -->년 <!-- /react-text -->
-                              <!-- react-text: 2582 -->4<!-- /react-text -->
-                              <!-- react-text: 2583 -->월<!-- /react-text -->
-                        </a>
-                        </span>
-                     </div>
-                  </li><hr style="margin:0 0 20px 0 ">
-                  
-                  <li class="review"><a name="review-5681"></a>
-                  <div class="heading writer-photo-wrap">
-                        <div class="writer-photo"
-                           style="display: inline-block; background-image: url(&quot;https://cdn.studysearch.co.kr/images/users/106906/profile/1518666770&quot;); background-size: cover; background-position: 50% 50%;"></div>
-                     </div>
-                     <div class="review-content-wrap trailing" style="margin: 0 0 20px 0 ">
-                        <span class="writer-name">모민구</span>
-                        <p class="review-content">리더님이 다양한 주제로 스터디를 진행해주셔서 재미있고 유쾌한
-                           스터디를 할 수 있었습니다.</p>
-                        <a class="review-product-title" href="/product/6000/">미국 24년
-                           거주 Karen의 거침없이 영어로 내뱉기!</a>
-                        <span class="review-written-at">
-                           <a href="?review=5681">
-                              <!-- react-text: 2580 -->2018<!-- /react-text -->
-                              <!-- react-text: 2581 -->년 <!-- /react-text -->
-                              <!-- react-text: 2582 -->4<!-- /react-text -->
-                              <!-- react-text: 2583 -->월<!-- /react-text -->
-                           </a>
-                        </span>
-                     </div>
-                  </li>
-               </ul>
-            </section>
+			<c:if test="${!empty courseReviewList}">
+	            <section id="review-info" class="section-content1">
+	               <header>
+	                  <h1 id="review-count" class="heading">리더에 대한 후기</h1>
+	               </header>
+	               <ul id="reviews">
+	                  
+	                  <c:forEach items="${courseReviewList}" var="memtoReputation">
+		                  <c:forEach items="${memtoReputation.courseDTO}" var="course">
+		                   	  <c:forEach items="${course.menteeListDTO}" var="mentee">	
+	
+				                  <li class="review"><a name="review-5681"></a>
+				                  	 <div class="heading writer-photo-wrap">
+				                        <div class="writer-photo"
+				                           style="display: inline-block; 
+				                           background-image: url(&quot;https://cdn.studysearch.co.kr/images/users/106906/profile/1518666770&quot;); 
+				                           background-size: cover; background-position: 50% 50%; float: left;">
+				                        </div>
+				                     		<!-- ${mentee.userPhoto}  -->
+				                     </div>
+				                     <div class="review-content-wrap trailing" style="margin: 0 0 20px;">
+				                        <span class="writer-name">${mentee.userName}</span>
+				                        <p class="review-content">${memtoReputation.repContent}</p>
+				                        <span class="review-written-at">		                        
+				                         	${memtoReputation.repDate}                
+				                        </span>
+				                     </div>
+				                  </li><hr style="margin:0 0 20px 0 "> 
+				                  
+		                  	  </c:forEach>  
+		                  </c:forEach>
+	                  </c:forEach>
+	                               
+	               </ul>
+	            </section>
+            </c:if>
          </div>
       </div>
 
       <aside id="actions-widget" class="" style="float:left; margin:10px ">
          <div class="order-action-wrap" style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.10);">
-            <h1 class="title">미국 24년 거주 Karen의 거침없이 영어로 내뱉기!</h1>
-            <form id="participation-form">
+            <h1 class="title">${courseDTO.courseTitle}</h1>
+            <form id="participation-form" style="margin:0 0 5px 0">
                <ul id="participation-choices">
-                  <li><input type="radio" id="full-participation-choice" class="participation-choice-button" name="trial" value="N">
+                  <li><!-- <input type="radio" id="full-participation-choice" class="participation-choice-button" name="trial" value="N"> -->
                      <label for="full-participation-choice">
-                        <span class="mock-radio"></span>
-                        <span class="participation-choice-text">8주</span>
+                     <!--    <span class="mock-radio">  -->
+                        	<img style="width: 32px; height: 32px;" src="${pageContext.request.contextPath }/resources/images/course/check.png" class="img-responsive img-circle">                                                                                           
+        				<!-- </span> -->
+                        <span class="participation-choice-text">&nbsp&nbsp&nbsp<%=result1%>주</span>
                      </label>
                   </li>
                </ul>
                <div id="price-wrap">
                   <div class="amount-to-pay">
                      <span class="price-text">참가비</span><span class="price-value">
-                        <!-- react-text: 2568 -->180,000<!-- /react-text -->
-                        <!-- react-text: 2569 -->원<!-- /react-text -->
+                        <fmt:formatNumber value="${courseDTO.coursePrice}" pattern="#,###.##"/>
+                        원
                      </span>
                   </div>
-               </div>
-               <input type="submit" id="purchase-action-button" class="action-button" style="width:100%; line-height:45px" value="참여 신청하기">
+               </div> 
+               
+               <c:choose>
+               		<c:when test="${!empty coursePay}">
+               		 	<input type="submit" id="purchase-action-button" class="action-button" style="width:100%; line-height:45px; background-color:gray;" value="결재 완료" disabled >           	
+               		</c:when>
+<%--                		<sec:authorize access="isAuthenticated()">
+               		<c:when test="${courseDTO.userId} eq <sec:authentication property="principal.userId" />">
+               			<input type="submit" id="purchase-action-button" class="action-button" style="width:100%; line-height:45px;  background-color:gray;" value="참여 신청하기" disabled >                           
+               		</c:when>
+               		</sec:authorize> --%>
+               		<c:otherwise>
+               			<input type="submit" id="purchase-action-button" class="action-button" style="width:100%; line-height:45px" value="참여 신청하기" >            
+               		</c:otherwise>
+               </c:choose>
+               <input type="hidden" value="${courseDTO.userId }" id="mentoUserId">
+               <!-- courseCode도? -->
             </form>
-            <a id="bookmark-action-button" class="action-button" href="#">
-               <span class="icon"></span>
-               <!-- react-text: 2511 -->찜하기<!-- /react-text -->
-            </a> 
-            
-            <a id="bookmark-action-button" class="action-button" href="#">
-               <span class="icon bookmarked"></span>
-               <!-- react-text: 2511 -->찜 취소<!-- /react-text -->
-            </a>
+
+            <c:choose>
+	            <c:when test="${empty courseFav}">
+	            <a href="#" id="bookmark-action-button" class="action-button" >
+	               <span class="icon" id="favButtonIcon"></span>
+	               <span id="favButtonVal">찜하기</span>
+	            </a> 
+	            </c:when>
+	            <c:otherwise>
+	            <a href="#" id="bookmark-action-button" class="action-button" >
+	               <span class="icon bookmarked" id="favButtonIcon"></span>
+	               <span id="favButtonVal">찜 취소</span>
+	            </a>
+	            </c:otherwise>
+            </c:choose>
+
          </div>
       </aside>
 

@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.dto;
 
+import java.util.List;
+
 public class CourseDTO {
 
 	private String courseCode;
@@ -21,6 +23,12 @@ public class CourseDTO {
 	private int coursePrice;
 	private String courseUrl;
 	private String courseBackpic;
+	
+	private MentoDTO mentoDTO; //1:1의 관계
+	private MenteeDTO menteeDTO; //1:1의 관계
+	
+	private List<CourseDateDTO> courseDateDTO; //1:다인 경우
+	private List<MenteeDTO> menteeListDTO; //1:다인 경우
 	
 	public CourseDTO() {}
 	
@@ -165,7 +173,29 @@ public class CourseDTO {
 	public void setCourseBackpic(String courseBackpic) {
 		this.courseBackpic = courseBackpic;
 	}
-	
-	
+	public MentoDTO getMentoDTO() {
+		return mentoDTO;
+	}
+	public void setMentoDTO(MentoDTO mentoDTO) {
+		this.mentoDTO = mentoDTO;
+	}
+	public MenteeDTO getMenteeDTO() {
+		return menteeDTO;
+	}
+	public void setMenteeDTO(MenteeDTO menteeDTO) {
+		this.menteeDTO = menteeDTO;
+	}
+	public List<CourseDateDTO> getCourseDateDTO() {
+		return courseDateDTO;
+	}
+	public void setCourseDateDTO(List<CourseDateDTO> courseDateDTO) {
+		this.courseDateDTO = courseDateDTO;
+	}
+	public List<MenteeDTO> getMenteeListDTO() {
+		return menteeListDTO;
+	}
+	public void setMenteeListDTO(List<MenteeDTO> menteeListDTO) {
+		this.menteeListDTO = menteeListDTO;
+	}
 	
 }
