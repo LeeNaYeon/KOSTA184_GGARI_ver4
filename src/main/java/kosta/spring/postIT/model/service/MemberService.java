@@ -3,6 +3,7 @@ package kosta.spring.postIT.model.service;
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 
 
 public interface MemberService {
@@ -25,6 +26,16 @@ public interface MemberService {
 	 * 회원가입시 id 중복체크
 	 */	
 	String idcheck(String userId);
+	
+	/**
+	 * main화면 누적 멘티수
+	 * */
+	int selectCountMentee(MenteeDTO menteeDTO);
+	
+	/**
+	 * main화면 누적 멘토수
+	 * */
+	int selectCountMento(MentoDTO mentoDTO);
 	
 
 }

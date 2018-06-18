@@ -3,6 +3,7 @@ package kosta.spring.postIT.model.dao;
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 
 public interface MemberDAO {
 	
@@ -35,6 +36,16 @@ public interface MemberDAO {
 	 * 로그인시 사용
 	 */	
 	MenteeDTO selectMemberById(String userId);
+	
+	/**
+	 * 누적 멘티 수 조회
+	 * */
+	int selectCountMentee(MenteeDTO menteeDTO);
+	
+	/**
+	 * 누적 멘토 수 조회
+	 * */
+	int selectCountMento(MentoDTO mentoDTO);
 	
 
 }

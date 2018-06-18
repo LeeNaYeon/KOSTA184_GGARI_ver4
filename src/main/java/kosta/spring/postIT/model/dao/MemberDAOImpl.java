@@ -8,6 +8,7 @@ import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -52,6 +53,18 @@ public class MemberDAOImpl implements MemberDAO {
 	public MenteeDTO selectMemberById(String userId) {
 		
 		return session.selectOne("memberMapper.selectMemberById", userId);
+	}
+
+	@Override
+	public int selectCountMentee(MenteeDTO menteeDTO) {
+		
+		return session.selectOne("memberMapper.selectCountMentee",menteeDTO);
+	}
+
+	@Override
+	public int selectCountMento(MentoDTO mentoDTO) {
+		
+		return session.selectOne("memberMapper.selectCountMento",mentoDTO);
 	}
 	
 	

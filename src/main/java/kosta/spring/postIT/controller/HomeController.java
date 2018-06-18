@@ -11,7 +11,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session) {
-
+		
+		
 		return "main/mainpage/index";
 		
 //		session.setAttribute("courseCode", "a1");

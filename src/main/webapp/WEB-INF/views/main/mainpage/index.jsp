@@ -62,7 +62,7 @@
                         <div class="content">
                             <h2>Let's code together</h2>
                             <p>문구 들어갈 자리 입니다. 같이 정해보아요^^</p>
-                            <a  href="#" class="btn btn-primary">더 알아보기</a>
+                            <a  href="${pageContext.request.contextPath}/countTest" class="btn btn-primary">더 알아보기</a>
                         </div>
                     </div>
                 </div>

@@ -75,5 +75,12 @@ public class MemberController {
 		return memberService.idcheck(request.getParameter("id"));
 	}
 	
+	/**
+	 * 누적 확인
+	 * */
+	@RequestMapping("/countTest")
+	public int countTest(MenteeDTO menteeDTO) {
+		return memberService.selectCountMentee(menteeDTO);
+	}
 	
 }
