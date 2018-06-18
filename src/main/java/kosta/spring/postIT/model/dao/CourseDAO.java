@@ -47,4 +47,9 @@ public interface CourseDAO {
 	 * °­»ç¸®ºä
 	 */
 	List<MentoReputationDTO> courseReview(String courseCode);
+	
+	/**
+	 * main°­»ç¸®ºä
+	 * */
+	List<MentoReputationDTO> selectReputation();
 }

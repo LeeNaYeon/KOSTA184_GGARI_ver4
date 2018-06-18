@@ -1,8 +1,11 @@
 package kosta.spring.postIT.model.dao;
 
 import kosta.spring.postIT.model.dto.ApplicantDTO;
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 
 public interface MemberDAO {
 	
@@ -35,6 +38,31 @@ public interface MemberDAO {
 	 * 로그인시 사용
 	 */	
 	MenteeDTO selectMemberById(String userId);
+	
+	/**
+	 * 누적 멘티 수 조회
+	 * */
+	int selectCountMentee(MenteeDTO menteeDTO);
+	
+	/**
+	 * 누적 멘토 수 조회
+	 * */
+	int selectCountMento(MentoDTO mentoDTO);
+	
+	/**
+	 * 누적 스터디 수 조회
+	 * */
+	int selectCountCourse(CourseDTO courseDTO);
+	
+	/**
+	 * 누적 리뷰 수 조회
+	 * */
+	int selectCountReputation(MentoReputationDTO mentoReputationDTO);
+	
+	/**
+	 * main 수강생 강사 리뷰
+	 * */
+	MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO);
 	
 
 }

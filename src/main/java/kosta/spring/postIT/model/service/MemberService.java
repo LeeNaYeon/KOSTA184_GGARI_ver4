@@ -1,8 +1,11 @@
 package kosta.spring.postIT.model.service;
 
 import kosta.spring.postIT.model.dto.ApplicantDTO;
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 
 
 public interface MemberService {
@@ -26,5 +29,28 @@ public interface MemberService {
 	 */	
 	String idcheck(String userId);
 	
-
+	/**
+	 * main화면 누적 멘티수
+	 * */
+	int selectCountMentee(MenteeDTO menteeDTO);
+	
+	/**
+	 * main화면 누적 멘토수
+	 * */
+	int selectCountMento(MentoDTO mentoDTO);
+	
+	/**
+	 * 누적 스터디수
+	 * */
+	int selectCountCourse(CourseDTO courseDTO);
+	
+	/**
+	 * 누적 리뷰수 조회
+	 * */
+	int selectCountReputation(MentoReputationDTO mentoReputationDTO);
+	
+	/**
+	 * main 리뷰
+	 * */
+	MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO);
 }

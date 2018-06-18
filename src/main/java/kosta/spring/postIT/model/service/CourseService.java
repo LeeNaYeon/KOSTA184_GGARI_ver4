@@ -48,6 +48,11 @@ public interface CourseService {
 	 */
 	List<MentoReputationDTO> courseReview(String courseCode);
 	
+	/**
+	 * main ∏Æ∫‰¡∂»∏
+	 * */
+	List<MentoReputationDTO> selectReputation(); 
+	
 	
 	
 	

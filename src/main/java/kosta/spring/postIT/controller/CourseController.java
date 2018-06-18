@@ -48,6 +48,7 @@ public class CourseController {
 		
 		//스터디 요일 확인
 		List<CourseDTO> courseDayList = courseService.courseDay(courseCode);
+		
 
 		mv.addObject("courseDayList", courseDayList);
 
