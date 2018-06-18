@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper     
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myPageMapper">
+
+	<resultMap type="testProblemSolutionDTO" id="testProblemSolution">
+		<id column="t_p_s_code" property="tpsCode" />
+		<result column="test_code" property="testCode" />
+		<result column="t_p_s_content" property="tpsContent" />
+		<result column="t_p_s_exam1" property="tpsExam1" />
+		<result column="t_p_s_exam2" property="tpsExam2" />
+		<result column="t_p_s_exam3" property="tpsExam3" />
+		<result column="t_p_s_exam4" property="tpsExam4" />
+		<result column="t_p_s_solution" property="tpsSolution" />
+	</resultMap>
+	
+	<!-- 
+	private String userId;
+	private String mentoResume;
+	private String mentoDesc;
+	private String mentoMajor;
+	private String mentoMajor2;
+	private String mentoMajor3;
+	private MenteeDTO mentee;
+	private MentoMajorDTO majorDTO;
+	
+
+	user_id, user_name,
+		user_phone,user_email,user_photo,
+		mento_major,mento_major2,mento_major3,mento_desc
+	 -->
+	<resultMap type="menteeDTO" id="userInfoSelection">
+		<id column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_phone" property="userName"/>
+		<result column="user_email" property="userName"/>
+		<result column="user_photo" property="userName"/>
+		<result column="user_photo" property="userName"/>
+		<association property="mentoDTO" javaType="MentoDTO">
+			<id column="user_id" property="userId"/>
+			<result column="mento_desc" property="mentoDesc"/>
+			<result column="mento_major" property="mentoMajor"/>
+		</association>
+	
+	
+	
+	</resultMap>
+
+
+
+	<select id="selectProblems" parameterType="string" resultMap="testProblemSolution">
+		select
+		t_p_s_code,test_code,t_p_s_content,t_p_s_exam1,t_p_s_exam2,t_p_s_exam3,t_p_s_exam4,t_p_s_solution
+		from test_problem_solution
+		where test_code =(select test_code from test
+		where
+		test_classification=#{_parameter})
+	</select>
+
+	<select id="getCourseCode" resultType="string">
+		select max(course_code)
+		from course
+	</select>
+
+	<insert id="courseInsert" parameterType="courseDTO">
+		insert into course values
+		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},#{courseTopGroup},#{courseSubGroup},
+		#{courseDetail},#{courseLevel},#{courseRecruitMax},#{courseRecruitCurrent},#{courseRecruitPerid},#{courseStartDate},#{courseEndDate},
+		#{courseFrequency},#{courseStartTime},#{courseEndTime},#{courseLoc},#{coursePrice}
+		<if test="#{courseUrl}!=null">
+			,#{courseUrl}
+		</if>
+		<if test="#{courseBackpic}!=null">
+			,#{courseBackpic}
+		</if>
+		)
+	</insert>
+<!-- 
+	<insert id="courseDayInsert" parameterType="courseDayDTO">
+		insert into
+		course_date values
+		('p'||lpad(course_seq.nextval,4,'0'),#{courseCode},#{courseDay});
+	</insert>
+ -->
+
+	<select id="memberInfoCollect" resultMap="userInfoSelection">
+		select t.user_id, user_name,
+		user_phone,user_email,user_photo,
+		mento_major,mento_major2,mento_major3,mento_desc
+		from mentee t join mento m
+		on t.user_id = m.user_id
+		where user_id = #{_parameter};
+	</select>
+
+
+</mapper>
