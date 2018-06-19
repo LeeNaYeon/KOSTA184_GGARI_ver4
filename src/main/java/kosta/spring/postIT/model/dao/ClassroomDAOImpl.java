@@ -8,9 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
 import kosta.spring.postIT.model.dto.CrFeedbackDTO;
 import kosta.spring.postIT.model.dto.CrNoticeDTO;
+import kosta.spring.postIT.model.dto.CrNoticeReplyDTO;
 import kosta.spring.postIT.model.dto.CrSubAsgnDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 
@@ -65,12 +67,6 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 
 	@Override
 	public int updateSubAsgn(CrSubAsgnDTO crSubAsgnDTO) {
-		System.out.println("---" + crSubAsgnDTO.getCrAsgnCode());
-		System.out.println("---" + crSubAsgnDTO.getUserId());
-		System.out.println("---" + crSubAsgnDTO.getCrSubasgnTitle());
-		System.out.println("---" + crSubAsgnDTO.getCrSubasgnContent());
-		System.out.println("---" + crSubAsgnDTO.getCrSubasgnFile());
-
 		return session.update("classroomMapper.updateSubAsgn", crSubAsgnDTO);
 	}
 
@@ -114,9 +110,8 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 	}
 
 	@Override
-	public CrFeedbackDTO selectFeedback(String crSubasgnCode) {
-		return session.selectOne("classroomMapper.selectFeedback", crSubasgnCode);
-
+	public MenteeDTO selectFeedback(CrSubAsgnDTO crSubAsgnDTO) {
+		return session.selectOne("classroomMapper.selectFeedback", crSubAsgnDTO);
 	}
 
 	@Override
@@ -133,6 +128,36 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 	@Override
 	public int deleteNotice(String crNoticeCode) {
 		return session.delete("classroomMapper.deleteNotice", crNoticeCode);
+	}
+
+	@Override
+	public int updateNotice(CrNoticeDTO crNoticeDTO) {
+		return session.update("classroomMapper.updateNotice", crNoticeDTO);
+	}
+
+	@Override
+	public CrNoticeDTO selectNotice(String crNoticeCode) {
+		return session.selectOne("classroomMapper.selectNotice", crNoticeCode);
+	}
+
+	@Override
+	public int insertNoticeReply(CrNoticeReplyDTO crNoticeReplyDTO) {
+		return session.insert("classroomMapper.insertNoticeReply", crNoticeReplyDTO);
+	}
+
+	@Override
+	public List<CrNoticeReplyDTO> selectNoticeReply() {
+		return session.selectList("classroomMapper.selectNoticeReply");
+	}
+
+	@Override
+	public CourseDTO selectCourseInfo(String courseCode) {
+		return session.selectOne("classroomMapper.selectCourseInfo", courseCode);
+	}
+
+	@Override
+	public List<CrAsgnDTO> selectDeadlineSubject(String courseCode) {
+		return session.selectList("classroomMapper.selectDeadlineSubject", courseCode);
 	}
 
 }

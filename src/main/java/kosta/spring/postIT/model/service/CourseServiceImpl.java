@@ -61,6 +61,12 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	public List<MentoReputationDTO> selectReputation() {
+		
+		return courseDAO.selectReputation();
+	}
+
+	@Override
 	public List<CourseDTO> courseListSelect() {
 		
 		return courseDAO.courseListSelect();

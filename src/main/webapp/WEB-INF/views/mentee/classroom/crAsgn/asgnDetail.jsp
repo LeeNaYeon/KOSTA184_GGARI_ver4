@@ -37,31 +37,6 @@
 		                                	<div class="blog-div">
 		                                		<date>${requestScope.crSubAsgnDTO.crSubasgnDate}</date><br>
 		                                	    <a href="${pageContext.request.contextPath}/cr/asgn/subAsgnSelectForm/${requestScope.crSubAsgnDTO.crAsgnCode}/${requestScope.crSubAsgnDTO.userId}">${requestScope.crSubAsgnDTO.crSubasgnTitle}</a><br>
-		                                	    <hr style="margin-top: 5px; margin-bottom: 5px;">
-		                                	    <b>피드백</b><br>
-		                                	    
-		                                	    <article class="row">
-					                                <div style="margin-left: 10px;">
-					                                    <figure class="thumbnail">
-					                                        <img class="img-responsive" src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="avatar" style="border-radius: 50px; width: 50px; height: 50px;"/>
-					                                    </figure>
-					                                </div>
-					                                <div class="col-md-10 col-sm-10 col-xs-9">
-					                                    <div class="panel panel-default arrow left">
-					                                        <div class="panel-body">
-					                                            <header class="text-left">
-					                                            	<br>
-					                                                <div class="comment-user"><b>장희정 오후 7:54</b></div>
-					                                            </header>
-					                                            <div class="comment-post">
-					                                                <p>
-					                                                	참 잘했어요^^! 
-					                                                </p>
-					                                            </div>
-					                                        </div>
-					                                    </div>
-					                                </div>
-					                            </article>
 		                                	</div>                            	
 		                                </div>
                             		</c:otherwise>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
@@ -75,5 +76,22 @@ public class MemberController {
 		return memberService.idcheck(request.getParameter("id"));
 	}
 	
+	/**
+	 * 누적 확인
+	 * */
+	/*@RequestMapping("/countTest")
+	public int countTest1(MenteeDTO menteeDTO) {
+		return memberService.selectCountMentee(menteeDTO);
+	}*/
+	
+	@RequestMapping("/countTest")
+	public ModelAndView countTest(MenteeDTO menteeDTO) {
+		ModelAndView mv = new ModelAndView();
+		int MenteeCount = memberService.selectCountMentee(menteeDTO);
+		mv.addObject("MenteeCount",MenteeCount);
+		mv.setViewName("common/member/countTest");
+		
+		return mv;
+	}
 	
 }

@@ -50,6 +50,12 @@ public interface CourseService {
 	List<MentoReputationDTO> courseReview(String courseCode);
 	
 	/**
+	 * main 리뷰조회
+	 * */
+	List<MentoReputationDTO> selectReputation(); 
+	
+	
+	/**
 	 * 스터디 전체조회
 	 */
 	List<CourseDTO> courseListSelect();

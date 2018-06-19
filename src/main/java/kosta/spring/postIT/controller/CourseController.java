@@ -27,7 +27,7 @@ public class CourseController {
 	public ModelAndView courseDetail(String courseCode) {
 		
 		ModelAndView mv = new ModelAndView();
-		
+
 		String userId =null;
 		
 		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
@@ -56,6 +56,7 @@ public class CourseController {
 		
 		//스터디 요일 확인
 		List<CourseDTO> courseDayList = courseService.courseDay(courseCode);
+		
 
 		mv.addObject("courseDayList", courseDayList);
 

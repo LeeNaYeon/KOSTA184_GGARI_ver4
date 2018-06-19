@@ -83,6 +83,13 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
+	public List<MentoReputationDTO> selectReputation() {
+		
+		return session.selectList("memberMapper.selectReputation");
+	}
+	
+
+	@Override
 	public List<CourseDTO> courseListSelect() {
 		
 		//List<CourseDTO> courseListSelect =session.selectList("courseMapper.courseListSelect");

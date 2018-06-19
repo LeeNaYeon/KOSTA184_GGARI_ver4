@@ -48,7 +48,12 @@ public interface CourseDAO {
 	 * 강사리뷰
 	 */
 	List<MentoReputationDTO> courseReview(String courseCode);
-	
+
+	/**
+	 * main강사리뷰
+	 * */
+	List<MentoReputationDTO> selectReputation();
+
 	/**
 	 * 스터디 전체조회
 	 */
