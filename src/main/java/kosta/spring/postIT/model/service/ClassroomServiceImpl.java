@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.ClassroomDAO;
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
 import kosta.spring.postIT.model.dto.CrFeedbackDTO;
 import kosta.spring.postIT.model.dto.CrNoticeDTO;
+import kosta.spring.postIT.model.dto.CrNoticeReplyDTO;
 import kosta.spring.postIT.model.dto.CrSubAsgnDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 
@@ -95,8 +97,8 @@ public class ClassroomServiceImpl implements ClassroomService {
 	}
 
 	@Override
-	public CrFeedbackDTO selectFeedback(String crSubasgnCode) {
-		return classroomDAO.selectFeedback(crSubasgnCode);
+	public MenteeDTO selectFeedback(CrSubAsgnDTO crSubAsgnDTO){
+		return classroomDAO.selectFeedback(crSubAsgnDTO);
 	}
 
 	@Override
@@ -114,4 +116,34 @@ public class ClassroomServiceImpl implements ClassroomService {
 		return classroomDAO.deleteNotice(crNoticeCode);
 	}
 
+	@Override
+	public int updateNotice(CrNoticeDTO crNoticeDTO) {
+		return classroomDAO.updateNotice(crNoticeDTO);
+	}
+
+	@Override
+	public CrNoticeDTO selectNotice(String crNoticeCode) {
+		return classroomDAO.selectNotice(crNoticeCode);
+	}
+
+	@Override
+	public int insertNoticeReply(CrNoticeReplyDTO crNoticeReplyDTO) {
+		return classroomDAO.insertNoticeReply(crNoticeReplyDTO);
+	}
+
+	@Override
+	public List<CrNoticeReplyDTO> selectNoticeReply() {
+		return classroomDAO.selectNoticeReply();
+	}
+
+	@Override
+	public CourseDTO selectCourseInfo(String courseCode) {
+		return classroomDAO.selectCourseInfo(courseCode);
+	}
+
+	@Override
+	public List<CrAsgnDTO> selectDeadlineSubject(String courseCode) {
+		return classroomDAO.selectDeadlineSubject(courseCode);
+	}
+	
 }

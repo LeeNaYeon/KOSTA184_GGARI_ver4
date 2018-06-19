@@ -3,6 +3,7 @@ package kosta.spring.postIT.model.dao;
 import java.util.List;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
 
 public interface CourseDAO {
@@ -57,4 +58,14 @@ public interface CourseDAO {
 	 * main강좌검색
 	 * */
 	List<CourseDTO> mainCourseSearch(String search);
+	
+	/**
+	 * 스터디 전체조회
+	 */
+	List<CourseDTO> courseListSelect();
+	
+	/**
+	 * 스터디 검색
+	 */
+	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
 }

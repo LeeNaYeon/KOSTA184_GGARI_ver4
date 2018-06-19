@@ -77,7 +77,7 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-5 col-xs-5">
                         <ul class="tophead-link" >
-                            <li><a href="about.html"><i > Welcome to PostIT center!</i></a></li>
+                            <li><a href="${pageContext.request.contextPath}/"><i > Welcome to PostIT center!</i></a></li>
                         </ul>
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-7 tophead-right">
@@ -90,7 +90,7 @@
 								
 								<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
 								<li>
-									 <a href="#"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
+									 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
 									 	<sec:authorize access="isAuthenticated()">
 											<sec:authentication property="principal.userName" />님 MyPage 
 											<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
@@ -125,7 +125,7 @@
             <div class="container">
                 <div class="site-branding">
                     <div id="site-identity" style="padding-top: 10px">
-                        <a href="index" class="logo"><img src="${pageContext.request.contextPath}/resources/images/postitlogo.PNG" alt="logo"></a>
+                        <a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/images/postitlogo.PNG" alt="logo"></a>
                     </div>
                     <!-- #site-identity -->
                 </div>
@@ -148,10 +148,11 @@
                                 <li><a href="#">Notice</a> </li>
                                 <li class="menu-item-has-children"><a href="#">courses</a>
                                     <ul>
-                                        <li><a href="course">Courses</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/course">Courses</a></li>
                                         <li><a href="${pageContext.request.contextPath}/course/detail">Course details</a></li>
                                     </ul>
                                 </li>
+                                
                               	<li><a href="#">Q&A</a></li>
                                 <li><a href="#">Contact</a></li>
                                 

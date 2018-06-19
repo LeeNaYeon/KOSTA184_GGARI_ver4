@@ -2,6 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+	<script type="text/javascript">
+		function checkValid() {
+		    var f = window.document.insertFeedback;
+		      
+		   if ( f.crFeedContent.value == "") {
+		       alert( "피드백 내용을 입력해 주세요." );
+		       f.crFeedContent.focus();
+		      return false;
+		    }
+
+		    return true;
+		}
+	</script>
                     <div class="col-md-8">
                         <div class="title inner-page-title">
 	                        <h3>${requestScope.crSubAsgnDTO.userId}님 과제</h3>
@@ -9,11 +22,11 @@
 	                        	<date>${requestScope.crSubAsgnDTO.crSubasgnDate}</date><br>
 	                        </div>
 	                    </div>
-	                    <form>
+							<form name="insertFeedback" method="post" action="${pageContext.request.contextPath}/cr/feedback/insert" onsubmit="return checkValid()">
 	                        <div class="row">
 	                         <div class="col-sm-12 ">
-	                            	<input type="hidden" name="crAsgnCode" value="${requestScope.crAsgnCode}"/>
-	                            	<input type="hidden" name= "userId" value="astro"/>
+	                            	<%-- <input type="hidden" name="crAsgnCode" value="${requestScope.crAsgnCode}"/>
+	                            	<input type="hidden" name= "userId" value="astro"/> --%>
 	                                <div class="form-group">
 	                                    <label>과제제목 :</label>
 	                                    <input type="text" name="crSubasgnTitle" class="form-control" placeholder="title" 
@@ -41,7 +54,7 @@
 	                               	<!-- 멘토에서 보이는 피드백 작성란 -->
 	                                <article class="row">
 		                                <div style="margin-left: 10px;">
-		                                    <figure class="thumbnail">
+		                                    <figure class="thumbnail" style="margin-left: 10px; margin-top: 30px;">
 		                                        <img class="img-responsive" src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="avatar" style="border-radius: 50px; width: 50px; height: 50px;"/>
 		                                    </figure>
 		                                </div>
@@ -50,11 +63,15 @@
 		                                        <div class="panel-body">
 		                                            <header class="text-left">
 		                                            	<br>
-		                                                <div class="comment-user"><b>장희정 오후 7:54</b></div>
+		                                            	<div class="comment-user">
+		                                                	<div style="text-align: right;">${requestScope.crFeedbackDTO.crFeedDate}</div>
+		                                                	<b>${requestScope.menteeDTO.userName} 멘토 :</b>
+		                                                </div>
 		                                            </header>
 		                                            <div class="comment-post">
 		                                                <p>
-		                                                	참잘했어요^^ 
+		                                                
+		                                                	${requestScope.crFeedbackDTO.crFeedContent}
 		                                                </p>
 		                                            </div>
 		                                        </div>
@@ -64,10 +81,14 @@
 					                                    	
                                     <div class="form-group">
                                         <label>댓글 :</label>
-                                        <textarea rows="6" name="name" class="form-control"></textarea>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
+                                        <input type="hidden" name="crAsgnCode" value="${requestScope.crSubAsgnDTO.crAsgnCode}">
+                                        <input type= "hidden" name="userId" value="astro">
+                                        <input type= "hidden" name="mentoId" value="bogummy">
+                                        <textarea rows="6" name="crFeedContent" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group" style="text-align: right; margin-bottom: 5px;">
-                                        <a class="btn btn-primary" href="#">피드백 등록</a>
+                                         <input type="submit" class="btn btn-primary" value="피드백등록">
                                     </div>
 	                            </div>
 	                        </div>

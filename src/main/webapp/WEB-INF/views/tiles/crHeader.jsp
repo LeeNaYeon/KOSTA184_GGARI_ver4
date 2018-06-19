@@ -25,12 +25,12 @@
 </head>
 
 <body>
-    <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
+    <section class="breadcrumb" style="background-color: black;">
         <div class="breadcrumb-overlay"></div>
         <div class="container">
             <h1 style="text-transform: none;">
-            	<a href="#" style="font-size: 20px;">지능정보사회를 위한 응용 Web Framework 개발자 양성과정 3회차 (2018.02.26 ~ 2018.06.27)</a><br><br>
-            	<a href="#" style="font-size: 13px;">postIT 클래스룸 장희정 멘토</a>
+            	<a href="#" style="font-size: 20px;">${sessionScope.courseName} (${sessionScope.courseStartDate} ~ ${sessionScope.courseEndDate})</a><br><br>
+            	<a href="#" style="font-size: 13px;">postIT 클래스룸</a>
             </h1>
         </div>
     </section>
@@ -59,21 +59,11 @@
                                     <h3>곧 마감되는 과제</h3>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <a href="#">6월 3일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 4일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 5일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 6일 과제입니다.</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">6월 7일 과제입니다.</a>
-                                    </li>
+                                	<c:forEach items="${sessionScope.deadlineList}" var="subject" begin="0" end="2">
+                                		<li>
+                                			<a href="${pageContext.request.contextPath}/cr/asgn/select/${subject.crAsgnCode}">${subject.crAsgnTitle}</a>
+                                		</li>
+                                	</c:forEach>
                                 </ul>
                             </div>
                         </div>

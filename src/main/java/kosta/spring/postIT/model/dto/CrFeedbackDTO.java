@@ -2,8 +2,9 @@ package kosta.spring.postIT.model.dto;
 
 public class CrFeedbackDTO {
 	private String crFeedCode;
-	private String crSubasgnCode;
+	private String crAsgnCode;
 	private String userId;
+	private String mentoId;
 	private String crFeedContent;
 	private String crFeedDate;
 
@@ -15,12 +16,12 @@ public class CrFeedbackDTO {
 		this.crFeedCode = crFeedCode;
 	}
 
-	public String getCrSubasgnCode() {
-		return crSubasgnCode;
+	public String getCrAsgnCode() {
+		return crAsgnCode;
 	}
 
-	public void setCrSubasgnCode(String crSubasgnCode) {
-		this.crSubasgnCode = crSubasgnCode;
+	public void setCrAsgnCode(String crAsgnCode) {
+		this.crAsgnCode = crAsgnCode;
 	}
 
 	public String getUserId() {
@@ -45,5 +46,13 @@ public class CrFeedbackDTO {
 
 	public void setCrFeedDate(String crFeedDate) {
 		this.crFeedDate = crFeedDate;
+	}
+	
+	public String getMentoId() {
+		return mentoId;
+	}
+	
+	public void setMentoId(String mentoId) {
+		this.mentoId = mentoId;
 	}
 }

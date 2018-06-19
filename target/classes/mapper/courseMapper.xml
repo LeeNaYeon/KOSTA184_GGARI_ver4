@@ -67,7 +67,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</collection>
 		</collection>
 	</resultMap>
-	
+
+<!-- 1:1의 관계 매핑하기 -->
+	<resultMap type="courseDTO" id="CourseListAssociationMap">
+		<id column="course_code" property="courseCode"/>
+		<result column="user_id" property="userId"/>
+		<result column="course_title" property="courseTitle"/>
+		<result column="course_top_group" property="courseTopGroup"/>
+		<result column="course_sub_group" property="courseSubGroup"/>
+		<result column="course_detail" property="courseDetail"/>
+		<result column="course_level" property="courseLevel"/>
+		<result column="course_recruit_max" property="courseRecruitMax"/>
+		<result column="course_recruit_current" property="courseRecruitCurrent"/>
+		<result column="course_recruit_period" property="courseRecruitPerid"/>
+		<result column="course_start_date" property="courseStartDate"/>
+		<result column="course_end_date" property="courseEndDate"/>
+		<result column="course_frequency" property="courseFrequency"/>
+		<result column="course_start_time" property="courseStartTime"/>
+		<result column="course_end_time" property="courseEndTime"/>
+		<result column="course_loc" property="courseLoc"/>
+		<result column="course_price" property="coursePrice"/>
+		<result column="course_url" property="courseUrl"/>
+		<result column="course_backpic" property="courseBackpic"/>		
+		<association property="menteeDTO" javaType="menteeDTO">
+			<id column="user_id" property="userId"/>
+			<result column="user_photo" property="userPhoto"/>			
+		</association>	
+	</resultMap>	
 	<!-- 1:1 관계 스터기 기본요소-->
 	<select id="courseDetailAssociation" resultMap="CourseDetailAssociationMap">	
 		select course_code, c.user_id,course_title,course_top_group,course_sub_group,course_detail,course_level,
@@ -134,6 +160,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 
 
+	</select>
+	
+	<!-- 스터디리스트 전체조회 -->
+	<select id="courseListSelect" resultMap="CourseListAssociationMap">
+		select course_code,c.user_id,course_title,course_top_group,course_sub_group,
+		course_level,course_start_date,
+		course_end_date,course_start_time,course_end_time,course_loc,
+		course_price,course_backpic,m.user_photo
+		from course c 
+		join mentee m
+		on c.user_id = m.user_id
+		where course_recruit_max > course_recruit_current
+		and course_end_date >= sysdate
+		ORDER BY course_recruit_current DESC
+	</select>
+
+	<!-- 스터디검색 -->
+	<select id="courseSeach" parameterType="map" resultMap="CourseListAssociationMap">		
+		select course_code,c.user_id,course_title,course_top_group,course_sub_group,
+		course_level,course_start_date,
+		course_end_date,course_start_time,course_end_time,course_loc,
+		course_price,course_backpic,m.user_photo
+		from course c 
+		join mentee m
+		on c.user_id = m.user_id
+		where course_recruit_max > course_recruit_current
+		and course_end_date >= sysdate
+		<if test="courseLevel!='레벨'">
+			and course_level=#{courseLevel}
+		</if>
+        <if test="courseLoc!='지역'">
+        	and course_loc=#{courseLoc}
+        </if>
+        <if test="courseSubGroup!='분류'">
+        	and course_sub_group=#{courseSubGroup}  
+        </if>
+        <if test="day!='시간'">
+		    <if test="day.equals('평일')">
+		        and course_code in (select distinct course_code from course_date where day not in('토','일'))
+	        </if>
+	        <if test="day.equals('주말')">
+		        and course_code in (select distinct course_code from course_date where day in('토','일'))
+	        </if>
+        </if>
+        ORDER BY course_recruit_current DESC
 	</select>
 
    
