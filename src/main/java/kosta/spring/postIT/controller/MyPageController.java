@@ -2,18 +2,19 @@ package kosta.spring.postIT.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseFavDTO;
+import kosta.spring.postIT.model.dto.CourseRegistDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 import kosta.spring.postIT.model.service.MyPageService;
 
@@ -161,4 +162,120 @@ public class MyPageController {
 		return "mentee/myPage/modifiedResult";
 	}
 
+	////////////////////////////////////////////////////////////////////////////
+	/////////studySelect
+	
+	@RequestMapping("/myPage/study/select")
+	public ModelAndView studySelect(String userId) {
+
+		ModelAndView mv = new ModelAndView();
+
+		List<CourseDTO> mentoList = myPageService.selectMentoStudy(userId);
+		
+		List<CourseRegistDTO> menteeList = myPageService.selectMentee(userId);
+
+		// System.out.println(menteeList.get(0));
+
+		mv.addObject("userId", userId);
+		mv.addObject("mentoList", mentoList);
+		mv.addObject("menteeList", menteeList);
+
+		mv.setViewName("mentee/myPage/select");
+
+		return mv;
+	}
+	
+	@RequestMapping("/myPage/study/delete")
+	public String menteeStudyDelete(String userId, String courseCode) {
+
+		int re = myPageService.menteeStudyDelete(userId, courseCode);
+
+		int re2 = myPageService.menteeStudyCurrentUpdate(courseCode);
+
+		return "forward:/myPage/study/select";
+
+	}
+	
+	@RequestMapping("/myPage/favStudy/select")
+	public ModelAndView favStudySelect(String userId) {
+
+		ModelAndView mv = new ModelAndView();
+
+		List<CourseFavDTO> favList = myPageService.favStudySelect(userId);
+
+		mv.addObject("favList", favList);
+		mv.addObject("userId", userId);
+		mv.setViewName("mentee/myPage/selectFav");
+
+		return mv;
+	}
+	
+	@RequestMapping("/myPage/favStudy/delete")
+	public String favStudyDelete(String userId, String courseCode) {
+
+		int re = myPageService.favStudyDelete(userId, courseCode);
+
+		return "forward:/myPage/favStudy/select";
+
+	}
+	
+	@RequestMapping("/myPage/exStudy/select")
+	public ModelAndView exStudySelect(String userId  ) {
+
+		ModelAndView mv = new ModelAndView();
+
+		List<CourseDTO> mentoExList = myPageService.selectMentoEx(userId);
+
+		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(userId);
+
+		// System.out.println(menteeList.get(0));
+
+		mv.addObject("userId", userId);
+		mv.addObject("mentoExList", mentoExList);
+		mv.addObject("menteeExList", menteeExList);
+
+		mv.setViewName("mentee/myPage/selectEx");
+
+		return mv;
+	}
+		
+	@RequestMapping("/myPage/exStudy/reviewInsertForm")
+	public ModelAndView exStudyReviewInsertForm(String userId, String courseCode) {
+
+		ModelAndView mv = new ModelAndView();
+
+		CourseRegistDTO courseRegistDTO = myPageService.selectMenteeExByCourseCode(userId, courseCode);
+			
+		mv.addObject("courseRegistDTO", courseRegistDTO);
+		mv.setViewName("mentee/myPage/reviewInsertForm");
+
+		return mv;
+	}
+	
+	@RequestMapping("/myPage/exStudy/reviewInsert")
+	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)//userId
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		int re = myPageService.insertReview(mentoReputationDTO);
+		
+		//MentoReputationDTO mentoReputationDTODB = service.selectReview(mentoReputationDTO);
+		
+		List<CourseDTO> mentoExList = myPageService.selectMentoEx(mentoReputationDTO.getRepWriter());
+
+		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(mentoReputationDTO.getRepWriter());
+
+		mv.addObject("userId", mentoReputationDTO.getRepWriter());
+		mv.addObject("mentoExList", mentoExList);
+		mv.addObject("menteeExList", menteeExList);
+		
+		mv.setViewName("mentee/myPage/selectEx");
+		
+		return mv;
+	
+	}
+	
+	
+	
+	
 }

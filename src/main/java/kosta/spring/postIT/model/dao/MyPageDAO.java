@@ -1,9 +1,13 @@
 package kosta.spring.postIT.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseFavDTO;
+import kosta.spring.postIT.model.dto.CourseRegistDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 public interface MyPageDAO {
@@ -49,5 +53,45 @@ public interface MyPageDAO {
 	 * @return
 	 */
 	public int memberUpdate(MenteeDTO menteeDTO);
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	
+	List<CourseDTO> selectMentoStudy(String userId);
+	
+	List<CourseRegistDTO> selectMentee(String userId);
+	
+	int menteeStudyDelete(Map<String,String> map);
+	
+	int menteeStudyCurrentUpdate(String courseCode);
+	
+	List<CourseFavDTO> favStudySelect(String userId);
+	
+	int favStudyDelete(Map<String,String> map);
+	
+	List<CourseDTO> selectMentoEx(String userId);
+	
+	List<CourseRegistDTO> selectMenteeEx(String userId);
+	
+	CourseRegistDTO selectMenteeExByCourseCode(Map<String,String> map);
+	
+	int insertReview(MentoReputationDTO mentoReputationDTO ); 
+	
+	MentoReputationDTO selectReview(MentoReputationDTO mentoReputationDTO);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

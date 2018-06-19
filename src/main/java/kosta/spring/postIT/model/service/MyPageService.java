@@ -3,7 +3,10 @@ package kosta.spring.postIT.model.service;
 import java.util.List;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseFavDTO;
+import kosta.spring.postIT.model.dto.CourseRegistDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 public interface MyPageService {
@@ -44,4 +47,27 @@ public interface MyPageService {
 	 */
 	public int updateMenteeUserInfo(MenteeDTO menteeDTO);
 	
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	List<CourseDTO> selectMentoStudy(String userId);
+	
+	List<CourseRegistDTO> selectMentee(String userid);
+	
+	int menteeStudyDelete(String userId, String courseCode);
+	
+	int menteeStudyCurrentUpdate(String courseCode);
+	
+	List<CourseFavDTO> favStudySelect(String userId);
+	
+	int favStudyDelete(String userId, String courseCode);
+	
+	List<CourseDTO> selectMentoEx(String userId);
+	
+	List<CourseRegistDTO> selectMenteeEx(String userId);
+	
+	CourseRegistDTO selectMenteeExByCourseCode(String userId, String courseCode);
+	
+	int insertReview(MentoReputationDTO mentoReputationDTO);
+	
+	MentoReputationDTO selectReview(MentoReputationDTO mentoReputationDTO);
 }
