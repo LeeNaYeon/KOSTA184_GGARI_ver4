@@ -53,7 +53,7 @@ public class HomeController {
 		return "common/member/joinMento";
 	}
 	
-	@RequestMapping("/course")
+/*	@RequestMapping("/course")
 	public String course() {
 
 		return "common/courese/course";
@@ -63,6 +63,6 @@ public class HomeController {
 	public String courseDetail() {
 
 		return "common/courese/courseDetail";
-	}
+	}*/
 
 }

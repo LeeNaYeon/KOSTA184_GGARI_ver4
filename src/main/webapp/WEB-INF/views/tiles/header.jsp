@@ -133,7 +133,7 @@
                                 <li><a href="#">Notice</a> </li>
                                 <li class="menu-item-has-children"><a href="#">courses</a>
                                     <ul>
-                                        <li><a href="course">Courses</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/course">Courses</a></li>
                                         <li><a href="${pageContext.request.contextPath}/course/detail">Course details</a></li>
                                     </ul>
                                 </li>

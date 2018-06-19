@@ -77,10 +77,38 @@ public class CourseDAOImpl implements CourseDAO {
 
 	@Override
 	public List<MentoReputationDTO> courseReview(String courseCode) {
-		System.out.println("CourseDAOImpl : "+courseCode);
+		//System.out.println("CourseDAOImpl : "+courseCode);
 		
 		return session.selectList("courseMapper.courseReview", courseCode);
 	}
+
+	@Override
+	public List<CourseDTO> courseListSelect() {
+		
+		//List<CourseDTO> courseListSelect =session.selectList("courseMapper.courseListSelect");
+		
+		return session.selectList("courseMapper.courseListSelect");
+	}
+
+	@Override
+	public List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO) {
+		
+		String courseLevel = courseDTO.getCourseLevel();
+		String courseLoc = courseDTO.getCourseLoc();
+		String courseSubGroup = courseDTO.getCourseSubGroup();
+		String day = courseDateDTO.getDay();
+		
+		//System.out.println(courseLevel+"|"+courseLoc+"|"+courseSubGroup+"|"+day);
+		
+		Map<String, String> map = new HashMap<>();
+		if(courseLevel!=null) map.put("courseLevel", courseLevel);
+		if(courseLoc!=null) map.put("courseLoc", courseLoc);	
+		if(courseSubGroup!=null) map.put("courseSubGroup", courseSubGroup);	
+		if(day!=null) map.put("day", day);	
+		
+		return session.selectList("courseMapper.courseSeach",map);
+	}
+	
 	
 	
 	

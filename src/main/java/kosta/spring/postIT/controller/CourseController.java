@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.service.CourseService;
@@ -22,13 +24,19 @@ public class CourseController {
 	private CourseService courseService;
 
 	@RequestMapping("/course/detail")
-	public ModelAndView courseDetail(String courseCode, String userId) {
+	public ModelAndView courseDetail(String courseCode) {
 		
-		ModelAndView mv = new ModelAndView();	
+		ModelAndView mv = new ModelAndView();
 		
-		//test용
-		courseCode="c0002";
-		//userId="jang";
+		String userId =null;
+		
+		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj =SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(obj instanceof MenteeDTO) {	
+			MenteeDTO pvo=(MenteeDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();					
+			//System.out.println("2. Spring Security 세션 수정 전 회원정보:" + pvo.getUserId());
+		}
 		
 		//스터디기본정보
 		CourseDTO courseDTO = courseService.courseDetail(courseCode);				
@@ -77,6 +85,51 @@ public class CourseController {
 		
 		return courseService.favInsert(request.getParameter("courseCode"),request.getParameter("id"));
 
+	}
+	
+	//스터디 검색하기
+	@RequestMapping("/course/search")
+	public ModelAndView courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO) {
+		/*System.out.println(courseDTO.getCourseLevel()+" | "+courseDTO.getCourseLoc()+" | "+courseDTO.getCourseSubGroup()
+				+" | "+courseDateDTO.getDay());*/
+		
+		ModelAndView mv = new ModelAndView();	
+		
+		List<CourseDTO> courseListSelect = courseService.courseSearch(courseDTO,courseDateDTO);
+		
+		System.out.println("dd = " + courseListSelect.size());
+		for(CourseDTO dto : courseListSelect) {
+			System.out.println(dto.getCourseLevel()+" | "+ dto.getMenteeDTO().getUserPhoto()
+					+" | "+dto.getCourseStartDate()+" | "+" | "+dto.getCourseSubGroup()+" | "+dto.getCourseLoc());
+		}
+		
+		mv.addObject("courseListSelect", courseListSelect);
+		
+		mv.setViewName("common/courese/course"); // WEB-INF/views/common/course/courseDetail.jsp이동
+		
+		return mv;
+	}
+	
+	//스터디 리스트 확인
+	@RequestMapping("/course")
+	public ModelAndView courseListSelect() {
+		
+		ModelAndView mv = new ModelAndView();	
+		
+		List<CourseDTO> courseListSelect = courseService.courseListSelect();
+		
+		/*System.out.println("dd = " + courseListSelect.size());
+		for(CourseDTO dto : courseListSelect) {
+			System.out.println(dto.getCourseLevel()+" | "+ dto.getMenteeDTO().getUserPhoto()
+					+" | "+dto.getCourseStartDate()+" | "+" | "+dto.getCourseSubGroup()+" | "+dto.getCourseLoc());
+		}*/
+		
+		mv.addObject("courseListSelect", courseListSelect);
+		
+		mv.setViewName("common/courese/course"); // WEB-INF/views/common/course/courseDetail.jsp이동
+		
+		return mv;
+		
 	}
 	
 	
