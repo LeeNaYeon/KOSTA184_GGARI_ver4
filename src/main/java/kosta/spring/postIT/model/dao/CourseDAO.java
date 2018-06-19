@@ -52,4 +52,9 @@ public interface CourseDAO {
 	 * main°­»ç¸®ºä
 	 * */
 	List<MentoReputationDTO> selectReputation();
+	
+	/**
+	 * main°­ÁÂ°Ë»ö
+	 * */
+	List<CourseDTO> mainCourseSearch(String search);
 }

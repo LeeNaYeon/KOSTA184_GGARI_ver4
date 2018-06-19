@@ -26,6 +26,16 @@
 
 	#tophead-link{background-color: skyblue}
 	
+	input[type="text"]{
+       text-transform:none;
+    }
+    
+    .top-header {
+    background: skyblue;
+    padding: 10px 0;
+    clear: both;
+}
+	
 </style>
 <script>
 	function logout() {
@@ -74,6 +84,9 @@
                         <ul class="tophead-link">
                             <c:choose>
 								<c:when test="${not empty pageContext.request.userPrincipal}">
+								 <li>
+		                            <a href="#"> 알림</a>
+		                         </li>
 								
 								<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
 								<li>
@@ -93,8 +106,10 @@
 							        </li>
 							        
 							        <li>
-		                            <a href="join"><i class="fa fa-key" aria-hidden="true"></i> 회원가입</a>
+		                            <a href="${pageContext.request.contextPath}/join"><i class="fa fa-key" aria-hidden="true"></i> 회원가입</a>
 		                            </li>
+		                            
+		                           
 								</c:otherwise>
 							</c:choose>
                             
@@ -144,9 +159,10 @@
                    <div class="header-search">
                         <i class="fa fa-search top-search"></i>
                         <div class="search-popup" style="padding-top: 2px">
-                            <form role=search action="search" class="search-wrapper">
+                            <%-- <form role=search action="${pageContext.request.contextPath}/search" class="search-wrapper"> --%>
+                            <form action="${pageContext.request.contextPath}/search" class="search-wrapper">
                                 <div>
-                                    <input type="text" name="search" placeholder="강사, 강좌이름으로 검색해주세요.">
+                                    <input type="text" name="search" id="courseSearch" placeholder="강사 or 강좌이름으로 검색해주세요.">
                                     <input type="submit" name="button" class="pop-search" value="검색">
                                 </div>
                             </form>

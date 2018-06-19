@@ -103,6 +103,16 @@ public class HomeController {
 		return "common/courese/courseDetail";
 	}
 	
-	
+	@RequestMapping("/search")
+	public ModelAndView search(String search) {
+		List<CourseDTO> mainCourseList = courseService.mainCourseSearch(search);
+		
+		ModelAndView mv=new ModelAndView();
+		
+		mv.addObject("mainCourseList", mainCourseList);
+		mv.setViewName("common/courese/course");
+		return mv;
+		
+	}
 
 }

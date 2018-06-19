@@ -48,6 +48,38 @@
 	#reviewCount{
 	color:orange;
 	}
+	
+	.main-slider.owl-theme .owl-nav [class*=owl-] {
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    line-height: 47px;
+    background-color: transparent;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+    margin: 0;
+    filter: alpha(opacity=80);
+    border:none;
+    opacity: 1; 
+}
+
+a.scroll-top {
+    background-color: transparent;
+    border:1px solid black;
+    bottom: 45px;
+    color: black;
+    cursor: pointer;
+    font-size: 14px;
+    height: 40px;
+    font-weight: bold;
+    line-height: 38px;
+    position: fixed;
+    right: 12px;
+    text-align: center;
+    width: 40px;
+    z-index: 999;
+}
 
 </style>
 
@@ -65,8 +97,8 @@
                     <div class="carousel-caption caption-center">
                         <div class="content">
                             <h2>Let's code together</h2>
-                            <p>문구 들어갈 자리 입니다. 같이 정해보아요^^  </p>
-                            <a  href="#" class="btn btn-primary">더 알아보기</a>
+                            <p>postIT는 나와 비슷한  멤버들과 시작하는 오프라인 스터디 매칭 플랫폼 입니다!</p>
+                            <a  href="${pageContext.request.contextPath}/course" class="btn btn-primary" style="background-color: skyblue">스터디 알아보기</a>
                         </div>
                     </div>
                 </div>
@@ -77,8 +109,8 @@
                     <div class="carousel-caption caption-center">
                         <div class="content">
                             <h2>Let's code together</h2>
-                            <p>문구 들어갈 자리 입니다. 같이 정해보아요^^</p>
-                            <a  href="${pageContext.request.contextPath}/countTest" class="btn btn-primary">더 알아보기</a>
+                            <p>postIT은 나와 비슷한  멤버들과 시작하는 오프라인 스터디 매칭 플랫폼 입니다!</p>
+                            <a  href="${pageContext.request.contextPath}/join" class="btn btn-primary" style="background-color: skyblue">스터디 시작하기</a>
                         </div>
                     </div>
                 </div>

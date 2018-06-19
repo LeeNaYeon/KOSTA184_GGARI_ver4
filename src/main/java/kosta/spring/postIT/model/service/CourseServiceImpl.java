@@ -65,6 +65,12 @@ public class CourseServiceImpl implements CourseService {
 		return courseDAO.selectReputation();
 	}
 
+	@Override
+	public List<CourseDTO> mainCourseSearch(String search) {
+		System.out.println(courseDAO.mainCourseSearch(search));
+		return courseDAO.mainCourseSearch(search);
+	}
+
 	
 	
 	

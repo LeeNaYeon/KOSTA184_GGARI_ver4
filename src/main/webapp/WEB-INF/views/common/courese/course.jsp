@@ -117,7 +117,7 @@
                     </div>
                       
                       
-                      
+      <h1>${mainCourseList[0].courseTitle}</h1>
                     <div class=" col-md-4 col-lg-4">
                         <div class="course-content">
                             <div class="course-img ">

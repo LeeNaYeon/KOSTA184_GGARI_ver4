@@ -53,6 +53,11 @@ public interface CourseService {
 	 * */
 	List<MentoReputationDTO> selectReputation(); 
 	
+	/**
+	 * main°­ÁÂ°Ë»ö
+	 * */
+	List<CourseDTO> mainCourseSearch(String search);
+	
 	
 	
 	
