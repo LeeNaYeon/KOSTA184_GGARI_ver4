@@ -340,23 +340,28 @@
 			</sec:authorize> 
     	  
     	  //alert("userId2 :"+userId2); 
-    	     	           
+    	    
+    	   var totalPage = $(document).height();    
+    	   
            $(window).scroll(function(){
-	            var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
 	            var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-	            //console.log("scrollT"+scrollT);
-	            //console.log("scrollH"+scrollH);
-	            var endZone = $("#footer").offset().top-scrollH+500;
+	            var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+	            //var endZone = totalPage- $("#footer").offset().top-scrollH+500;
+	            var endZone = totalPage-500-500-60;
 	                     
-	            //console.log("endZone"+endZone);
-	           // console.log("scrollT"+scrollT);
+	            console.log("totalPage"+totalPage);
+	            console.log("endZone"+endZone);
+	            console.log("scrollT"+scrollT);
 	
 	            if (scrollT>600) {
 	             	$('#advertise').attr('class','fixed');
-	             } /*  else if (endZone<scrollT) {          	 
-	             	$('#advertise').attr('class','bottom');
-				 }  */ else{               
+	             } else if (1000<scrollT) {  
+	            	 console.log("ddddddddddddd");
+	            	 alert(1)	
+	            	 $('#advertise').attr('class','bottom');
+				 } else{               
 				 	$('#advertise').attr('class','');
+				 	//$('#advertise').css('top',1000);
 	             }
          });    
          
@@ -420,6 +425,7 @@
 	        	}   
 				
 				alert("결재하기 폼으로 이동예정");
+				return false;
 				
 				
           });//onclick         
@@ -586,7 +592,7 @@
             <section id="leader-information">
                <div class="section-wrap">
                   <header class="section-label">
-                     <h1 style="font-size: 14pt;">리더 소개</h1>
+                     <h1 style="font-size: 14pt;">멘토 소개</h1>
                      <img src="https://cdn.studysearch.co.kr/images/users/65235/profile/1518656373" class="leader-profile-image">
                   	////////${courseDTO.mentoDTO.menteeDTO.userPhoto}
                   
@@ -604,7 +610,7 @@
 			<c:if test="${!empty courseReviewList}">
 	            <section id="review-info" class="section-content1">
 	               <header>
-	                  <h1 id="review-count" class="heading">리더에 대한 후기</h1>
+	                  <h1 id="review-count" class="heading">멘토에 대한 후기</h1>
 	               </header>
 	               <ul id="reviews">
 	                  
@@ -657,7 +663,7 @@
                <div id="price-wrap">
                   <div class="amount-to-pay">
                      <span class="price-text">참가비</span><span class="price-value">
-                        <fmt:formatNumber value="${courseDTO.coursePrice}" pattern="#,###.##"/>
+                        <fmt:formatNumber value="${courseDTO.coursePrice}" pattern="#,###,###.##"/>
                         원
                      </span>
                   </div>
@@ -698,7 +704,7 @@
          </div>
       </aside>
 
-      <aside id="advertise" class="" style="float:left; margin:0 0 0 10px">
+      <aside id="advertise" class="" style="float:left; margin:0 0 0 10px;">
          <div class="order-action-wrap" style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.10);">            
             <img style="width: 248px; height: 500px;" src="${pageContext.request.contextPath }/resources/images/men.png" class="img-responsive img-circle">                                                                                           
          </div>

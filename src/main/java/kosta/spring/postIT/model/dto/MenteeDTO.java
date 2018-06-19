@@ -10,6 +10,9 @@ public class MenteeDTO {
 		private String userPhone;
 		private String userEmail;
 		private String userPhoto;
+		private InterestedDTO interestedDTO;
+		private MentoDTO mento;
+		
 		
 		private List<CrAsgnDTO> asgns;
 		private List<CrNoticeDTO> notices;

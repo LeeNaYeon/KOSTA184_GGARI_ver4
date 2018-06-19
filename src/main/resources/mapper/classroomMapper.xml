@@ -387,7 +387,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from course
 		where course_code=#{_parameter}
 	</select>
-	
+ 	
 	<!-- header에 뿌려줄 마감임박 과제-->
 	<select id="selectDeadlineSubject" parameterType="String" resultMap="asgnSelectMap">
 		select * 
