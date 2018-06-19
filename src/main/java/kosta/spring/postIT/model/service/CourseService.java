@@ -3,6 +3,7 @@ package kosta.spring.postIT.model.service;
 import java.util.List;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
 
 public interface CourseService {
@@ -54,7 +55,14 @@ public interface CourseService {
 	List<MentoReputationDTO> selectReputation(); 
 	
 	
+	/**
+	 * 스터디 전체조회
+	 */
+	List<CourseDTO> courseListSelect();
 	
-	
+	/**
+	 * 스터디 검색
+	 */
+	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
 	
 }
