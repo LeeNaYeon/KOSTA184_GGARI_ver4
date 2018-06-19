@@ -351,7 +351,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from
 		cr_notice_reply
-		order by cr_reply_code desc
+		order by cr_reply_date
 	</select>
 
 

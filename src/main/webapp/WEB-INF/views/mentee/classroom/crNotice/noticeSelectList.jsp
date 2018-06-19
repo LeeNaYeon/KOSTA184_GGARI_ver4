@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-	
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 	<script type="text/javascript">
 		function checkValid() {
 		    var f = window.document.insertNoticeReply;
@@ -15,12 +16,20 @@
 		    return true;
 		}
 	</script>
-                    <div class="col-md-8">
-                    <!-- 멘토가 보는 부분 공지등록버튼-->
-                    <div style="margin-bottom: 15px; text-align: right;">
-                    	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/mentoNotice/noticeInsertForm">공지사항 등록</a>
-                    </div>
                     
+                    <div class="col-md-8">
+	                    <sec:authorize access="hasRole('ROLE_MENTEE')">
+	                    	<sec:authorize access="hasRole('ROLE_MENTO')">
+		                    	<c:set var="mentoId"><sec:authentication property="principal.userId" /></c:set>
+		                    	<c:if test="${mentoId==sessionScope.classroomMento}">
+		                    		<!-- 멘토가 보는 부분 공지등록버튼-->
+				                    <div style="margin-bottom: 15px; text-align: right;">
+				                    	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/mentoNotice/noticeInsertForm">공지사항 등록</a>
+				                    </div>
+		                    	</c:if>
+	                    	</sec:authorize>
+						</sec:authorize>
+	                    
                     
                     	<c:choose>
                     		<c:when test="${empty mento.notices}">
@@ -94,7 +103,7 @@
 								                            
 											                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 											                <input type="hidden" name="crNoticeCode" value="${notice.crNoticeCode}"/>
-											                <input type="hidden" name="userId" value="astro">                    	
+											                <input type="hidden" name="userId" value="<sec:authentication property="principal.userId" />">                    	
 					                                        <div class="form-group" style="margin-top: 10px;">
 					                                            <label>댓글 :</label>
 					                                            <textarea rows="6" name="crReplyContent" class="form-control"></textarea>
@@ -107,11 +116,18 @@
 					                            </form>
 					                        </section>
 			                                
-			                                <!-- 멘토가 보는 부분 수정 삭제버튼-->
-			                                <div style="margin-top: 15px; text-align: center;">
-			                                	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/notice/updateForm/${notice.crNoticeCode}">수정</a>
-			                                	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/notice/delete/${notice.crNoticeCode}">삭제</a>
-			                                </div>                             
+			                                <sec:authorize access="hasRole('ROLE_MENTEE')">
+						                    	<sec:authorize access="hasRole('ROLE_MENTO')">
+							                    	<c:set var="mentoId"><sec:authentication property="principal.userId" /></c:set>
+							                    	<c:if test="${mentoId==sessionScope.classroomMento}">
+							                    		<!-- 멘토가 보는 부분 수정 삭제버튼-->
+						                                <div style="margin-top: 15px; text-align: center;">
+						                                	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/notice/updateForm/${notice.crNoticeCode}">수정</a>
+						                                	<a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/notice/delete/${notice.crNoticeCode}">삭제</a>
+						                                </div>      
+							                    	</c:if>
+						                    	</sec:authorize>
+											</sec:authorize>			                                               
 			                            </div>
 			                        </div>
                     			</c:forEach>

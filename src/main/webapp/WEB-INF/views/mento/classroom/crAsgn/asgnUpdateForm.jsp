@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 	<script type="text/javascript">
 		function checkValid() {
@@ -30,8 +31,8 @@
 	                            <div class="col-sm-12 ">
 	                            	<!-- course code가 마이페이지에서 이페이지로 넘어올때 넘겨줘야하는데 그게 없으니 일단 이렇게 함 -->
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" > 	                               
-	                               	<input type="hidden" name="userId" value="bogummy"/>
-	                            	<input type="hidden" name="courseCode" value="a1"/>
+	                               	<input type="hidden" name="userId" value="<sec:authentication property="principal.userId" />"/>
+	                            	<input type="hidden" name="courseCode" value="${sessionScope.courseCode}"/>
 	                            	<input type="hidden" name="crAsgnCode" value="${requestScope.crAsgnDTO.crAsgnCode}"/>
 	                            	
 	                                <div class="form-group">
