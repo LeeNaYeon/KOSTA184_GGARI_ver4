@@ -425,6 +425,7 @@
 	        	}   
 				
 				alert("결재하기 폼으로 이동예정");
+				return false;
 				
 				
           });//onclick         
