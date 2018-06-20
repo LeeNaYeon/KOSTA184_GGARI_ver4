@@ -230,6 +230,13 @@
 			<version>4.2.2.RELEASE</version>
 		</dependency>
 		
+		<!-- JavaMail API -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+
 		<!-- 추가한 라이브러리 끝 -->
 	
 	
