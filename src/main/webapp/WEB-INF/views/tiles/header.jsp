@@ -79,7 +79,7 @@
 								<li>
 									 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
 									 	<sec:authorize access="isAuthenticated()">
-											<sec:authentication property="principal.userName" />님 MyPage 
+											<a href="${pageContext.request.contextPath}/myPage/study/select?userId=<sec:authentication property="principal.userId" />"><sec:authentication property="principal.userName"/>님 MyPage </a>
 											<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
 										</sec:authorize>
 									 </a>
