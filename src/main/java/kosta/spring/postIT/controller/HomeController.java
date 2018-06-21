@@ -25,35 +25,30 @@ public class HomeController {
 	@Autowired
 	private CourseService courseService;
 
-/*	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(HttpSession session) {
-		session.setAttribute("courseCode", "a1");
-		return "redirect:/cr/notice/selectList";
-	}*/
-
 	/**
 	 * main
 	 */
-	 @RequestMapping(value="/", method=RequestMethod.GET)
-	 public ModelAndView home(MenteeDTO menteeDTO, MentoDTO mentoDTO, CourseDTO
-	 courseDTO, MentoReputationDTO mentoReputationDTO) {
-		 ModelAndView mv = new ModelAndView();
-		 /**
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home(MenteeDTO menteeDTO, MentoDTO mentoDTO, CourseDTO courseDTO,
+			MentoReputationDTO mentoReputationDTO) {
+		ModelAndView mv = new ModelAndView();
+		/**
 		 * 누적 확인
-		 * */
-		 int MenteeCount = memberService.selectCountMentee(menteeDTO);
-		 int MentoCount = memberService.selectCountMento(mentoDTO);
-		 int CourseCount = memberService.selectCountCourse(courseDTO);
-		 int RepCount = memberService.selectCountReputation(mentoReputationDTO);
-		 List<MentoReputationDTO> mentoRepList = courseService.selectReputation();
-		 mv.addObject("MenteeCount", MenteeCount);
-		 mv.addObject("MentoCount", MentoCount);
-		 mv.addObject("CourseCount", CourseCount);
-		 mv.addObject("RepCount",RepCount);
-		 mv.addObject("mentoRepList", mentoRepList);
-		 mv.setViewName("main/mainpage/index");
-		 return mv;
-	 }
+		 */
+		int MenteeCount = memberService.selectCountMentee(menteeDTO);
+		int MentoCount = memberService.selectCountMento(mentoDTO);
+		int CourseCount = memberService.selectCountCourse(courseDTO);
+		int RepCount = memberService.selectCountReputation(mentoReputationDTO);
+		List<MentoReputationDTO> mentoRepList = courseService.selectReputation();
+		mv.addObject("MenteeCount", MenteeCount);
+		mv.addObject("MentoCount", MentoCount);
+		mv.addObject("CourseCount", CourseCount);
+		mv.addObject("RepCount", RepCount);
+		mv.addObject("mentoRepList", mentoRepList);
+		mv.setViewName("main/mainpage/index");
+		
+		return mv;
+	}
 
 	@RequestMapping("/index")
 	public String gohome() {
@@ -89,17 +84,12 @@ public class HomeController {
 
 		return "common/member/joinMento";
 	}
+
 	
-/*	@RequestMapping("/course")
-	public String course() {
-
-		return "common/courese/course";
+	@RequestMapping(value = "/classroom")
+	public String goClassroom(HttpSession session) {
+		session.setAttribute("courseCode", "a1");
+		return "redirect:/cr/notice/selectList";
 	}
-
-	@RequestMapping("/courseDetail")
-	public String courseDetail() {
-
-		return "common/courese/courseDetail";
-	}*/
-
+	
 }

@@ -4,6 +4,119 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="myPageMapper">
 
+<resultMap id="selectMentoMap" type="courseDTO">
+<id column="course_code" property="courseCode"/>
+<result column="user_id" property="userId"/> 
+<result column="course_title" property="courseTitle"/>
+<result column="course_top_group" property="courseTopGroup"/>
+<result column="course_sub_group" property="courseSubGroup"/>
+<result column="course_detail" property="courseDetail"/>
+<result column="course_level" property="courseLevel"/>
+<result column="course_recruit_max" property="courseRecruitMax"/>
+<result column="course_recruit_current" property="courseRecruitCurrent"/>
+<result column="course_recruit_period" property="courseRecruitPerid"/>
+<result column="course_start_date" property="courseStartDate"/>
+<result column="course_end_date" property="courseEndDate"/>
+<result column="course_frequency" property="courseFrequency"/>
+<result column="course_start_time" property="courseStartTime"/>
+<result column="course_end_time" property="courseEndTime"/>
+<result column="course_loc" property="courseLoc"/>
+<result column="course_price" property="coursePrice"/>
+<result column="course_url" property="courseUrl"/>
+<result column="course_backpic" property="courseBackpic"/>
+
+<association property="menteeDTO" javaType="menteeDTO">
+<id column="mentee_id" property="userId"/>
+<result column="user_pwd" property="userPwd"/> 
+<result column="user_name" property="userName"/> 
+<result column="user_phone" property="userPhone"/> 
+<result column="user_email" property="userEmail"/> 
+<result column="user_photo" property="userPhoto"/> 
+</association>
+
+</resultMap>
+
+<resultMap id="selectMenteeMap" type="courseRegistDTO">
+
+<id column="regist_code" property="registCode"/>
+<result column="regist_course_code" property="courseCode"/>
+<result column="pay_code" property="payCode"/>
+<result column="regist_user_id" property="userId"/>
+
+
+<association property="courseDTO" javaType="courseDTO">
+<id column="course_code" property="courseCode"/>
+<result column="user_id" property="userId"/> 
+<result column="course_title" property="courseTitle"/>
+<result column="course_top_group" property="courseTopGroup"/>
+<result column="course_sub_group" property="courseSubGroup"/>
+<result column="course_detail" property="courseDetail"/>
+<result column="course_level" property="courseLevel"/>
+<result column="course_recruit_max" property="courseRecruitMax"/>
+<result column="course_recruit_current" property="courseRecruitCurrent"/>
+<result column="course_recruit_period" property="courseRecruitPerid"/>
+<result column="course_start_date" property="courseStartDate"/>
+<result column="course_end_date" property="courseEndDate"/>
+<result column="course_frequency" property="courseFrequency"/>
+<result column="course_start_time" property="courseStartTime"/>
+<result column="course_end_time" property="courseEndTime"/>
+<result column="course_loc" property="courseLoc"/>
+<result column="course_price" property="coursePrice"/>
+<result column="course_url" property="courseUrl"/>
+<result column="course_backpic" property="courseBackpic"/>
+
+<association property="menteeDTO" javaType="menteeDTO">
+<id column="mentee_id" property="userId"/>
+<result column="user_pwd" property="userPwd"/> 
+<result column="user_name" property="userName"/> 
+<result column="user_phone" property="userPhone"/> 
+<result column="user_email" property="userEmail"/> 
+<result column="user_photo" property="userPhoto"/> 
+</association>
+
+</association>
+</resultMap>
+
+<resultMap id="selectFavStudyMap" type="courseFavDTO">
+<result column="fav_course_code" property="courseCode"/>
+<result column="fav_user_id" property="userId"/>
+
+<association property="courseDTO" javaType="courseDTO">
+<id column="course_code" property="courseCode"/>
+<result column="user_id" property="userId"/> 
+<result column="course_title" property="courseTitle"/>
+<result column="course_top_group" property="courseTopGroup"/>
+<result column="course_sub_group" property="courseSubGroup"/>
+<result column="course_detail" property="courseDetail"/>
+<result column="course_level" property="courseLevel"/>
+<result column="course_recruit_max" property="courseRecruitMax"/>
+<result column="course_recruit_current" property="courseRecruitCurrent"/>
+<result column="course_recruit_period" property="courseRecruitPerid"/>
+<result column="course_start_date" property="courseStartDate"/>
+<result column="course_end_date" property="courseEndDate"/>
+<result column="course_frequency" property="courseFrequency"/>
+<result column="course_start_time" property="courseStartTime"/>
+<result column="course_end_time" property="courseEndTime"/>
+<result column="course_loc" property="courseLoc"/>
+<result column="course_price" property="coursePrice"/>
+<result column="course_url" property="courseUrl"/>
+<result column="course_backpic" property="courseBackpic"/>
+
+<association property="menteeDTO" javaType="menteeDTO">
+<id column="mentee_id" property="userId"/>
+<result column="user_pwd" property="userPwd"/> 
+<result column="user_name" property="userName"/> 
+<result column="user_phone" property="userPhone"/> 
+<result column="user_email" property="userEmail"/> 
+<result column="user_photo" property="userPhoto"/> 
+</association>
+
+</association>
+
+</resultMap>
+
+
+
 	<resultMap type="testProblemSolutionDTO" id="testProblemSolution">
 		<id column="t_p_s_code" property="tpsCode" />
 		<result column="test_code" property="testCode" />
@@ -120,6 +233,101 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="#{interField3}==null">,null</if>
 		where user_id=#{userId}
 	</update>
+
+
+<select id="selectMento" parameterType="string" resultMap="selectMentoMap">
+select course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic,
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+from course,mentee
+where mentee.user_id=course.user_id and
+course.course_end_date>sysdate and
+course.user_id=#{value}
+</select>
+
+<select id="selectMentee" parameterType="string" resultMap="selectMenteeMap">
+select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic, 
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+from course_regist,course,mentee
+where course_regist.course_code=course.course_code and  
+course.user_id=mentee.user_id and
+course.course_end_date>sysdate and
+course_regist.user_id=#{value}
+</select>
+
+<delete id="menteeStudyDelete" parameterType="map">
+delete from course_regist
+where user_id=#{userId} and course_code=#{courseCode}
+</delete>
+
+<update id="menteeStudyCurrentUpdate" parameterType="string">
+update course 
+set course_recruit_current=course_recruit_current-1
+where course_code=#{courseCode}
+</update>
+
+<select id="favStudySelect" parameterType="string" resultMap="selectFavStudyMap">
+select course_fav.course_code as fav_course_code, course_fav.user_id as fav_user_id, 
+course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic, 
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+from course_fav, course, mentee  
+where course_fav.course_code=course.course_code and
+course.user_id=mentee.user_id and
+course.course_end_date>sysdate and
+course_fav.user_id=#{value}
+</select>
+
+<delete id="favStudyDelete" parameterType="map">
+delete from course_fav
+where user_id=#{userId} and course_code=#{courseCode}
+</delete>
+
+<select id="selectMentoEx" parameterType="string" resultMap="selectMentoMap">
+select course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic,
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo 
+from course,mentee
+where course.user_id=mentee.user_id and
+sysdate>course.course_end_date and
+course.user_id=#{value}
+</select>
+
+<select id="selectMenteeEx" parameterType="string" resultMap="selectMenteeMap">
+select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic, 
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+from course_regist,course,mentee  
+where course_regist.course_code=course.course_code and
+course.user_id=mentee.user_id and
+sysdate>course.course_end_date and
+course_regist.user_id=#{value}
+</select>
+
+<select id="selectMenteeExByCourseCode" parameterType="map" resultMap="selectMenteeMap">
+select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic, 
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+from course_regist,course,mentee  
+where course_regist.course_code=course.course_code and
+course.user_id=mentee.user_id and
+sysdate>course.course_end_date and
+course_regist.user_id=#{userId} and
+course_regist.course_code=#{courseCode}
+</select>
+
+<insert id="insertReview" parameterType="mentoReputationDTO">
+insert into mento_reputation values('rep'||lpad(course_seq.nextval,4,'0'), #{userId}, #{repWriter}, #{repContent}, sysdate, #{courseCode})
+</insert>
+
+<select id="selectReview" parameterType="mentoReputationDTO" resultType="mentoReputationDTO">
+select rep_code as repCode, user_id as userId, rep_writer as repWriter, rep_content as repContent, rep_date as repDate, course_code as courseCode
+from mento_reputation
+where course_code=#{courseCode} and rep_writer=#{repWriter}
+</select>
+
+
 
 
 </mapper>

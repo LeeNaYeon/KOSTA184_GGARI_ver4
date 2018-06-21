@@ -71,6 +71,9 @@ public class MemberServiceImpl implements MemberService {
 		//권한 등록
 		authDAO.insertAuthority(new AuthorityDTO(menteeDTO.getUserId(), RoleConstants.ROLE_MENTEE));
 		
+		//Admin page를 아직 개발하지 않았기에 심사과정없이 바로 권한 부여(추후에 수정이 필요함)
+		authDAO.insertAuthority(new AuthorityDTO(menteeDTO.getUserId(), RoleConstants.ROLE_MENTO));
+
 		//관심분야 등록
 		memberDAO.insertMento(applicantDTO);
 		
@@ -100,12 +103,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCountReputation(mentoReputationDTO);
 	}
 
-
 	@Override
-	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
-		return memberDAO.selectReputation(mentoReputationDTO);
+	public String selectSeachMember(String userName, String userEmail) {		
+		return memberDAO.selectSeachMember(userName,userEmail);
 	}
 
+	@Override
+	public int updateUserPwd(String userId, String userPwd) {
+		
+		//비밀번호를 암호화..
+		userPwd = passworEncoder.encode(userPwd);
+		
+		return memberDAO.updateUserPwd(userId,userPwd);
+	}
 
 	
 	

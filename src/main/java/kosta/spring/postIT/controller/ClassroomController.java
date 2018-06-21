@@ -74,7 +74,7 @@ public class ClassroomController {
 	@RequestMapping("cr/asgn/update")
 	public String updateAsgn(CrAsgnDTO crAsgnDTO) {
 		classroomService.updateAsgn(crAsgnDTO);
-		return "redirect:/cr/asgn/select/" + crAsgnDTO.getCrAsgnCode();
+		return "redirect:/cr/asgn/selectList";
 	}
 
 	@RequestMapping("cr/asgn/delete/{crAsgnCode}")
@@ -91,14 +91,27 @@ public class ClassroomController {
 		return "mentee/classroom/crAsgn/asgnSelectList";
 	}
 
-	@RequestMapping("cr/asgn/select/{crAsgnCode}")
-	public String selectAsgn(HttpSession session, Model model, @PathVariable String crAsgnCode) {
+	@RequestMapping("cr/asgn/select/{crAsgnCode}/{userId}")
+	public String selectAsgn(HttpSession session, Model model, @PathVariable String crAsgnCode
+			, @PathVariable String userId) {
 		MenteeDTO mento = classroomService.selectAsgn((String) session.getAttribute("courseCode"), crAsgnCode, true);
 		model.addAttribute("crAsgnCode", crAsgnCode);
 		model.addAttribute("mento", mento);
 
-		// 멘티별 제출 과제 표시부분 임의로 'astro' 멘티 기입
-		model.addAttribute("crSubAsgnDTO", classroomService.selectSubAsgn(crAsgnCode, "astro"));
+		model.addAttribute("crSubAsgnDTO", classroomService.selectSubAsgn(crAsgnCode, userId));
+
+		// 해당 과제의 전체 과제제출리스트 출력
+		model.addAttribute("crSubAsgnList", classroomService.selectSubAngnList(crAsgnCode));
+
+		return "mentee/classroom/crAsgn/asgnDetail";
+
+	}
+	@RequestMapping("cr/asgn/select/{crAsgnCode}")
+	public String selectAsgn(HttpSession session, Model model, @PathVariable String crAsgnCode)
+	{
+		MenteeDTO mento = classroomService.selectAsgn((String) session.getAttribute("courseCode"), crAsgnCode, true);
+		model.addAttribute("crAsgnCode", crAsgnCode);
+		model.addAttribute("mento", mento);
 
 		// 해당 과제의 전체 과제제출리스트 출력
 		model.addAttribute("crSubAsgnList", classroomService.selectSubAngnList(crAsgnCode));
@@ -116,7 +129,7 @@ public class ClassroomController {
 		}
 
 		classroomService.insertSubAsgn(crSubAsgnDTO);
-		return "redirect:/cr/asgn/select/" + crSubAsgnDTO.getCrAsgnCode();
+		return "redirect:/cr/asgn/select/" + crSubAsgnDTO.getCrAsgnCode()+"/"+crSubAsgnDTO.getUserId();
 	}
 
 	@RequestMapping("cr/subAsgn/update")
@@ -128,7 +141,7 @@ public class ClassroomController {
 		}
 
 		classroomService.updateSubAsgn(crSubAsgnDTO);
-		return "redirect:/cr/asgn/select/" + crSubAsgnDTO.getCrAsgnCode();
+		return "redirect:/cr/asgn/select/" + crSubAsgnDTO.getCrAsgnCode()+"/"+crSubAsgnDTO.getUserId();
 	}
 
 	@RequestMapping("cr/subAsgn/updateform/{crAsgnCode}/{userId}")
@@ -140,7 +153,7 @@ public class ClassroomController {
 	@RequestMapping("cr/subAsgn/delete/{crAsgnCode}/{userId}")
 	public String deleteSubAsgn(@PathVariable String crAsgnCode, @PathVariable String userId) {
 		classroomService.deleteSubAsgn(crAsgnCode, userId);
-		return "redirect:/cr/asgn/select/" + crAsgnCode;
+		return "redirect:/cr/asgn/select/" + crAsgnCode+"/"+userId;
 	}
 
 	@RequestMapping("cr/asgn/subAsgnSelectForm/{crAsgnCode}/{userId}")
@@ -223,6 +236,7 @@ public class ClassroomController {
 		String endDate = courseDTO.getCourseEndDate().substring(0, 10);
 		session.setAttribute("courseStartDate", startDate);
 		session.setAttribute("courseEndDate", endDate);
+		session.setAttribute("classroomMento", courseDTO.getUserId());
 	}
 	
 	public void showDeadlineSubject(HttpSession session) {

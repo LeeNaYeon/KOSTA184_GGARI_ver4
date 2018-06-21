@@ -7,15 +7,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.service.MemberService;
+import kosta.spring.postIT.model.service.SendEmail;
 
 @Controller
 public class MemberController {
@@ -77,21 +78,33 @@ public class MemberController {
 	}
 	
 	/**
-	 * 누적 확인
-	 * */
-	/*@RequestMapping("/countTest")
-	public int countTest1(MenteeDTO menteeDTO) {
-		return memberService.selectCountMentee(menteeDTO);
-	}*/
+	 * 비밀번호 찾기
+	 */
+	@Autowired
+	SendEmail sendEmail;
 	
-	@RequestMapping("/countTest")
-	public ModelAndView countTest(MenteeDTO menteeDTO) {
-		ModelAndView mv = new ModelAndView();
-		int MenteeCount = memberService.selectCountMentee(menteeDTO);
-		mv.addObject("MenteeCount",MenteeCount);
-		mv.setViewName("common/member/countTest");
+	@RequestMapping("/member/loginFind")
+	@ResponseBody
+	@Transactional
+	public String loginFind(MenteeDTO menteeDTO) {
 		
-		return mv;
+		String userName = menteeDTO.getUserName();
+		String userEmail = menteeDTO.getUserEmail();
+		
+		String userId = memberService.selectSeachMember(userName,userEmail);
+		
+		if(userId!=null) {
+			
+			//임시비밀번호 보내기
+			int userPwd = sendEmail.SendEmailMethod(userId, userEmail);	
+			
+			//암호화된 비밀번호로 수정하기
+			memberService.updateUserPwd(userId,Integer.toString(userPwd));
+			
+			return "ok";
+		}
+		return "fail";
+		
 	}
 	
 }
