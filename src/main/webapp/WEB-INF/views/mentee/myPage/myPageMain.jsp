@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-</header>
 <section class="breadcrumb"
 	style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
 	<div class="breadcrumb-overlay"></div>

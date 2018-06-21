@@ -29,14 +29,16 @@ public class CourseController {
 		ModelAndView mv = new ModelAndView();
 
 		String userId =null;
-		
+		String userEmail = null;
 		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
 		Object obj =SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(obj instanceof MenteeDTO) {	
 			MenteeDTO pvo=(MenteeDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			userId = pvo.getUserId();					
+			userId = pvo.getUserId();
+			mv.addObject("menteeDTO", pvo);
 			//System.out.println("2. Spring Security 세션 수정 전 회원정보:" + pvo.getUserId());
 		}
+		
 		
 		//스터디기본정보
 		CourseDTO courseDTO = courseService.courseDetail(courseCode);				

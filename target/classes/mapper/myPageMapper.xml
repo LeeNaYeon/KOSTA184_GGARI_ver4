@@ -14,22 +14,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="t_p_s_exam4" property="tpsExam4" />
 		<result column="t_p_s_solution" property="tpsSolution" />
 	</resultMap>
-	
+
 
 	<resultMap type="menteeDTO" id="userInfoSelection">
-		<id column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="user_phone" property="userPhone"/>
-		<result column="user_email" property="userEmail"/>
-		<result column="user_photo" property="userPhoto"/>
+		<id column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_phone" property="userPhone" />
+		<result column="user_email" property="userEmail" />
+		<result column="user_photo" property="userPhoto" />
 		<collection property="mento" javaType="MentoDTO">
-			<id column="user_id" property="userId"/>
-			<result column="mento_desc" property="mentoDesc"/>
-			<result column="mento_major" property="mentoMajor"/>
-			<result column="mento_major2" property="mentoMajor2"/>
-			<result column="mento_major3" property="mentoMajor3"/>
+			<id column="user_id" property="userId" />
+			<result column="mento_desc" property="mentoDesc" />
+			<result column="mento_major" property="mentoMajor" />
+			<result column="mento_major2" property="mentoMajor2" />
+			<result column="mento_major3" property="mentoMajor3" />
 		</collection>
 	</resultMap>
+
 
 
 
@@ -68,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
-	<insert id="courseDayInsert" parameterType="courseDayDTO">
+	<insert id="courseDayInsert" parameterType="courseDateDTO">
 		insert into
 		course_date values
 		('p'||lpad(course_seq.nextval,4,'0'),#{courseCode},#{day})
@@ -79,10 +80,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select t.user_id, user_name,
 		user_phone,user_email,user_photo,
 		mento_major,mento_major2,mento_major3,mento_desc
-		from mentee t join mento m
+		from mentee t join
+		mento m
 		on t.user_id = m.user_id
 		where t.user_id = #{_parameter}
 	</select>
+
+	<insert id="paymentInsert" parameterType="paymentDTO">
+		insert into payment
+		values
+		('p'||lpad(pay_seq.nextval,4,'0'),#{paidMethod},sysdate,#{paidAmount})
+	</insert>
+
+	<select id="getRecentPayCode" resultType="string">
+		select max(pay_code)
+		from payment
+	</select>
+	<!-- regist_code varchar2(30), course_code varchar2(30), pay_code varchar2(30), 
+		user_id varchar2(30), -->
+	<insert id="courseRegistInsert" parameterType="courseRegistDTO">
+		insert into
+		course_regist values
+		('r'||lpad(reg_seq.nextval,4,'0'),#{courseCode},#{payCode},#{userId})
+	</insert>
+
+	<update id="userInfoUpdate" parameterType="menteeDTO">
+		update mentee
+		set
+		user_phone= #{userPhone} , user_email= #{userEmail}, user_photo= #{userPhoto}
+		where user_id = #{userId}
+	</update>
+
+	<update id="userInterUpdate" parameterType="interestedDTO">
+		update interested
+		set inter_field=#{interField1}
+		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>
+		<if test="#{interField2}==null">,null</if>
+		<if test="#{interField3}!=null">,inter_field3=#{interField3}</if>
+		<if test="#{interField3}==null">,null</if>
+		where user_id=#{userId}
+	</update>
 
 
 </mapper>

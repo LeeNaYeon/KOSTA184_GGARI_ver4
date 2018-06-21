@@ -8,11 +8,39 @@ public class InterestedDTO {
 	private String interField2;
 	private String interField3;
 	
+	@Override
+	public String toString() {
+		return "InterestedDTO [interCode=" + interCode + ", userId=" + userId + ", interField1=" + interField1
+				+ ", interField2=" + interField2 + ", interField3=" + interField3 + "]";
+	}
+
 	public InterestedDTO() {}
 	
 	public InterestedDTO(String interCode, String userId, String interField, String interField2, String interField3, String interField1) {
 		super();
 		this.interCode = interCode;
+		this.userId = userId;
+		this.interField1 = interField1;
+		this.interField2 = interField2;
+		this.interField3 = interField3;
+	}
+	public InterestedDTO(String userId, String interField1) {
+		super();
+		
+		this.userId = userId;
+		this.interField1 = interField1;
+	}
+	public InterestedDTO(String userId, String interField1, String interField2) {
+		super();
+		
+		this.userId = userId;
+		this.interField1 = interField1;
+		this.interField2 = interField2;
+	}
+	
+	public InterestedDTO(String userId, String interField2, String interField3, String interField1) {
+		super();
+		
 		this.userId = userId;
 		this.interField1 = interField1;
 		this.interField2 = interField2;

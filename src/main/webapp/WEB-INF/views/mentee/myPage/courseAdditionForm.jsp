@@ -26,6 +26,105 @@
 <!-- stylesheet start -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+	var sel_file;
+	$(document).ready(function() {
+		$("#input_img").on("change", handleImgFileSelect);
+	});
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+
+			sel_file = f;
+
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+
+	function checkValid() {
+		var f = window.document.writeForm;
+
+		if (f.courseTitle.value == "") {
+			alert("과제제목을 입력해 주세요.");
+			f.crAsgnTitle.focus();
+			return false;
+		}
+		if (f.classification.value == "") {
+			alert("맞는 강좌를 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseLevel.value == "") {
+			alert("레벨을 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+
+		if (f.courseRecruitMax.value == "") {
+			alert("총 인원을 입력해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseRecruitPerid.value == "") {
+			alert("모집 마감 날짜를 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseStartDate.value == "") {
+			alert("개강날짜를 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseEndDate.value == "") {
+			alert("종강날짜를 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.classDay.value == "") {
+			alert("요일을 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseLoc.value == "") {
+			alert("지역을 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseStartTime.value == "") {
+			alert("시작시간을 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseEndTime.value == "") {
+			alert("종료시간을 선택해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.coursePrice.value == "") {
+			alert("가격을 입력해 주십시오.");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		if (f.courseDetail.value == "") {
+			alert("상세설명을 입력해주십시오");
+			f.crAsgnContent.focus();
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 
 <body>
@@ -63,8 +162,10 @@
 				<!--/ End gallery Nav -->
 
 				<div class="login-form">
-					<form
-						action="${pageContext.request.contextPath}/myPage/courseInsertConfirm">
+					<form name="writeForm" method="post"
+						action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
+						onSubmit='return checkValid()' enctype="multipart/form-data">
+
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="navbar-brand">
 								<img
@@ -74,10 +175,10 @@
 						</div>
 						<div class="form-group">
 							강좌제목<br> <input type="text" placeholder="class title"
-								name="classTitle">
+								name="courseTitle">
 						</div>
 						<div class="form-group">
-							강좌종류<br> <select name="classification">
+							강좌종류<br> <select name="courseSubGroup">
 								<optgroup label="스킬업단과">
 									<option value="U001">JAVA</option>
 									<option value="U002">C</option>
@@ -102,7 +203,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌레벨<br> <select name="classLevel">
+							강좌레벨<br> <select name="courseLevel">
 								<optgroup label="강좌레벨">
 									<option value="초급">초급</option>
 									<option value="중급">중급</option>
@@ -112,14 +213,14 @@
 						</div>
 						<div class="form-group">
 							모집인원<br> <input type="text" placeholder="모집인원"
-								value="recruitTotal">
+								name="courseRecruitMax">
 						</div>
 						<div class="form-group">
-							모집마감 날짜<input type="date" name="recruitEndDate">
+							모집마감 날짜<input type="date" name="courseRecruitPerid">
 						</div>
 						<div class="form-group">
-							강좌 시작 날짜<input type="date" name="startDate"> ~ 강좌 종료 날짜<input
-								type="date" name="endDate">
+							강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
+							종료 날짜<input type="date" name="courseEndDate">
 						</div>
 
 						<div class="form-group">
@@ -133,7 +234,7 @@
 								value="일">일
 						</div>
 						<div class="form-group">
-							강좌가능지역<br> <select name="classLocation">
+							강좌가능지역<br> <select name="courseLoc">
 								<optgroup label="서울">
 									<option value="건대">건대</option>
 									<option value="홍대">홍대</option>
@@ -156,7 +257,7 @@
 						</div>
 
 						<div class="form-group">
-							강좌시작시간<br> <select name="classStartTime" size="5"
+							강좌시작시간<br> <select name="courseStartTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="030">0:30am</option>
@@ -213,7 +314,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌종료시간<br> <select name="classEndTime" size="5"
+							강좌종료시간<br> <select name="courseEndTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="030">0:30am</option>
@@ -271,25 +372,33 @@
 						</div>
 						<div class="form-group">
 							수강금액<br> <input type="text" placeholder="수강금액"
-								name="classPrice">
+								name="coursePrice">
 						</div>
 						<div class="form-group">
 							강좌 오픈 카톡방 URL<br> <input type="url"
-								placeholder="강좌 오픈 카톡방 URL" name="classUrl">
+								placeholder="강좌 오픈 카톡방 URL" name="courseUrl">
 						</div>
 
 
 						<div class="form-group">
 							강좌소개<br>
-							<textarea rows="100" name="classDesc" cols="50"
+							<textarea rows="100" name="courseDetail" cols="50"
 								style="height: 300px"
 								placeholder="   강좌소개말을 입력해 주십시오. 수강생들이 보는 강좌에 대한 첫 인상이기 때문에 무엇보다도 중요할 수 있습니다. 그러니 조금이라도 신경을 써 주신다면 감사하겠습니다. 항상, 최선을 다 하는 postIT이 되겠습니다."></textarea>
 						</div>
 
 						<div class="form-group">
-							배경화면사진<br> <input type="file" name="backGroundImg">
-						</div>
+							<div>
+								<p class="title">
+									배경화면사진 업로드 <input type="file" id="input_img" name="file" />
+							</div>
 
+							<div>
+								<div class="img_wrap">
+									<img id="img" />
+								</div>
+							</div>
+						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<button type="submit" class="login-btn btn" style="align: center">Register
 								now</button>

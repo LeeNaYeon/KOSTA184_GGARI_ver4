@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.MyPageDAO;
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 @Service
@@ -42,10 +45,10 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public int updateInterested(String[] classes) {
-		for(String interests:classes) {
-			myPageDAO.interestUpdate(interests);
-		}
+	public int updateInterested(InterestedDTO interestedDTO) {
+		
+			myPageDAO.interestUpdate(interestedDTO);
+		
 		return 0;
 	}
 
@@ -53,6 +56,24 @@ public class MyPageServiceImpl implements MyPageService {
 	public int updateMenteeUserInfo(MenteeDTO menteeDTO) {
 		
 		return myPageDAO.memberUpdate(menteeDTO);
+	}
+
+	@Override
+	public int insertPayment(PaymentDTO paymentDTO) {
+		
+		return myPageDAO.insertPayment(paymentDTO);
+	}
+
+	@Override
+	public String getPayCode() {
+		// TODO Auto-generated method stub
+		return myPageDAO.getPayCode();
+	}
+
+	@Override
+	public int insertCourseRegist(CourseRegistDTO courseRegistDTO) {
+		
+		return myPageDAO.insertCourseRegist(courseRegistDTO);
 	}
 
 }

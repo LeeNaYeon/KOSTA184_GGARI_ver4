@@ -3,7 +3,10 @@ package kosta.spring.postIT.model.dao;
 import java.util.List;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 public interface MyPageDAO {
@@ -41,7 +44,7 @@ public interface MyPageDAO {
 	 * @param interests
 	 * @return
 	 */
-	public int interestUpdate(String interests);
+	public int interestUpdate(InterestedDTO interestedDTO);
 	
 	/**
 	 * 
@@ -50,4 +53,23 @@ public interface MyPageDAO {
 	 */
 	public int memberUpdate(MenteeDTO menteeDTO);
 	
+	/**
+	 * 
+	 * @param paymentDTO
+	 * @return
+	 */
+	public int insertPayment(PaymentDTO paymentDTO);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getPayCode();
+	
+	/**
+	 * 
+	 * @param courseRegistDTO
+	 * @return
+	 */
+	public int insertCourseRegist(CourseRegistDTO courseRegistDTO);
 }
