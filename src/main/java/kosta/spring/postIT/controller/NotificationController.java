@@ -44,4 +44,20 @@ public class NotificationController {
 			return re;
 		}
 		
+		@RequestMapping("/notification/deleteAll")
+		@ResponseBody
+		public int deleteAllNotification(HttpServletRequest request) {
+			String notId = request.getParameter("allDelUserId");
+			int re = notificationService.deleteAll(notId);
+			return re;
+		}
+		
+		@RequestMapping("/notification/readAll")
+		@ResponseBody
+		public int readAllNotification(HttpServletRequest request) {
+			String notId= request.getParameter("allReadUserId");
+			int re = notificationService.updateReadStatusAll(notId);
+			return re;
+		}
+		
 }

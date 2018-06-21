@@ -50,7 +50,8 @@
 				dataType:"json", //(text, html, xml, json)
 				success:function(result){
 					str="";
-
+					unReadCount=0;
+					readCount=0;
 					if(jQuery.isEmptyObject(result)){
 						str+="<a class='dropdown-item' href='#' style='text-align: center;'>도착한 알림이 없습니다.</a>"
 					}else{
@@ -58,6 +59,7 @@
 						
 						$.each(result, function(index, item){
 							if(item.notIsRead == 0){
+								unReadCount = unReadCount+1;
 								str+="<a class='dropdown-item' href='#'>"+item.senderName+" "+item.notDatetime+"<br>"+item.notMessage+"</a>"
 								str+="<div style='text-align: right;'>"
 								str+="<span class='icono-eye' name="+item.notId+" aria-hidden='true' style='color: #000000;  transform : scale(0.5);'></span>"
@@ -65,10 +67,14 @@
 								str+="</div>"
 							}
 						});
+						if(unReadCount==0){
+							str+="<div style='text-align:center;'><font size='2em' color='gray'>읽지않은 메시지가 없습니다.</font></div><br>"
+						}
 						
 						str+="<div style='text-align:center;'><font size='2em' color='gray'>읽은 메시지</font></div>"
 						$.each(result, function(index, item){
 							if(item.notIsRead == 1){
+								readCount = readCount+1;
 								str+="<a class='dropdown-item' href='#' style='opacity: 0.5;'>"+item.senderName+" "+item.notDatetime+"<br>"+item.notMessage+"</a>"
 								str+="<div style='text-align: right; opacity: 0.5;'>"
 								str+="<span class='icono-eye' name="+item.notId+" aria-hidden='true' style='color: #000000;  transform : scale(0.5);'></span>"
@@ -76,13 +82,23 @@
 								str+="</div>"
 							}
 						});
-						
-						str+="<div style='text-align:right; margin-top:10px;'><font size='2em' color='gray'>전체읽음표시 </font><font size='2em' color='gray'>전체삭제</font></div>"
+						if(readCount==0){
+							str+="<div style='text-align:center;'><font size='2em' color='gray'>읽은 메시지가 없습니다.</font></div><br>"
+						}
+						str+="<div style='text-align:right; margin-top:10px;'><font class='allRead' size='2em' color='gray'>전체읽음표시 </font><font class='allDel' size='2em' color='gray'>전체삭제</font></div>"
 					}
 					
 					
 					$("#notificationList").html(str);									
 					$("a").css("textDecoration","none");
+					
+					if(unReadCount>0){
+						$("#notIcon").css("color", "red");
+					}else{
+						$("#notIcon").css("color", "black");	
+					}
+					
+				
 				},
 				error:function(err){
 					console.log("에러발생 : "+err);
@@ -144,16 +160,51 @@
 		
 		
 		//전체삭제하기
+		$(document).on("click",".allDel",function(){
+		    var allDelUserId = $('#ajaxNotId').val().trim();
+			$.ajax({		
+				type:"post",  //서블릿의 doPost()와 맞아야 한다. 
+				url:"notification/deleteAll",
+				data:"${_csrf.parameterName}=${_csrf.token}&&allDelUserId="+allDelUserId,
+				dataType:"text", //(text, html, xml, json)
+				success:function(result){
+					if(result>0){
+						selectAll();
+					}else{
+						alert("삭제되지 않았습니다.");
+					}
+				},
+				error:function(err){
+					console.log("에러발생 : "+err);
+				}	
+			});
+		});
 		
+		
+		//전체읽음표시하기
+		$(document).on("click",".allRead",function(){
+		    var allReadUserId = $('#ajaxNotId').val().trim();
+			$.ajax({		
+				type:"post",  //서블릿의 doPost()와 맞아야 한다. 
+				url:"notification/readAll",
+				data:"${_csrf.parameterName}=${_csrf.token}&&allReadUserId="+allReadUserId,
+				dataType:"text", //(text, html, xml, json)
+				success:function(result){
+					if(result>0){
+						selectAll();
+					}else{
+						alert("오류가 발생했습니다.");
+					}
+				},
+				error:function(err){
+					console.log("에러발생 : "+err);
+				}	
+			});
+		});
+		
+		
+		selectAll();
 	});
-	
-	
-	
-
-	
-	
-	
-	
 	
 	
 </script>
@@ -281,9 +332,9 @@
                                 	<li>
 		                                <div class="dropdown">
 										    <span class="dropdown-toggle" data-toggle="dropdown">
-										    	<span class="icono-disqus" aria-hidden="true" style="color: #000000;  transform : scale(0.5);" ></span>
+										    	<span id="notIcon" class="icono-disqus" aria-hidden="true" style="color: black;  transform : scale(0.5);" ></span>
 										    </span>
-										    <div id="notificationList" class="dropdown-menu" style="width: 350px;">
+										    <div id="notificationList" class="dropdown-menu" style="width: 350px; overflow-y:scroll; overflow-x:hidden; height:400px;">
 										       
 										    </div>
 										</div>
