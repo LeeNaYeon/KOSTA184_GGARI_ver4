@@ -1,5 +1,6 @@
 package kosta.spring.postIT.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 import kosta.spring.postIT.model.service.MyPageService;
@@ -146,8 +150,7 @@ public class MyPageController {
 		}
 		
 		
-		int result = myPageService.courseInsert(dto, values);
-		model.addAttribute("result", result);
+		
 
 		String[] classes = request.getParameterValues("classification");
 		if (classes[0] != null) {
