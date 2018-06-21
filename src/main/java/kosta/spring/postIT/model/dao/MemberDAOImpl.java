@@ -1,5 +1,8 @@
 package kosta.spring.postIT.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -80,9 +83,32 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
-		return null;
+	public String selectSeachMember(String userName, String userEmail) {
+		
+		//System.out.println("selectSeachMember"+userName+" | "+userEmail);
+		
+		Map<String, String> map = new HashMap<>();
+		
+		if(userName!=null) map.put("userName", userName);
+		if(userEmail!=null) map.put("userEmail", userEmail);
+		
+		return session.selectOne("memberMapper.selectSeachMember", map);
 	}
+
+	@Override
+	public int updateUserPwd(String userId, String userPwd) {
+		
+		//System.out.println("updateUserPwd : "+userId+" | "+userPwd);
+						
+		Map<String, String> map = new HashMap<>();
+		
+		if(userId!=null) map.put("userId", userId);
+		if(userPwd!=null) map.put("userPwd", userPwd);
+		
+		return session.update("memberMapper.updateUserPwd", map);
+	}
+	
+	
 	
 	
 

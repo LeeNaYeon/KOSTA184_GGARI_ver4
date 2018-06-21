@@ -103,12 +103,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCountReputation(mentoReputationDTO);
 	}
 
-
 	@Override
-	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
-		return memberDAO.selectReputation(mentoReputationDTO);
+	public String selectSeachMember(String userName, String userEmail) {		
+		return memberDAO.selectSeachMember(userName,userEmail);
 	}
 
+	@Override
+	public int updateUserPwd(String userId, String userPwd) {
+		
+		//비밀번호를 암호화..
+		userPwd = passworEncoder.encode(userPwd);
+		
+		return memberDAO.updateUserPwd(userId,userPwd);
+	}
 
 	
 	

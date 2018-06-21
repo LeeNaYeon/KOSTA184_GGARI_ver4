@@ -85,6 +85,7 @@ public class HomeController {
 		return "common/member/joinMento";
 	}
 
+	
 	@RequestMapping(value = "/classroom")
 	public String goClassroom(HttpSession session) {
 		session.setAttribute("courseCode", "a1");
