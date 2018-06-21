@@ -25,7 +25,6 @@ public class HomeController {
 	@Autowired
 	private CourseService courseService;
 
-
 	/**
 	 * main
 	 */
@@ -47,6 +46,7 @@ public class HomeController {
 		mv.addObject("RepCount", RepCount);
 		mv.addObject("mentoRepList", mentoRepList);
 		mv.setViewName("main/mainpage/index");
+		
 		return mv;
 	}
 
@@ -85,21 +85,10 @@ public class HomeController {
 		return "common/member/joinMento";
 	}
 
-	@RequestMapping("/course")
-	public String course() {
-
-		return "common/courese/course";
-	}
-
-	@RequestMapping("/courseDetail")
-	public String courseDetail() {
-
-		return "common/courese/courseDetail";
-	}
-	
 	@RequestMapping(value = "/classroom")
 	public String goClassroom(HttpSession session) {
 		session.setAttribute("courseCode", "a1");
 		return "redirect:/cr/notice/selectList";
 	}
+	
 }
