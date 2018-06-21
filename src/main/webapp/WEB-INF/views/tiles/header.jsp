@@ -198,7 +198,6 @@
                         <ul class="tophead-link">
                             <c:choose>
 								<c:when test="${not empty pageContext.request.userPrincipal}">
-<<<<<<< HEAD
 										<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
 										<li>
 											 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
@@ -210,18 +209,6 @@
 												</sec:authorize>
 											 </a>
 										 </li>  
-=======
-								
-								<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
-								<li>
-									 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
-									 	<sec:authorize access="isAuthenticated()">
-											<a href="${pageContext.request.contextPath}/myPage/study/select?userId=<sec:authentication property="principal.userId" />"><sec:authentication property="principal.userName"/>님 MyPage </a>
-											<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
-										</sec:authorize>
-									 </a>
-								 </li>                           
->>>>>>> branch 'master' of https://github.com/LeeNaYeon/KOSTA184_GGARI_ver4.git
 								</c:when>
 								
 								
