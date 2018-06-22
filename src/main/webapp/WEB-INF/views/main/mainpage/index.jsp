@@ -48,9 +48,47 @@
 	color: orange;
 }
 
-#studyCount {
-	color: orange;
-}
+	#leveltest{float: left; margin-left: 200px;}
+	#leveltestImg{float: right; margin-right: 110px; }
+	
+	.edu-counter-overlay2 {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: skyblue;
+    }
+    
+    .testimonial-overlay2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: grey;
+	}
+	
+	.testimonial2 .sec-title h2,
+	.testimonial2 .sec-title p {
+	    color: #ffffff;
+	}
+	
+	 #menteeCount{
+	color:orange;
+	} 
+	
+	#mentoCount{
+	color:orange;
+	}
+	
+	#studyCount{
+	color:orange;
+	}
+	
+	#reviewCount{
+	color:orange;
+	}
 
 #reviewCount {
 	color: orange;
@@ -251,19 +289,81 @@
 </section>
 
 
+                        <div class="course-img ">
+                            <img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/3.jpg " alt="image" />
+                        </div>
+                        <div class="course-detail ">
+                            <div class="course-date">
+                                <p>December 17, 2017</p>
+                            </div>
+                            <h3><a href="courses.html" title="Details ">Learning Ui&Ux Design </a></h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt mauris id tortor iaculis, ut mollis mi sagittis.</p>
+                            <div class="course-icon">
+                                <img src="${pageContext.request.contextPath}/resources/images/users/1.jpg" class="img-responsive" alt="image">
+                            </div>
+                            <div class="course-bottom">
+                                <span><i class="fa fa-users"></i>365</span>
+                                <span><i class="fa fa-comment"></i>7</span>
+                                <span class="pull-right">$60.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-item">
+                        <div class="course-img ">
+                            <img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/1.jpg " alt="image" />
+                        </div>
+                        <div class="course-detail ">
+                            <div class="course-date">
+                                <p>December 17, 2017</p>
+                            </div>
+                            <h3><a href="courses.html " title="Details ">computer and  IT courses. </a></h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt mauris id tortor iaculis, ut mollis mi sagittis.</p>
+                            <div class="course-icon">
+                                <img src="${pageContext.request.contextPath}/resources/images/users/1.jpg" class="img-responsive" alt="image">
+                            </div>
+                            <div class="course-bottom">
+                                <span><i class="fa fa-users"></i>365</span>
+                                <span><i class="fa fa-comment"></i>7</span>
+                                <span class="pull-right">$60.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="lecture section grey-background pdb0">
+        <div class="title sec-title" id="leveltest">
+            <h2>레벨 테스트부터 시작해보세요</h2>
+            <p>내 레벨을 파악하고 꼭 맞는 스터디를 안내받으세요!</p>
+            <p>1분 정도 소요됩니다.</p>
+            <div class="lecture-btn">
+                <a href="${pageContext.request.contextPath}/course/levelTest/choice" class="btn">레벨테스트 시작하기</a>
+            </div>
+        </div>
+        <div class="title sec-title" id="leveltestImg">
+        	<img src="${pageContext.request.contextPath}/resources/images/levelTest.PNG" class="img-responsive" alt="image">
+        </div>
+        <div class="lecture-bg">
+            <img src="${pageContext.request.contextPath}/resources/images/background/backgroundimg2.png" class="img-responsive" alt="image">
+        </div>
+    </section>
+    
 
-<!--edu-counter-->
-<section class="edu-counter section">
-	<div class="edu-counter-overlay2"></div>
-	<div class="container ">
-		<div class="row clearfix ">
-			<!--Column-->
-			<div class="col-md-3 col-sm-6 ">
-				<div class="counter-area ">
-					<h1 class="counter " id="menteeCount">${MenteeCount}</h1>
-					<h3>누적 멘티 수</h3>
-				</div>
-			</div>
+    
+    <!--edu-counter-->
+    <section class="edu-counter section" >
+        <div class="edu-counter-overlay2"></div>
+        <div class="container ">
+            <div class="row clearfix ">
+                <!--Column-->
+                <div class="col-md-3 col-sm-6 ">
+                    <div class="counter-area ">
+                        <h1 class="counter " id="menteeCount">${MenteeCount}</h1>
+                        <h3>누적 멘티 수</h3>
+                    </div>
+                </div>
 
 			<div class="col-md-3 col-sm-6 ">
 				<div class="counter-area ">
