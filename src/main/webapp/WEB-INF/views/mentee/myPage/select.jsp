@@ -118,7 +118,7 @@
 												<span><%=result%>주</span> <span class="pull-right">${mento.coursePrice}</span>
 											</div>
 										</div>
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mento.courseCode}">클래스룸으로 이동</a>
+										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mento.courseCode}" target="_blank">클래스룸으로 이동</a>
 										
 									</div>
 								</div>
@@ -230,7 +230,7 @@
 										<%
 											} else {
 										%>
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mentee.courseDTO.courseCode}">클래스룸으로 이동</a>										
+										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mentee.courseDTO.courseCode}" target="_blank">클래스룸으로 이동</a>										
 										<%
 											}
 										%>
