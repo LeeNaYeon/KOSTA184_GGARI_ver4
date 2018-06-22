@@ -26,12 +26,134 @@
 <!-- stylesheet start -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
-</head>
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-	
+	var sel_file;
+	$(document).ready(function() {
+		$("#input_img").on("change", handleImgFileSelect);
+	});
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+
+			sel_file = f;
+
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+
+	function checkValid() {
+		var f = window.document.courseAddForm;
+
+		if (f.courseTitle.value == "") {
+			alert("과제제목을 입력해 주세요.");
+			f.courseTitle.focus();
+			return false;
+		}
+		var text = $('#courseTitle').val();
+        // 입력값 길이 저장
+        var textlength = text.length;
+        if(textlength > 10)
+        {
+                $('#courseTitle').html('글내용을 '+limit+
+                '자 이상 쓸수 없습니다!');
+                // 제한 글자 길이만큼 값 재 저장
+                $('#courseTitle').val(text.substr(0,limit));
+                return false;
+        }
+		var major1 = $('#major1').val();
+		var major2 = $('#major2').val();
+		var major3 = $('#major3').val();
+		
+		alert(major1+major2+major3);
+		
+		if (f.classification.value == "") {
+			alert("맞는 분야를 선택해 주십시오.");
+			f.classification.focus();
+			return false;
+		}else{
+			if (f.classification.value != major1) {
+				if (f.classification.value != major2) {
+					if (f.classification.value != major3) {
+						alert("본인과 맞는 분야를 선택해주십시오.");
+						f.classification.focus();
+						return false;
+					}
+				}
+			}
+		}
+
+		if (f.courseLevel.value == "") {
+			alert("강좌 레벨을 선택해 주십시오.");
+			f.courseLevel.focus();
+			return false;
+		}
+		if (f.courseRecruitMax.value == "") {
+			alert("총 인원을 입력해 주십시오.");
+			f.courseRecruitMax.focus();
+			return false;
+		}
+		if (f.courseRecruitPerid.value == "") {
+			alert("모집 마감 날짜를 선택해 주십시오.");
+			f.courseRecruitPerid.focus();
+			return false;
+		}
+		if (f.courseStartDate.value == "") {
+			alert("개강날짜를 선택해 주십시오.");
+			f.courseStartDate.focus();
+			return false;
+		}
+		if (f.courseEndDate.value == "") {
+			alert("종강날짜를 선택해 주십시오.");
+			f.courseEndDate.focus();
+			return false;
+		}
+		if (f.classDay.value == "") {
+			alert("요일을 선택해 주십시오.");
+			f.classDay.focus();
+			return false;
+		}
+		if (f.courseLoc.value == "") {
+			alert("지역을 선택해 주십시오.");
+			f.courseLoc.focus();
+			return false;
+		}
+		if (f.courseStartTime.value == "") {
+			alert("시작시간을 선택해 주십시오.");
+			f.courseStartTime.focus();
+			return false;
+		}
+		if (f.courseEndTime.value == "") {
+			alert("종료시간을 선택해 주십시오.");
+			f.courseEndTime.focus();
+			return false;
+		}
+		if (f.coursePrice.value == "") {
+			alert("가격을 입력해 주십시오.");
+			f.coursePrice.focus();
+			return false;
+		}
+		if (f.courseDetail.value == "") {
+			alert("상세설명을 입력해주십시오");
+			f.courseDetail.focus();
+			return false;
+		}
+		return true;
+	}
 </script>
+</head>
+
 <body>
 
 	<section class="breadcrumb"
@@ -67,21 +189,33 @@
 				<!--/ End gallery Nav -->
 
 				<div class="login-form">
-					<form
-						action="${pageContext.request.contextPath}/myPage/courseInsertConfirm">
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="navbar-brand">
-								<img
-									src="${pageContext.request.contextPath}/resources/images/logo.png"
-									class="img-responsive" alt="">
-							</div>
+
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="navbar-brand">
+							<img
+								src="${pageContext.request.contextPath}/resources/images/logo.png"
+								class="img-responsive" alt="">
 						</div>
+					</div>
+					<input type="hidden" id="major1" value="${majorList.mentoMajor}"/>
+					<c:if test="${majorList.mentoMajor2 ne null}">
+						<input type="hidden" id="major2" value="${majorList.mentoMajor2}"/>
+					</c:if>
+					<c:if test="${majorList.mentoMajor3 ne null}">
+						<input type="hidden" id="major3" value="${majorList.mentoMajor3}"/>
+					</c:if>
+					
+					
+					<form name="courseAddForm" method="post" 
+					action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
+						onSubmit='return checkValid()' enctype="multipart/form-data">
+
 						<div class="form-group">
 							강좌제목<br> <input type="text" placeholder="class title"
-								name="classTitle">
+								name="courseTitle" id="courseTitle">
 						</div>
 						<div class="form-group">
-							강좌종류<br> <select name="classification">
+							강좌종류<br> <select name="courseSubGroup">
 								<optgroup label="스킬업단과">
 									<option value="U001">JAVA</option>
 									<option value="U002">C</option>
@@ -106,7 +240,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌레벨<br> <select name="classLevel">
+							강좌레벨<br> <select name="courseLevel">
 								<optgroup label="강좌레벨">
 									<option value="초급">초급</option>
 									<option value="중급">중급</option>
@@ -115,15 +249,15 @@
 							</select>
 						</div>
 						<div class="form-group">
-							모집인원<br> <input type="text" placeholder="모집인원"
-								name="recruitTotal">
+							모집인원<br> <input type="number" placeholder="모집인원"
+								name="courseRecruitMax">
 						</div>
 						<div class="form-group">
-							모집마감 날짜<input type="date" name="recruitEndDate">
+							모집마감 날짜<input type="date" name="courseRecruitPerid">
 						</div>
 						<div class="form-group">
-							강좌 시작 날짜<input type="date" name="startDate"> ~ 강좌 종료 날짜<input
-								type="date" name="endDate">
+							강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
+							종료 날짜<input type="date" name="courseEndDate">
 						</div>
 
 						<div class="form-group">
@@ -134,11 +268,10 @@
 								value="목">목 <input type="checkbox" name="classDay"
 								value="금">금 <input type="checkbox" name="classDay"
 								value="토">토 <input type="checkbox" name="classDay"
-								value="일">일 
-
+								value="일">일
 						</div>
 						<div class="form-group">
-							강좌가능지역<br> <select name="classLocation">
+							강좌가능지역<br> <select name="courseLoc">
 								<optgroup label="서울">
 									<option value="건대">건대</option>
 									<option value="홍대">홍대</option>
@@ -161,7 +294,7 @@
 						</div>
 
 						<div class="form-group">
-							강좌시작시간<br> <select name="classStartTime" size="5"
+							강좌시작시간<br> <select name="courseStartTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="030">0:30am</option>
@@ -218,7 +351,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌종료시간<br> <select name="classEndTime" size="5"
+							강좌종료시간<br> <select name="courseEndTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="030">0:30am</option>
@@ -275,29 +408,38 @@
 							</select>
 						</div>
 						<div class="form-group">
-							수강금액<br> <input type="text" placeholder="수강금액"
-								name="classPrice">
+							수강금액<br> <input type="number" placeholder="수강금액"
+								name="coursePrice">
 						</div>
 						<div class="form-group">
 							강좌 오픈 카톡방 URL<br> <input type="url"
-								placeholder="강좌 오픈 카톡방 URL" name="classUrl">
+								placeholder="강좌 오픈 카톡방 URL" name="courseUrl">
 						</div>
 
 
 						<div class="form-group">
 							강좌소개<br>
-							<textarea rows="100" name="classDesc" cols="50"
+							<textarea rows="100" name="courseDetail" cols="50"
 								style="height: 300px"
 								placeholder="   강좌소개말을 입력해 주십시오. 수강생들이 보는 강좌에 대한 첫 인상이기 때문에 무엇보다도 중요할 수 있습니다. 그러니 조금이라도 신경을 써 주신다면 감사하겠습니다. 항상, 최선을 다 하는 postIT이 되겠습니다."></textarea>
 						</div>
 
 						<div class="form-group">
-							배경화면사진<br> <input type="file" name="backGroundImg">
+							<div>
+								<p class="title">
+									배경화면사진 업로드 <input type="file" id="input_img" name="file" />
+							</div>
+
 						</div>
 
+						<div>
+							<div class="img_wrap">
+								<img id="img" />
+							</div>
+						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<button type="submit" class="login-btn btn" style="align: center"
-								id="submitButton">Register now</button>
+							<button type="submit" class="login-btn btn" style="align: center">Register
+								now</button>
 						</div>
 					</form>
 				</div>
@@ -306,28 +448,6 @@
 	</div>
 	</section>
 
-
-	<div class="footer-bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-sm-6">
-					<div class="text text-left">
-						Copyrights &copy; <a href="#">Khanalprem</a>. All Rights Reserved
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<ul class="social-links text-right">
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li class="active"><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- scroll top -->
 	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
 	<!-- srolltop end -->
 

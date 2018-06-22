@@ -1,19 +1,21 @@
 package kosta.spring.postIT.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.MyPageDAO;
 import kosta.spring.postIT.model.dto.CourseDTO;
-import kosta.spring.postIT.model.dto.CourseRegistDTO;
-import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
-import kosta.spring.postIT.model.dto.PaymentDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 @Service
@@ -172,6 +174,12 @@ public class MyPageServiceImpl implements MyPageService {
 	public int insertCourseRegist(CourseRegistDTO courseRegistDTO) {
 		
 		return myPageDAO.insertCourseRegist(courseRegistDTO);
+	}
+
+	@Override
+	public MentoDTO getMentoMajor(String userId) {
+		
+		return myPageDAO.getMentoMajor(userId);
 	}
 
 }

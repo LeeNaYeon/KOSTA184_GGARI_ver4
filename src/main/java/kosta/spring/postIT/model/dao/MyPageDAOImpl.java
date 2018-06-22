@@ -1,18 +1,21 @@
 package kosta.spring.postIT.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
-import kosta.spring.postIT.model.dto.CourseDayDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
-import kosta.spring.postIT.model.dto.PaymentDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 @Repository
@@ -158,26 +161,14 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return session.selectOne("myPageMapper.selectReview", mentoReputationDTO);
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public MentoDTO getMentoMajor(String userId) {
+		// TODO Auto-generated method stub
+		List<MentoDTO> mentoDTO = session.selectList("myPageMapper.getMajorMento",userId);
+
+		return mentoDTO.get(0);
+	}
 	
 	
 }

@@ -1,22 +1,26 @@
 package kosta.spring.postIT.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.CourseApplyDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
 import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
@@ -31,18 +35,29 @@ public class MyPageController {
 	List<TestProblemSolutionDTO> testProblemList;
 
 	private final String savePath = "C:\\edu_j\\springworkspace\\springUserBoardTilesSaveFolder";
-	
-	
+
 	@RequestMapping("/myPage/studyInsert/insertForm")
-	public String studyInsertForm(Model model) {
+	public String studyInsertForm(Model model) throws Exception{
 
 		/**
 		 * 여기서 아이디 값을 받아서 다오 가서 아이디 값 받아서 넘어온다. 아이디에 해당하는 정보들도 DTO에 넣어서 뷰로 뿌려준다. 정보는
 		 * join으로 가져온다.
 		 */
-		String userId = "ayoung";
-		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		String userId = null;
 
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
+
+		
+		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		MentoDTO mentoDTO = myPageService.getMentoMajor(userId);
+
+		
+		model.addAttribute("majorList", mentoDTO);
 		model.addAttribute("memberInfo", menteeDTO);
 
 		return "mento/myPage/courseAdditionForm";
@@ -55,7 +70,14 @@ public class MyPageController {
 
 	@RequestMapping("myPage/profile/updateForm")
 	public String infoUpdateForm(Model model) {
-		String userId = "ayoung";
+		String userId = null;
+
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
 		MenteeDTO menteeDTO = myPageService.selectMember(userId);
 
 		model.addAttribute("memberInfo", menteeDTO);
@@ -73,11 +95,6 @@ public class MyPageController {
 
 		String codeName = request.getParameter("classification");
 		testProblemList = myPageService.selectProblem(codeName);
-		System.out.println(codeName);
-		System.out.println(testProblemList);
-		for (TestProblemSolutionDTO dto : testProblemList) {
-			System.out.println(dto.getTpsContent());
-		}
 		model.addAttribute("testProblemList", testProblemList);
 
 		return "mentee/levelTest/levelTestContent";
@@ -98,31 +115,40 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage")
-	public String mypPageMain() {
+	public String mypPageMain(Model model) {
+
 		return "mentee/myPage/myPageMain";
 	}
 
 	@RequestMapping("myPage/courseInsertConfirm")
-	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO) throws Exception {
-		System.out.println(courseDTO.toString());
+	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO)
+			throws Exception {
 		MultipartFile file = courseDTO.getFile();
-		System.out.println(courseDTO.getFile().getSize());
-		if(courseDTO.getFile().getSize()>0) {
+		if (courseDTO.getFile().getSize() > 0) {
 			courseDTO.setCourseBackpic(file.getOriginalFilename());
 
-			file.transferTo(new File(savePath+"/"+file.getOriginalFilename()));
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
 
+		}
+		String userId=null;
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
 		}
 		String[] values = request.getParameterValues("classDay");
 		courseDTO.setCourseFrequency(String.valueOf(values.length));
-		
-		String courseCode = null;
-		String userId = "lny4011";
-		
-		
-/*
+		courseDTO.setUserId(userId);
+		/*
+		 * CourseApplyDTO(String userId, String courseTitle, String courseSubGroup,
+		 * String courseDetail, String courseLevel, int courseRecruitMax, String
+		 * courseRecruitPerid, String courseStartDate, String courseEndDate, String
+		 * courseFrequency, String courseStartTime, String courseEndTime, String
+		 * courseLoc, int coursePrice, String courseUrl, String courseBackpic)
+		 */
+
 		int result = myPageService.courseInsert(courseDTO, values);
-		model.addAttribute("result", result);*/
+		model.addAttribute("result", result);
 
 		return "mento/myPage/courseAdditionConfirm";
 	}
@@ -138,19 +164,16 @@ public class MyPageController {
 		 * request.getParameter("contact"); String email =
 		 * request.getParameter("email");
 		 */
-		
-		InterestedDTO interestedDTO=null;
+
+		InterestedDTO interestedDTO = null;
 		System.out.println(menteeDTO.toString());
-		
-		if(menteeDTO.getFile().getSize()>0) {
+
+		if (menteeDTO.getFile().getSize() > 0) {
 			menteeDTO.setUserPhoto(file.getOriginalFilename());
 
-			file.transferTo(new File(savePath+"/"+file.getOriginalFilename()));
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
 
 		}
-		
-		
-		
 
 		String[] classes = request.getParameterValues("classification");
 		if (classes[0] != null) {
@@ -165,14 +188,13 @@ public class MyPageController {
 				}
 			}
 		}
-		
+
 		myPageService.updateMenteeUserInfo(menteeDTO);
-		
+
 		myPageService.updateInterested(interestedDTO);
-		
+
 		model.addAttribute("MenteeDTO", menteeDTO);
-		
-		
+
 		return "mentee/myPage/modifiedResult";
 	}
 
@@ -201,15 +223,15 @@ public class MyPageController {
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	/////////studySelect
-	
+	///////// studySelect
+
 	@RequestMapping("/myPage/study/select")
 	public ModelAndView studySelect(String userId) {
 
 		ModelAndView mv = new ModelAndView();
 
 		List<CourseDTO> mentoList = myPageService.selectMentoStudy(userId);
-		
+
 		List<CourseRegistDTO> menteeList = myPageService.selectMentee(userId);
 
 		// System.out.println(menteeList.get(0));
@@ -222,7 +244,7 @@ public class MyPageController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/myPage/study/delete")
 	public String menteeStudyDelete(String userId, String courseCode) {
 
@@ -233,7 +255,7 @@ public class MyPageController {
 		return "forward:/myPage/study/select";
 
 	}
-	
+
 	@RequestMapping("/myPage/favStudy/select")
 	public ModelAndView favStudySelect(String userId) {
 
@@ -247,7 +269,7 @@ public class MyPageController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/myPage/favStudy/delete")
 	public String favStudyDelete(String userId, String courseCode) {
 
@@ -256,9 +278,9 @@ public class MyPageController {
 		return "forward:/myPage/favStudy/select";
 
 	}
-	
+
 	@RequestMapping("/myPage/exStudy/select")
-	public ModelAndView exStudySelect(String userId  ) {
+	public ModelAndView exStudySelect(String userId) {
 
 		ModelAndView mv = new ModelAndView();
 
@@ -276,29 +298,30 @@ public class MyPageController {
 
 		return mv;
 	}
-		
+
 	@RequestMapping("/myPage/exStudy/reviewInsertForm")
 	public ModelAndView exStudyReviewInsertForm(String userId, String courseCode) {
 
 		ModelAndView mv = new ModelAndView();
 
 		CourseRegistDTO courseRegistDTO = myPageService.selectMenteeExByCourseCode(userId, courseCode);
-			
+
 		mv.addObject("courseRegistDTO", courseRegistDTO);
 		mv.setViewName("mentee/myPage/reviewInsertForm");
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/myPage/exStudy/reviewInsert")
-	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)//userId
+	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)// userId
 	{
 		ModelAndView mv = new ModelAndView();
-		
+
 		int re = myPageService.insertReview(mentoReputationDTO);
-		
-		//MentoReputationDTO mentoReputationDTODB = service.selectReview(mentoReputationDTO);
-		
+
+		// MentoReputationDTO mentoReputationDTODB =
+		// service.selectReview(mentoReputationDTO);
+
 		List<CourseDTO> mentoExList = myPageService.selectMentoEx(mentoReputationDTO.getRepWriter());
 
 		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(mentoReputationDTO.getRepWriter());
@@ -306,14 +329,11 @@ public class MyPageController {
 		mv.addObject("userId", mentoReputationDTO.getRepWriter());
 		mv.addObject("mentoExList", mentoExList);
 		mv.addObject("menteeExList", menteeExList);
-		
+
 		mv.setViewName("mentee/myPage/selectEx");
-		
+
 		return mv;
-	
+
 	}
-	
-	
-	
-	
+
 }

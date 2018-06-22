@@ -3,13 +3,13 @@ package kosta.spring.postIT.model.service;
 import java.util.List;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
-import kosta.spring.postIT.model.dto.CourseRegistDTO;
-import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
-import kosta.spring.postIT.model.dto.PaymentDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 public interface MyPageService {
@@ -69,6 +69,13 @@ public interface MyPageService {
 	 * @return
 	 */
 	public int insertCourseRegist(CourseRegistDTO courseRegistDTO);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public MentoDTO getMentoMajor(String userId);
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	
