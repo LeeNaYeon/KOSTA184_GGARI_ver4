@@ -251,15 +251,11 @@
 								<c:when test="${not empty pageContext.request.userPrincipal}">
 										<li><a href="javascript:logout();"><i class="fa fa-lock" aria-hidden="true"></i>로그아웃</a></li>
 										<li>
-											 <a href="${pageContext.request.contextPath}/myPage"><!-- <i class="fa fa-key" aria-hidden="true"></i> -->
-											 	<sec:authorize access="isAuthenticated()">
-											 		<!-- ajax에서 사용할 userId -->
-											 		<input id="ajaxNotId" type="hidden" value="<sec:authentication property="principal.userId" />">
-													<sec:authentication property="principal.userName" />님 MyPage 
-													<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
-												</sec:authorize>
-											 </a>
-										 </li>  
+			                               <sec:authorize access="isAuthenticated()">
+			                                 <a href="${pageContext.request.contextPath}/myPage/study/select?userId=<sec:authentication property="principal.userId" />"><sec:authentication property="principal.userName"/>님 MyPage </a>
+			                                 <!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
+			                               </sec:authorize>
+										</li>  
 								</c:when>
 								
 								
@@ -325,7 +321,7 @@
                                     </ul>
                                 </li>
                                 
-                              	<li><a href="#">Q&A</a></li>
+                              	<li><a href="${pageContext.request.contextPath}/qna">Q&A</a></li>
                                 <li><a href="#">Contact</a></li>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
