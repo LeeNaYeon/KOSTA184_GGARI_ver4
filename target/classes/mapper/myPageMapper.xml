@@ -128,20 +128,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="t_p_s_exam4" property="tpsExam4" />
 		<result column="t_p_s_solution" property="tpsSolution" />
 	</resultMap>
-	
+
 
 	<resultMap type="menteeDTO" id="userInfoSelection">
-		<id column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="user_phone" property="userPhone"/>
-		<result column="user_email" property="userEmail"/>
-		<result column="user_photo" property="userPhoto"/>
+		<id column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_phone" property="userPhone" />
+		<result column="user_email" property="userEmail" />
+		<result column="user_photo" property="userPhoto" />
 		<collection property="mento" javaType="MentoDTO">
-			<id column="user_id" property="userId"/>
-			<result column="mento_desc" property="mentoDesc"/>
-			<result column="mento_major" property="mentoMajor"/>
-			<result column="mento_major2" property="mentoMajor2"/>
-			<result column="mento_major3" property="mentoMajor3"/>
+			<id column="user_id" property="userId" />
+			<result column="mento_desc" property="mentoDesc" />
+			<result column="mento_major" property="mentoMajor" />
+			<result column="mento_major2" property="mentoMajor2" />
+			<result column="mento_major3" property="mentoMajor3" />
 		</collection>
 	</resultMap>
 
@@ -245,17 +245,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <select id="selectMento" parameterType="string" resultMap="selectMentoMap">
-select course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
-course_end_time, course_loc, course_price, course_url, course_backpic,
-mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
-from course,mentee
-where mentee.user_id=course.user_id and
-course.course_end_date>sysdate and
-course.user_id=#{value}
-order by course_start_date asc
-</select>
-
-
+		select course_code, course.user_id, course_title, course_top_group,
+		course_sub_group, course_detail, course_level, course_recruit_max,
+		course_recruit_current, course_recruit_period, course_start_date,
+		course_end_date, course_frequency, course_start_time,
+		course_end_time,
+		course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as
+		mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		from course,mentee
+		where mentee.user_id=course.user_id and
+		course.course_end_date>sysdate and
+		course.user_id=#{value}
+	</select>
 
 <select id="selectMentee" parameterType="string" resultMap="selectMenteeMap">
 select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
@@ -268,6 +270,7 @@ course.course_end_date>sysdate and
 course_regist.user_id=#{value}
 order by course_start_date asc
 </select>
+	
 
 <delete id="menteeStudyDelete" parameterType="map">
 delete from course_regist
