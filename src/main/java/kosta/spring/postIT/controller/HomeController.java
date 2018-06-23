@@ -86,9 +86,9 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping(value = "/classroom")
-	public String goClassroom(HttpSession session) {
-		session.setAttribute("courseCode", "a1");
+	@RequestMapping(value = "/classroom/{courseCode}")
+	public String goClassroom(HttpSession session ,@PathVariable String courseCode) {
+		session.setAttribute("courseCode", courseCode);
 		return "redirect:/cr/notice/selectList";
 	}
 	

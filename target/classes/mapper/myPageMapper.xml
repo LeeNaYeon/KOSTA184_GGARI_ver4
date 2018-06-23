@@ -145,6 +145,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</collection>
 	</resultMap>
 
+	<resultMap type="mentoDTO" id="getMentoMajor">
+		<id column="user_id" property="userId" />
+		<result column="mento_major" property="mentoMajor" />
+		<result column="mento_major2" property="mentoMajor2" />
+		<result column="mento_major3" property="mentoMajor3" />
+	</resultMap>
+
+
 
 
 	<select id="selectProblems" parameterType="string" resultMap="testProblemSolution">
@@ -164,7 +172,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="courseInsert" parameterType="courseDTO">
 		insert into course values
-		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},#{courseTopGroup},#{courseSubGroup},
+		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},sysdate,#{courseSubGroup},
 		#{courseDetail},#{courseLevel},#{courseRecruitMax},#{courseRecruitCurrent},#{courseRecruitPerid},#{courseStartDate},#{courseEndDate},
 		#{courseFrequency},#{courseStartTime},#{courseEndTime},#{courseLoc},#{coursePrice}
 		<if test="courseUrl!=null">
@@ -182,7 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
-	<insert id="courseDayInsert" parameterType="courseDayDTO">
+	<insert id="courseDayInsert" parameterType="courseDateDTO">
 		insert into
 		course_date values
 		('p'||lpad(course_seq.nextval,4,'0'),#{courseCode},#{day})
@@ -193,10 +201,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select t.user_id, user_name,
 		user_phone,user_email,user_photo,
 		mento_major,mento_major2,mento_major3,mento_desc
-		from mentee t join mento m
+		from mentee t join
+		mento m
 		on t.user_id = m.user_id
 		where t.user_id = #{_parameter}
 	</select>
+
+	<insert id="paymentInsert" parameterType="paymentDTO">
+		insert into payment
+		values
+		('p'||lpad(pay_seq.nextval,4,'0'),#{paidMethod},sysdate,#{paidAmount})
+	</insert>
+
+	<select id="getRecentPayCode" resultType="string">
+		select max(pay_code)
+		from payment
+	</select>
+	<!-- regist_code varchar2(30), course_code varchar2(30), pay_code varchar2(30), 
+		user_id varchar2(30), -->
+	<insert id="courseRegistInsert" parameterType="courseRegistDTO">
+		insert into
+		course_regist values
+		('r'||lpad(reg_seq.nextval,4,'0'),#{courseCode},#{payCode},#{userId})
+	</insert>
+
+	<update id="userInfoUpdate" parameterType="menteeDTO">
+		update mentee
+		set
+		user_phone= #{userPhone} , user_email= #{userEmail}, user_photo=
+		#{userPhoto}
+		where user_id = #{userId}
+	</update>
+
+	<update id="userInterUpdate" parameterType="interestedDTO">
+		update interested
+		set inter_field=#{interField1}
+		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>
+		<if test="#{interField2}==null">,null</if>
+		<if test="#{interField3}!=null">,inter_field3=#{interField3}</if>
+		<if test="#{interField3}==null">,null</if>
+		where user_id=#{userId}
+	</update>
 
 
 <select id="selectMento" parameterType="string" resultMap="selectMentoMap">
@@ -209,6 +254,8 @@ course.course_end_date>sysdate and
 course.user_id=#{value}
 order by course_start_date asc
 </select>
+
+
 
 <select id="selectMentee" parameterType="string" resultMap="selectMenteeMap">
 select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,

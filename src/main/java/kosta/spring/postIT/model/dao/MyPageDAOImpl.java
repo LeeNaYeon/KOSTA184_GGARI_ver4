@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kosta.spring.postIT.model.dto.CourseDTO;
-import kosta.spring.postIT.model.dto.CourseDayDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 
 @Repository
@@ -50,21 +53,36 @@ public class MyPageDAOImpl implements MyPageDAO {
 	@Override
 	public int courseDayInsert(String day) {
 		
-		CourseDayDTO courseDayDTO = new CourseDayDTO(courseCode,day);
+		CourseDateDTO courseDayDTO = new CourseDateDTO(courseCode,day);
 				
 		return session.insert("myPageMapper.courseDayInsert", courseDayDTO);
 	}
 
 	@Override
-	public int interestUpdate(String interests) {
+	public int interestUpdate(InterestedDTO interestedDTO) {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.update("myPageMapper.userInterUpdate",interestedDTO);
 	}
 
 	@Override
 	public int memberUpdate(MenteeDTO menteeDTO) {
+		return session.update("myPageMapper.userInfoUpdate", menteeDTO);
+	}
+
+	@Override
+	public int insertPayment(PaymentDTO paymentDTO) {
+		return session.insert("myPageMapper.paymentInsert", paymentDTO);
+	}
+
+	@Override
+	public String getPayCode() {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.selectOne("myPageMapper.getRecentPayCode");
+	}
+
+	@Override
+	public int insertCourseRegist(CourseRegistDTO courseRegistDTO) {
+		return session.insert("myPageMapper.courseRegistInsert", courseRegistDTO);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -143,26 +161,14 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return session.selectOne("myPageMapper.selectReview", mentoReputationDTO);
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public MentoDTO getMentoMajor(String userId) {
+		// TODO Auto-generated method stub
+		List<MentoDTO> mentoDTO = session.selectList("myPageMapper.getMajorMento",userId);
+
+		return mentoDTO.get(0);
+	}
 	
 	
 }

@@ -60,9 +60,13 @@ public interface MemberDAO {
 	int selectCountReputation(MentoReputationDTO mentoReputationDTO);
 	
 	/**
-	 * main 수강생 강사 리뷰
-	 * */
-	MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO);
+	 * 회원가입된 멤버인지 확인
+	 */
+	String selectSeachMember(String userName, String userEmail);
 	
+	/**
+	 * 암호화된 비밀번호 수정
+	 */
+	int updateUserPwd(String userId, String userPwd);
 
 }

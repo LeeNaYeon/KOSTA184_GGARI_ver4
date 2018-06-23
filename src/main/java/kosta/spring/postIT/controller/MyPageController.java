@@ -1,24 +1,30 @@
 package kosta.spring.postIT.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.CourseApplyDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
+import kosta.spring.postIT.model.dto.InterestedDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.PaymentDTO;
 import kosta.spring.postIT.model.dto.TestProblemSolutionDTO;
 import kosta.spring.postIT.model.service.MyPageService;
-
-
 
 @Controller
 public class MyPageController {
@@ -28,19 +34,32 @@ public class MyPageController {
 
 	List<TestProblemSolutionDTO> testProblemList;
 
+	private final String savePath = "C:\\edu_j\\springworkspace\\springUserBoardTilesSaveFolder";
+
 	@RequestMapping("/myPage/studyInsert/insertForm")
-	public String studyInsertForm(Model model) {
-         
+	public String studyInsertForm(Model model) throws Exception{
+
 		/**
 		 * 여기서 아이디 값을 받아서 다오 가서 아이디 값 받아서 넘어온다. 아이디에 해당하는 정보들도 DTO에 넣어서 뷰로 뿌려준다. 정보는
 		 * join으로 가져온다.
 		 */
-		System.out.println(1);
-		String userId = "ayoung";
-		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		String userId = null;
 
-		model.addAttribute("memberInfo", menteeDTO);
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
+
 		
+		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		MentoDTO mentoDTO = myPageService.getMentoMajor(userId);
+
+		
+		model.addAttribute("majorList", mentoDTO);
+		model.addAttribute("memberInfo", menteeDTO);
+
 		return "mento/myPage/courseAdditionForm";
 	}
 
@@ -51,9 +70,16 @@ public class MyPageController {
 
 	@RequestMapping("myPage/profile/updateForm")
 	public String infoUpdateForm(Model model) {
-		String userId = "ayoung";
+		String userId = null;
+
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
 		MenteeDTO menteeDTO = myPageService.selectMember(userId);
-		
+
 		model.addAttribute("memberInfo", menteeDTO);
 
 		return "mentee/myPage/infoModification";
@@ -69,11 +95,6 @@ public class MyPageController {
 
 		String codeName = request.getParameter("classification");
 		testProblemList = myPageService.selectProblem(codeName);
-		System.out.println(codeName);
-		System.out.println(testProblemList);
-		for (TestProblemSolutionDTO dto : testProblemList) {
-			System.out.println(dto.getTpsContent());
-		}
 		model.addAttribute("testProblemList", testProblemList);
 
 		return "mentee/levelTest/levelTestContent";
@@ -94,72 +115,111 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage")
-	public String mypPageMain() {
+	public String mypPageMain(Model model) {
+
 		return "mentee/myPage/myPageMain";
 	}
 
 	@RequestMapping("myPage/courseInsertConfirm")
-	public String courseInsertConfirm(HttpServletRequest request, Model model) {
+	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO)
+			throws Exception {
+		MultipartFile file = courseDTO.getFile();
+		if (courseDTO.getFile().getSize() > 0) {
+			courseDTO.setCourseBackpic(file.getOriginalFilename());
 
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+
+		}
+		String userId=null;
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
 		String[] values = request.getParameterValues("classDay");
-
-		String courseCode = null;
-		String userId = "lny4011";
-		String courseTitle = request.getParameter("classTitle");
-		String courseTopGroup = request.getParameter("classification");
-		String courseSubGroup = request.getParameter("classification");
-		String courseDetail = request.getParameter("classDesc");
-		String courseLevel = request.getParameter("classLevel");
-		int courseRecruitMax = Integer.parseInt(request.getParameter("recruitTotal"));
-		int courseRecruitCurrent = 0;
-		String courseRecruitPerid = request.getParameter("recruitEndDate");
-		String courseStartDate = request.getParameter("startDate");
-		String courseEndDate = request.getParameter("endDate");
-		String courseFrequency = String.valueOf(values.length);
-		String courseStartTime = request.getParameter("classStartTime");
-		String courseEndTime = request.getParameter("classEndTime");
-		String courseLoc = request.getParameter("classLocation");
-		int coursePrice = Integer.parseInt(request.getParameter("classPrice"));
-		String courseUrl = request.getParameter("classUrl");
-		String courseBackpic = request.getParameter("backGroundImg");
-
-		CourseDTO dto = new CourseDTO(courseCode, userId, courseTitle, courseTopGroup, courseSubGroup, courseDetail,
-				courseLevel, courseRecruitMax, courseRecruitCurrent, courseRecruitPerid, courseStartDate, courseEndDate,
-				courseFrequency, courseStartTime, courseEndTime, courseLoc, coursePrice, courseUrl, courseBackpic);
-		
-		System.out.println(dto.toString());
-		
+		courseDTO.setCourseFrequency(String.valueOf(values.length));
+		courseDTO.setUserId(userId);
 		/*
-		int maxSize = 30*1024*1024;
-		String encoding = "UTF-8";
-		
-		ServletContext context = session.getServletContext();
-		String saveDir = context.getRealPath("Upload");*/
-		
-		/*
-		MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
-		*/
-		
-		int result = myPageService.courseInsert(dto, values);
+		 * CourseApplyDTO(String userId, String courseTitle, String courseSubGroup,
+		 * String courseDetail, String courseLevel, int courseRecruitMax, String
+		 * courseRecruitPerid, String courseStartDate, String courseEndDate, String
+		 * courseFrequency, String courseStartTime, String courseEndTime, String
+		 * courseLoc, int coursePrice, String courseUrl, String courseBackpic)
+		 */
+
+		int result = myPageService.courseInsert(courseDTO, values);
 		model.addAttribute("result", result);
 
 		return "mento/myPage/courseAdditionConfirm";
 	}
 	
 	@RequestMapping("myPage/userUpdateResult")
-	public String userUpdateResult(HttpServletRequest request,Model model) {
-		
-		String userName= request.getParameter("userName");
-		String userPhone = request.getParameter("contact");
-		String email = request.getParameter("email");
-		String userId = request.getParameter("userId");
-		String resume = request.getParameter("resume");
-		
-		String [] classes = request.getParameterValues("classification");
-		
-		
-		
+	public String userUpdateResult(HttpServletRequest request, Model model, MenteeDTO menteeDTO) throws Exception {
+
+		MultipartFile file = menteeDTO.getFile();
+
+		/*
+		 * String userId = request.getParameter("userId"); String userName =
+		 * request.getParameter("userName"); String userPhone =
+		 * request.getParameter("contact"); String email =
+		 * request.getParameter("email");
+		 */
+
+		InterestedDTO interestedDTO = null;
+		System.out.println(menteeDTO.toString());
+
+		if (menteeDTO.getFile().getSize() > 0) {
+			menteeDTO.setUserPhoto(file.getOriginalFilename());
+
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+
+		}
+
+		String[] classes = request.getParameterValues("classification");
+		if (classes[0] != null) {
+			String inter1 = classes[0];
+			interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1);
+			if (classes[1] != null) {
+				String inter2 = classes[1];
+				interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1, inter2);
+				if (classes[2] != null) {
+					String inter3 = classes[2];
+					interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1, inter2, inter3);
+				}
+			}
+		}
+
+		myPageService.updateMenteeUserInfo(menteeDTO);
+
+		myPageService.updateInterested(interestedDTO);
+
+		model.addAttribute("MenteeDTO", menteeDTO);
+
 		return "mentee/myPage/modifiedResult";
+	}
+
+	@RequestMapping("course/payConfirm")
+	public String payConfirm(HttpServletRequest request, Model model) {
+
+		String userId = request.getParameter("id");
+		String courseCode = request.getParameter("courseCode");
+		String paidAmount = request.getParameter("paidAmount");
+		String paidMethod = request.getParameter("paidMethod");
+
+		/**
+		 * payment테이블에 데이터 추가.
+		 */
+		PaymentDTO paymentDTO = new PaymentDTO(paidMethod, paidAmount);
+		int result = myPageService.insertPayment(paymentDTO);
+
+		/**
+		 * course_regist에 데이터 추가.
+		 * 
+		 */
+		String payCode = myPageService.getPayCode();
+		CourseRegistDTO courseRegistDTO = new CourseRegistDTO(courseCode, payCode, userId);
+		myPageService.insertCourseRegist(courseRegistDTO);
+		return "main/mainpage/index";
 	}
 
 	////////////////////////////////////////////////////////////////////////////

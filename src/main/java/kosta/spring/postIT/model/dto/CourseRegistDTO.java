@@ -1,3 +1,4 @@
+
 package kosta.spring.postIT.model.dto;
 
 public class CourseRegistDTO {
@@ -21,9 +22,8 @@ public class CourseRegistDTO {
 	
 		
 	public CourseRegistDTO() {}
-	public CourseRegistDTO(String registCode, String courseCode, String payCode, String userId) {
+	public CourseRegistDTO(String courseCode, String payCode, String userId) {
 		super();
-		this.registCode = registCode;
 		this.courseCode = courseCode;
 		this.payCode = payCode;
 		this.userId = userId;

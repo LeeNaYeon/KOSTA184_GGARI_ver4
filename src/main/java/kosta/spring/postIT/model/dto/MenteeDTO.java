@@ -2,6 +2,8 @@ package kosta.spring.postIT.model.dto;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MenteeDTO {
 
 		private String userId;
@@ -12,8 +14,41 @@ public class MenteeDTO {
 		private String userPhoto;
 		private InterestedDTO interestedDTO;
 		private MentoDTO mento;
+		private MultipartFile file;
 		
 		
+		@Override
+		public String toString() {
+			return "MenteeDTO [userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName + ", userPhone="
+					+ userPhone + ", userEmail=" + userEmail + ", userPhoto=" + userPhoto + ", interestedDTO="
+					+ interestedDTO + ", mento=" + mento + ", file=" + file + ", asgns=" + asgns + ", notices="
+					+ notices + ", replys=" + replys + ", feedback=" + feedback + "]";
+		}
+
+		public InterestedDTO getInterestedDTO() {
+			return interestedDTO;
+		}
+
+		public void setInterestedDTO(InterestedDTO interestedDTO) {
+			this.interestedDTO = interestedDTO;
+		}
+
+		public MentoDTO getMento() {
+			return mento;
+		}
+
+		public void setMento(MentoDTO mento) {
+			this.mento = mento;
+		}
+
+		public MultipartFile getFile() {
+			return file;
+		}
+
+		public void setFile(MultipartFile file) {
+			this.file = file;
+		}
+
 		private List<CrAsgnDTO> asgns;
 		private List<CrNoticeDTO> notices;
 		private List<CrNoticeReplyDTO> replys;

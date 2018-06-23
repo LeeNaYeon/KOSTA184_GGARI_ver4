@@ -42,8 +42,62 @@
 	padding: 10px 10px 10px 10px;
 	width: 50%;
 }
-</style>
 
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	width: 100%;
+	max-width: 100%;
+}
+
+.filebox input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+</style>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+	var sel_file;
+	$(document).ready(function() {
+		$("#input_img").on("change", handleImgFileSelect);
+	});
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		filesArr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+
+			sel_file = f;
+
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+
+	}
+</script>
 </head>
 <body>
 
@@ -70,8 +124,10 @@
 						<li class="filter" data-filter="all"><a href="#">찜한 스터디</a></li>
 						<li class="filter" data-filter="all"><a href="#">완료된 스터디</a></li>
 						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필 수정</a></li>
-						<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
+								수정</a></li>
+						<li class="filter"><a
+							href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
 								만들기</a></li>
 					</ul>
 				</div>
@@ -88,31 +144,44 @@
 						<label><h3>회원정보수정</h3></label>
 					</div>
 
-					<div class="form-group" style="text-align: center;">
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<button type="submit" class="btn" name="profilePhoto">프로필 사진 등록하기</button>
-						</div>
-					</div>
-					<form action="${pageContext.request.contextPath}/myPage/userUpdateResult">
+
+
+					<form name="writeForm" method="post"
+						action="${pageContext.request.contextPath}/myPage/userUpdateResult?${_csrf.parameterName}=${_csrf.token}"
+						onSubmit='return checkValid()' enctype="multipart/form-data">
+
+
 						<div class="form-group">
-							이름<br> <input type="text" placeholder="회원이름"
-								disabled="disabled" value="${memberInfo.userName}" name="userName">
+							<div>
+								<p class="title">
+									프로필 이미지 사진 업로드/p> <input type="file" id="input_img" name="file" />
+							</div>
+
+							<div>
+								<div class="img_wrap">
+									<img id="img" />
+								</div>
+							</div>
 						</div>
 						<div class="form-group">
-							아이디<br> <input type="text" placeholder="회원아이디"
-								disabled="disabled" value="${memberInfo.userId}" name="userId">
+							이름<br> <input type="text" disabled="disabled"
+								value="${memberInfo.userName}">
+								<input type="hidden" value="${memberInfo.userName}" name="userName">
 						</div>
 						<div class="form-group">
-							(*)연락처<br> <input type="text" placeholder="${memberInfo.userPhone}" name="contact">
+							아이디<br> <input type="text" disabled="disabled"
+								value="${memberInfo.userId}">
+								<input type="hidden" value="${memberInfo.userId}" name="userId">
 						</div>
 						<div class="form-group">
-							(*)이메일<br> <input type="text" placeholder="${memberInfo.userEmail}" name="email">
+							(*)연락처<br> <input type="text"
+								placeholder="${memberInfo.userPhone}" name="userPhone">
 						</div>
 						<div class="form-group">
-							(*)이력서<br> <input type="file" name="resume">
+							(*)이메일<br> <input type="text"
+								placeholder="${memberInfo.userEmail}" name="userEmail">
 						</div>
 
-						
 						<div class="form-join">
 							<div style="font-size: 1.2em;">
 								<strong>관심분야</strong>
@@ -123,25 +192,26 @@
 
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="U001" name="classification">
-										Java
+										class="form-check-input" type="checkbox" value="U001"
+										name="classification"> Java
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="U002" name="classification"> C
+										class="form-check-input" type="checkbox" value="U002"
+										name="classification"> C
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="U003" name="classification">
-										자료구조/알고리즘
+										class="form-check-input" type="checkbox" value="U003"
+										name="classification"> 자료구조/알고리즘
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="U004" name="classification">
-										DBMS
+										class="form-check-input" type="checkbox" value="U004"
+										name="classification"> DBMS
 									</label>
 								</div>
 							</div>
@@ -151,26 +221,26 @@
 
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="W001" name="classification"> 백엔드
-										개발자
+										class="form-check-input" type="checkbox" value="W001"
+										name="classification"> 백엔드 개발자
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="W002" name="classification">
-										프론트엔드 개발자
+										class="form-check-input" type="checkbox" value="W002"
+										name="classification"> 프론트엔드 개발자
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="W003" name="classification">
-										안드로이드앱 개발자
+										class="form-check-input" type="checkbox" value="W003"
+										name="classification"> 안드로이드앱 개발자
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="W004" name="classification">
-										아이폰앱 개발자
+										class="form-check-input" type="checkbox" value="W004"
+										name="classification"> 아이폰앱 개발자
 									</label>
 								</div>
 							</div>
@@ -180,20 +250,20 @@
 
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="H001" name="classification">
-										사이버해킹 보안
+										class="form-check-input" type="checkbox" value="H001"
+										name="classification"> 사이버해킹 보안
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="H002" name="classification"> 웹
-										해킹
+										class="form-check-input" type="checkbox" value="H002"
+										name="classification"> 웹 해킹
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="H003" name="classification"> 시스템
-										해킹
+										class="form-check-input" type="checkbox" value="H003"
+										name="classification"> 시스템 해킹
 									</label>
 								</div>
 							</div>
@@ -203,14 +273,14 @@
 
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="S001" name="classification"> 리눅스
-										서버
+										class="form-check-input" type="checkbox" value="S001"
+										name="classification"> 리눅스 서버
 									</label>
 								</div>
 								<div class="form-check">
 									<label class="form-check-label"> <input
-										class="form-check-input" type="checkbox" value="S002" name="classification">
-										네트워크 엔지니어
+										class="form-check-input" type="checkbox" value="S002"
+										name="classification"> 네트워크 엔지니어
 									</label>
 								</div>
 
@@ -228,85 +298,7 @@
 	</div>
 	</section>
 
-	<!-- Stat Footer -->
-	<footer>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 col-sm-12 col-xs-12">
-				<div class="footer-widget">
-					<h2>Edustar</h2>
-					<div class="widget-content">
-						<div class="text">Lorem ipsum dolor sit amet, consects
-							adipiscing elit enean commodo ligula.</div>
-						<address>
-							<p>
-								<i class="fa fa-map-marker"></i> kathmandu, nepal
-							</p>
-							<p>
-								<i class="fa fa-phone"></i>+977-9856055360
-							</p>
-							<p>
-								<i class="fa fa-envelope"></i> khnl.prem@gmail.com
-							</p>
-						</address>
-					</div>
-				</div>
-			</div>
 
-			<div class="col-md-5 col-sm-6 col-xs-12">
-				<div class="footer-widget links-widget">
-					<h2>Explore</h2>
-
-					<div class="row">
-						<div class="col-md-6 col-sm-6 col-sm-12">
-							<ul>
-								<li><a href="#">home</a></li>
-								<li><a href="#">about</a></li>
-								<li><a href="#">services</a></li>
-								<li><a href="#">projects</a></li>
-								<li><a href="#">contact</a></li>
-
-							</ul>
-						</div>
-						<div class="col-md-6 col-sm-6 col-sm-12">
-							<ul>
-								<li><a href="#">News</a></li>
-								<li><a href="#">Trade</a></li>
-								<li><a href="#">Investment</a></li>
-								<li><a href="#">projects</a></li>
-								<li><a href="#">contact</a></li>
-
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-sm-6 col-xs-12">
-				<div class="footer-widget subscribe-widget">
-					<h2>Newsletter</h2>
-					<div class="widget-content">
-						<div class="text">Lorem ipsum dolor sit amet, adipiscing</div>
-						<div class="newsletter-form">
-							<form>
-								<div class="form-group">
-									<input type="email" name="email" value=""
-										placeholder="Email Address..." required>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary button">
-										suscribe now<span class="btn-shape"></span>
-									</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	</footer>
 	<!--Footer Bottom-->
 	<div class="footer-bottom">
 		<div class="container">

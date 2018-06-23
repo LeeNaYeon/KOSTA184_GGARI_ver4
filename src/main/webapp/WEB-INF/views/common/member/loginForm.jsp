@@ -44,7 +44,7 @@
 							<div class="loginButton">
 								<button class="button btn btn-primary" id="loginButton">로그인</button>						
 							</form>
-								<input type="button" onclick="location.href='${pageContext.request.contextPath}/loginFind'" class="button btn btn-primary" id="findButton" value="아이디 찾기"/>
+								<input type="button" onclick="location.href='${pageContext.request.contextPath}/loginFind'" class="button btn btn-primary" id="findButton" value="비밀번호 찾기"/>
 								<input type="button" onclick="location.href='${pageContext.request.contextPath}/index'" class="button btn btn-primary" id="backButton" value="취소"/>
 								<!-- <button class="button btn btn-primary" id="backButton">취소</button> -->
 							</div>

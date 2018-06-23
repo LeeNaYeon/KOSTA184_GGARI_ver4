@@ -344,7 +344,15 @@ $(function(){
 		                    
                     		<!-- </form> -->
                     	</c:forEach>
-                    </c:if>      
+                    </c:if>  
+                    <c:if test="${empty courseListSelect}">
+                    	<div class=" col-md-4 col-lg-4">		            
+	                        <div class="course-content">
+	                        	검색된 스터디가 없습니다.
+	                        </div>
+		                </div>
+                    
+                    </c:if>    
                     <!-- 여기까지 -->
 
                 </div>
