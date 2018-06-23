@@ -34,9 +34,9 @@
 					<ul>
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=<%=userId%>">내 스터디</a></li>
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=<%=userId%>">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=<%=userId%>">완료된 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">프로필 수정</a></li>
-						<li class="filter" data-filter="all"><a href="#">스터디 만들기</a></li>
+						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=<%=userId%>">완료된 스터디</a></li>						
+						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필 수정</a></li>
+						<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
 					</ul>
 				</div>
 			</div>
@@ -118,8 +118,7 @@
 												<span><%=result%>주</span> <span class="pull-right">${mento.coursePrice}</span>
 											</div>
 										</div>
-							
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/">클래스룸으로 이동</a>
+										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mento.courseCode}" target="_blank">클래스룸으로 이동</a>
 										
 									</div>
 								</div>
@@ -231,7 +230,7 @@
 										<%
 											} else {
 										%>
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/">클래스룸으로 이동</a>										
+										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mentee.courseDTO.courseCode}" target="_blank">클래스룸으로 이동</a>										
 										<%
 											}
 										%>

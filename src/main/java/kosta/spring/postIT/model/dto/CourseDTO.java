@@ -2,6 +2,8 @@ package kosta.spring.postIT.model.dto;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CourseDTO {
 
 	private String courseCode;
@@ -24,12 +26,38 @@ public class CourseDTO {
 	private String courseUrl;
 	private String courseBackpic;
 	
+	private MultipartFile file;
+	
 	private MentoDTO mentoDTO; //1:1의 관계
 	private MenteeDTO menteeDTO; //1:1의 관계
 	
 	private List<CourseDateDTO> courseDateDTO; //1:다인 경우
 	private List<MenteeDTO> menteeListDTO; //1:다인 경우
 	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "CourseDTO [courseCode=" + courseCode + ", userId=" + userId + ", courseTitle=" + courseTitle
+				+ ", courseTopGroup=" + courseTopGroup + ", courseSubGroup=" + courseSubGroup + ", courseDetail="
+				+ courseDetail + ", courseLevel=" + courseLevel + ", courseRecruitMax=" + courseRecruitMax
+				+ ", courseRecruitCurrent=" + courseRecruitCurrent + ", courseRecruitPerid=" + courseRecruitPerid
+				+ ", courseStartDate=" + courseStartDate + ", courseEndDate=" + courseEndDate + ", courseFrequency="
+				+ courseFrequency + ", courseStartTime=" + courseStartTime + ", courseEndTime=" + courseEndTime
+				+ ", courseLoc=" + courseLoc + ", coursePrice=" + coursePrice + ", courseUrl=" + courseUrl
+				+ ", courseBackpic=" + courseBackpic + ", file=" + file + ", mentoDTO=" + mentoDTO + ", menteeDTO="
+				+ menteeDTO + ", courseDateDTO=" + courseDateDTO + ", menteeListDTO=" + menteeListDTO + "]";
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
 	public CourseDTO() {}
 	
 	public CourseDTO(String courseCode, String userId, String courseTitle, String courseTopGroup, String courseSubGroup,
