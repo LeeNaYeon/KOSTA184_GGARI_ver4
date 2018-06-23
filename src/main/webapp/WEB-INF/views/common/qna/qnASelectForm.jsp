@@ -31,11 +31,16 @@
 					<c:if test="${requestScope.qnADTO.userId==id}">
 						<div class="col-md-12">
 							<div class="form-group" style="text-align: right;">
-								<a href="#" class="btn btn-primary">수정</a>
-								<a href="#" class="btn btn-primary">삭제</a>
+								<a href="${pageContext.request.contextPath}/qna/updateQnAForm/${requestScope.qnADTO.qaCode}" class="btn btn-primary">수정</a>
+								<a href="${pageContext.request.contextPath}/qna/delete/${requestScope.qnADTO.qaCode}" class="btn btn-primary">삭제</a>
 							</div>
 						</div>
 					</c:if>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<div class="form-group" style="text-align: right; width: 100%;">
+							<a href="${pageContext.request.contextPath}/qna/reqInsertForm/${requestScope.qnADTO.qaCode}" class="btn btn-primary">답글등록</a>
+						</div>
+					</sec:authorize>
 				</div>
 			</form>
 		</div>

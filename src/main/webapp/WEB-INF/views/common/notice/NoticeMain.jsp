@@ -21,13 +21,13 @@
 		<div class="pupular-course-inner clear">
 			<div class="row">
 				<div style="text-align: center; width: 100%;">
-					<h3>QnA게시판</h3>
+					<h3>공지사항</h3>
 					<hr>
 				</div>
-				<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<div style="text-align: right; width: 100%;">
 						<a class="btn btn-primary"
-							href="${pageContext.request.contextPath}/qna/insertQnAForm">글쓰기</a>
+							href="${pageContext.request.contextPath}/notice/insertForm">글쓰기</a>
 					</div>
 				</sec:authorize>
 				<table class="table" style="margin-top: 5px;">
@@ -41,7 +41,7 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${empty requestScope.qnAList }">
+							<c:when test="${empty requestScope.noticeList }">
 								<tr>
 									<td colspan="5">
 										<div style="text-align: center;">
@@ -51,27 +51,15 @@
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach items="${requestScope.qnAList}" var="qna"
+								<c:forEach items="${requestScope.noticeList}" var="notice"
 									varStatus="status">
 									
 									<tr>
 										<td>${status.count}</td>
-										<td>${qna.userId}</td>
-										<td><a href="${pageContext.request.contextPath}/qna/select/${qna.qaCode}">${qna.qaTitle}</a></td>
-										<td>${qna.qaDate}</td>
+										<td>${notice.noticeWriter}</td>
+										<td><a href="${pageContext.request.contextPath}/notice/select/${notice.noticeCode}">${notice.noticeTitle}</a></td>
+										<td>${notice.noticeDate}</td>
 									</tr>
-									
-									<c:forEach items="${requestScope.repList}" var="repQna">
-										<c:if test="${repQna.qaReplyCode==qna.qaCode}">
-											<tr style="opacity: 0.5; font-style: italic; font-weight: bold; color: red;">
-												<td>${status.count}</td>
-												<td>${repQna.userId}</td>
-												<td><a href="${pageContext.request.contextPath}/qna/select/${repQna.qaCode}" style="color: red;">┗ 답변 : ${repQna.qaTitle}</a></td>
-												<td>${repQna.qaDate}</td>
-											</tr>
-										</c:if>
-									</c:forEach>
-						
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>

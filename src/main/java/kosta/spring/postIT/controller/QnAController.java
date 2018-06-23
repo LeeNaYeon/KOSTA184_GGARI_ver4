@@ -20,15 +20,15 @@ public class QnAController {
 	@RequestMapping("/qna")
 	public String moveQna(Model model) {
 		List<QnADTO> list = qnAService.selectAll();
-		for(QnADTO dto : list) {
-			System.out.println(dto.getQaCode());
-		}
+		List<QnADTO> repList = qnAService.selectRepAll();
+		
 		model.addAttribute("qnAList", list);
+		model.addAttribute("repList", repList);
 		return "common/qna/qnaMain";
 	}
 	
 	@RequestMapping("/qna/insertQnAForm")
-	public String moveQnaInsertForm() {
+	public String moveQnAInsertForm() {
 		return "common/qna/qnAInsertForm";
 	}
 	
@@ -44,4 +44,36 @@ public class QnAController {
 		model.addAttribute("qnADTO",qnADTO);
 		return "common/qna/qnASelectForm";
 	}
+	
+	@RequestMapping("/qna/delete/{qaCode}")
+	public String delete(@PathVariable String qaCode) {
+		qnAService.delete(qaCode);
+		return "redirect:/qna";
+	}
+	
+	@RequestMapping("/qna/updateQnAForm/{qaCode}")
+	public String moveQnAUpdateForm(Model model, @PathVariable String qaCode) {
+		QnADTO qnADTO = qnAService.select(qaCode);
+		model.addAttribute("qnADTO",qnADTO);
+		return "common/qna/qnAUpdateForm";
+	}
+	
+	@RequestMapping("/qna/update")
+	public String update(QnADTO qnADTO) {
+		qnAService.update(qnADTO);
+		return "redirect:/qna/select/"+qnADTO.getQaCode();
+	}
+	
+	@RequestMapping("/qna/reqInsertForm/{qaCode}")
+	public String moveRepForm(Model model, @PathVariable String qaCode) {
+		model.addAttribute("qaCode", qaCode);
+		return "common/qna/qnARepInsertForm";
+	}
+	
+	@RequestMapping("/qna/reqInsert")
+	public String insertReq(QnADTO qnADTO) {
+		qnAService.insertRep(qnADTO);
+		return "redirect:/qna";
+	}
+	
 }

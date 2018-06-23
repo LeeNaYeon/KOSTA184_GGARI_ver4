@@ -53,16 +53,16 @@
         </div>
         <!-- 페이지 -->
         <div class="page">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#"><i class="fa fa-long-arrow-left"></i></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
-                </ul>
-            </div>
+             <ul class="pagination">
+                 <li class="disabled"><a href="#"><i class="fa fa-long-arrow-left"></i></a></li>
+                 <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                 <li><a href="#">2</a></li>
+                 <li><a href="#">3</a></li>
+                 <li><a href="#">4</a></li>
+                 <li><a href="#">5</a></li>
+                 <li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
+             </ul>
+        </div>
     </section>
     <!-- scroll top -->
     <a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>

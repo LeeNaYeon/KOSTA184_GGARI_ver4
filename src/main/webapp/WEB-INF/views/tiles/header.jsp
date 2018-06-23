@@ -42,7 +42,7 @@
 	
 	$(document).ready(function(){
 		function selectAll(){
-			var ajaxNotId = $('#ajaxNotId').val().trim();
+			var ajaxNotId = $('#ajaxNotId').val();
 			$.ajax({
 				type:"post",
 				url:"notification/select",
@@ -254,6 +254,7 @@
 			                               <sec:authorize access="isAuthenticated()">
 			                                 <a href="${pageContext.request.contextPath}/myPage/study/select?userId=<sec:authentication property="principal.userId" />"><sec:authentication property="principal.userName"/>님 MyPage </a>
 			                                 <!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
+			                               <input type="text" id="ajaxNotId" value="<sec:authentication property="principal.userId"/>">
 			                               </sec:authorize>
 										</li>  
 								</c:when>
@@ -313,7 +314,7 @@
                             <ul>
                                 <li class="current-menu-item "><a href="index">Home</a></li>
                                 <li><a href="#">About</a> </li>
-                                <li><a href="#">Notice</a> </li>
+                                <li><a href="${pageContext.request.contextPath}/notice/mainPage">Notice</a> </li>
                                 <li class="menu-item-has-children"><a href="#">courses</a>
                                     <ul>
                                         <li><a href="${pageContext.request.contextPath}/course">Courses</a></li>

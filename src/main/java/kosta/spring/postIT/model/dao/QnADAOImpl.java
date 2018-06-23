@@ -28,5 +28,25 @@ public class QnADAOImpl implements QnADAO {
 	public QnADTO select(String qaCode) {
 		return session.selectOne("qnaMapper.select", qaCode);
 	}
+
+	@Override
+	public int delete(String qaCode) {
+		return session.delete("qnaMapper.delete", qaCode);
+	}
+
+	@Override
+	public int update(QnADTO qnADTO) {
+		return session.update("qnaMapper.update", qnADTO);
+	}
+
+	@Override
+	public int insertRep(QnADTO qnADTO) {
+		return session.insert("qnaMapper.insertRep", qnADTO);
+	}
+
+	@Override
+	public List<QnADTO> selectRepAll() {
+		return session.selectList("qnaMapper.selectRepAll");
+	}
 	
 }

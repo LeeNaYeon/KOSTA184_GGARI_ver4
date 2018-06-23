@@ -10,5 +10,13 @@ public interface QnAService {
 	int insertQnA(QnADTO qnADTO);
 
 	QnADTO select(String qaCode);
+	
+	int delete(String qaCode);
+	
+	int update(QnADTO qnADTO);
+	
+	int insertRep(QnADTO qnADTO);
+	
+	List<QnADTO> selectRepAll();
 
 }

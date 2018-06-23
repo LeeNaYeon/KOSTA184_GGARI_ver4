@@ -204,8 +204,7 @@ public class ClassroomController {
 
 	@RequestMapping("cr/notice/selectList")
 	public String selectNoticeList(HttpSession session, Model model) {
-		//MenteeDTO mento = classroomService.selectNoticeList((String) session.getAttribute("courseCode"));
-		MenteeDTO mento = classroomService.selectNoticeList("c0017");
+		MenteeDTO mento = classroomService.selectNoticeList((String) session.getAttribute("courseCode"));
 		List<CrNoticeReplyDTO> crNoticeReplyList = classroomService.selectNoticeReply();
 		model.addAttribute("mento", mento);
 		model.addAttribute("noticeReplyList", crNoticeReplyList);
@@ -228,8 +227,7 @@ public class ClassroomController {
 	}
 	
 	public void saveCourseInfo(HttpSession session) {
-		//String courseCode = (String)session.getAttribute("courseCode");
-		String courseCode = "c0017";
+		String courseCode = (String)session.getAttribute("courseCode");
 		CourseDTO courseDTO = classroomService.selectCourseInfo(courseCode);
 		session.setAttribute("courseName", courseDTO.getCourseTitle());
 		String startDate = courseDTO.getCourseStartDate().substring(0, 10);

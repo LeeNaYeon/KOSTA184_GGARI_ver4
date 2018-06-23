@@ -28,4 +28,24 @@ public class QnAServiceImpl implements QnAService {
 		return qnADAO.select(qaCode);
 	}
 
+	@Override
+	public int delete(String qaCode) {
+		return qnADAO.delete(qaCode);
+	}
+
+	@Override
+	public int update(QnADTO qnADTO) {
+		return qnADAO.update(qnADTO);
+	}
+
+	@Override
+	public int insertRep(QnADTO qnADTO) {
+		return qnADAO.insertRep(qnADTO);
+	}
+
+	@Override
+	public List<QnADTO> selectRepAll() {
+		return qnADAO.selectRepAll();
+	}
+
 }
