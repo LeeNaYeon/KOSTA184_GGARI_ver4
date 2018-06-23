@@ -144,7 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on c.user_id = m.user_id
 		join mentee me 
 		on me.user_id = m.rep_writer
-		where course_code=#{_parameter}	
+		where c.course_code=#{_parameter}	
 	</select>
 	
 	<!-- 강좌검색하기  or course_title=#{_parameter} -->

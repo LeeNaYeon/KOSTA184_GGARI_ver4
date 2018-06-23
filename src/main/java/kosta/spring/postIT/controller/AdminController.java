@@ -11,19 +11,24 @@ import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.service.CourseService;
 import kosta.spring.postIT.model.service.MemberService;
+import kosta.spring.postIT.model.dto.MenteeDTO;
+import kosta.spring.postIT.model.service.AdminService;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
 	private MemberService memberService;
 	@Autowired
 	private CourseService courseService;
+	@Autowired 
+	private AdminService service;
 	
 	/**
 	 * 지원자 list
 	 * */
-	@RequestMapping("/admin")
+	@RequestMapping("/")
 	public ModelAndView adminApplicant() {
 		System.out.println("dd");
 		ModelAndView mv = new ModelAndView();
@@ -36,7 +41,7 @@ public class AdminController {
 	/**
 	 * 지원자 상태 update
 	 * */
-	@RequestMapping("/admin/changeStatus")
+	@RequestMapping("/changeStatus")
 	public String changeApplicantStatus(String userId,String selectBox) {
 		
 		if(selectBox.equals("멘토승인완료")) {
@@ -70,5 +75,50 @@ public class AdminController {
 		memberService.applicantStatusUpdate(userId, selectBox);
 		return "redirect:/admin";
 
+	}
+	
+	@RequestMapping("/menteeSelect") 
+	public ModelAndView menteeSelect() {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		List<MenteeDTO> list = service.menteeSelect();
+		
+		mv.addObject("list",list);	
+		mv.setViewName("admin/memberMgr/menteeSelectList");
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("/menteeDelete") 
+	public String menteeDelete(String userId) {
+
+		int re = service.menteeDelete(userId);
+		
+		return "redirect:/admin/menteeSelect";
+		
+	}
+	
+	@RequestMapping("/mentoSelect")
+	public ModelAndView mentoSelect() {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		List<MentoDTO> list = service.mentoSelect();
+		
+		mv.addObject("list",list);
+		mv.setViewName("admin/memberMgr/mentoSelectList");
+		
+		return mv;
+	}
+	
+    @RequestMapping("/mentoDelete") 
+	public String mentoDelete(String userId) {
+
+		int re = service.mentoDelete(userId);
+		
+		return "redirect:/admin/mentoSelect";
+		
 	}
 }

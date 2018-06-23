@@ -213,8 +213,12 @@
                            
                         </div>
                          <div class="form-join">
-                        	이력서 양식은 공지사항에서 확인해주세요.
-                            <input type="file" name="file">
+                        	이력서 양식은 공지사항에서 확인해주세요.                        	
+                        	 <label class="btn btn-primary">
+                                    이력서 등록
+                                    <input type="file" name="file" style="display: none;">
+                             </label>     
+                            
                         </div>
                                     
                                                    

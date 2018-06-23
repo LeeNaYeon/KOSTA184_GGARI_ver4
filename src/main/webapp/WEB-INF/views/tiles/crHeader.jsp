@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -49,7 +50,6 @@
                                         <a href="${pageContext.request.contextPath}/cr/notice/selectList/"+${sessionScope.courseCode}>공지</a>
                                     </li>
                                     <li>
-                                    	<!-- 일단 임의로 코스코드 a1줬음 -->
                                         <a href="${pageContext.request.contextPath}/cr/asgn/selectList">과제</a>
                                     </li>
                                 </ul>
@@ -59,11 +59,29 @@
                                     <h3>곧 마감되는 과제</h3>
                                 </div>
                                 <ul>
-                                	<c:forEach items="${sessionScope.deadlineList}" var="subject" begin="0" end="2">
-                                		<li>
-                                			<a href="${pageContext.request.contextPath}/cr/asgn/select/${subject.crAsgnCode}">${subject.crAsgnTitle}</a>
-                                		</li>
-                                	</c:forEach>
+                                	 <sec:authorize access="hasRole('ROLE_MENTEE')">
+				                    	<sec:authorize access="hasRole('ROLE_MENTO')">
+					                    	<c:set var="mentoId"><sec:authentication property="principal.userId" /></c:set>
+					                    	<c:if test="${mentoId==sessionScope.classroomMento}">
+					                    		<c:forEach items="${sessionScope.deadlineList}" var="subject" begin="0" end="2">
+			                                		<li>
+			                                			<a href="${pageContext.request.contextPath}/cr/asgn/select/${subject.crAsgnCode}">${subject.crAsgnTitle}</a>
+			                                		</li>
+			                                	</c:forEach>
+					                    	</c:if>
+				                    	</sec:authorize>
+						   			 </sec:authorize>
+						   			 
+                                	 <sec:authorize access="hasRole('ROLE_MENTEE')">
+				                    	<c:set var="menteeId"><sec:authentication property="principal.userId" /></c:set>
+				                    	<c:if test="${menteeId!=sessionScope.classroomMento}">
+							                    <c:forEach items="${sessionScope.deadlineList}" var="subject" begin="0" end="2">
+			                                		<li>
+			                                			<a href="${pageContext.request.contextPath}/cr/asgn/select/${subject.crAsgnCode}/<sec:authentication property="principal.userId" />">${subject.crAsgnTitle}</a>
+			                                		</li>
+			                                	</c:forEach>
+					                    </c:if>
+						   			 </sec:authorize>
                                 </ul>
                             </div>
                         </div>

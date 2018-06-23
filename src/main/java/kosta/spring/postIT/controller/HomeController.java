@@ -7,10 +7,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CrAsgnDTO;
@@ -106,7 +108,21 @@ public class HomeController {
 
 		return "common/member/joinMento";
 	}
+
 	
+	@RequestMapping(value = "/classroom/{courseCode}")
+	public String goClassroom(HttpSession session ,@PathVariable String courseCode) {
+		session.setAttribute("courseCode", courseCode);
+		return "redirect:/cr/notice/selectList";
+	}
+	
+	/////////////////////////////////////////////////
+	
+	@RequestMapping("/admin")
+	public String memberSelect() {
+		
+		return "admin/selectCourse";
+	}
 	
 	@RequestMapping("/search")
 	public ModelAndView search(String search) {

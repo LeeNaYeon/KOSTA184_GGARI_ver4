@@ -28,7 +28,7 @@
 				<div class="teacher-details">
 					
 						<div class="course-tab-desc">
-
+							${MenteeDTO.userId}님,<br>
 							정보가 갱신되었습니다.
 
 						</div>

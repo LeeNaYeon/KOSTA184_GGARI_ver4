@@ -84,6 +84,33 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
+	public String selectSeachMember(String userName, String userEmail) {
+		
+		//System.out.println("selectSeachMember"+userName+" | "+userEmail);
+		
+		Map<String, String> map = new HashMap<>();
+		
+		if(userName!=null) map.put("userName", userName);
+		if(userEmail!=null) map.put("userEmail", userEmail);
+		
+		return session.selectOne("memberMapper.selectSeachMember", map);
+	}
+
+	@Override
+	public int updateUserPwd(String userId, String userPwd) {
+		
+		//System.out.println("updateUserPwd : "+userId+" | "+userPwd);
+						
+		Map<String, String> map = new HashMap<>();
+		
+		if(userId!=null) map.put("userId", userId);
+		if(userPwd!=null) map.put("userPwd", userPwd);
+		
+		return session.update("memberMapper.updateUserPwd", map);
+	}
+	
+
+	@Override
 	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
 		return null;
 	}

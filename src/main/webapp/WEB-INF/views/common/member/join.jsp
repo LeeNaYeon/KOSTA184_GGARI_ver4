@@ -50,10 +50,10 @@
                                 <!-- Single gallery -->
                                 <div class="mix events seminar col-md-3 col-sm-6 col-xs-12" style=" display: inline-block; margin:0 auto;" >
                                     <div class="gallery-single" >
-                                        <div class="gallery-head">
+                                        <div class="gallery-head" >
                                             <img src="${pageContext.request.contextPath}/resources/images/gallery/1.jpg" class="img-responsive" alt="" />
                                         </div>
-                                        <div class="gallery-hover">
+                                        <div class="gallery-hover" style="border-radius: 250px;">
                                             <h4><span style="font-size:35px;">멘토</span></h4>
                                             <p> <a href="${pageContext.request.contextPath}/joinMento" style="color: #fff; font-size:30px;">가입하기</a></p><br>                                            
                                         </div>
@@ -64,7 +64,7 @@
                                 <div class="mix scholar events col-md-3 col-sm-6 col-xs-12" style="display: inline-block; margin:0 auto;">
                                     <div class="gallery-single" >
                                         <div class="gallery-head">
-                                            <img style="border-radius: 250px;" src="${pageContext.request.contextPath}/resources/images/gallery/2.jpg" class="img-responsive" alt="" />
+                                            <img src="${pageContext.request.contextPath}/resources/images/gallery/2.jpg" class="img-responsive" alt="" />
                                         </div>
                                          <div class="gallery-hover">
                                             <h4><span style="font-size:35px;">멘티</span></h4> 

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 	<script type="text/javascript">
 		function checkValid() {
@@ -25,8 +26,6 @@
 							<form name="insertFeedback" method="post" action="${pageContext.request.contextPath}/cr/feedback/insert" onsubmit="return checkValid()">
 	                        <div class="row">
 	                         <div class="col-sm-12 ">
-	                            	<%-- <input type="hidden" name="crAsgnCode" value="${requestScope.crAsgnCode}"/>
-	                            	<input type="hidden" name= "userId" value="astro"/> --%>
 	                                <div class="form-group">
 	                                    <label>과제제목 :</label>
 	                                    <input type="text" name="crSubasgnTitle" class="form-control" placeholder="title" 
@@ -47,49 +46,73 @@
 	                            </div>
 	                        
 	                            <div class="col-md-12">
-	               					<div class="form-group" style="text-align: right;">
-	                                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/subAsgn/updateform/${requestScope.crSubAsgnDTO.crAsgnCode}/astro">과제수정</a>
-	                                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/subAsgn/delete/${requestScope.crSubAsgnDTO.crAsgnCode}/astro">과제삭제</a><br><br>
-	                                </div>
-	                               	<!-- 멘토에서 보이는 피드백 작성란 -->
-	                                <article class="row">
-		                                <div style="margin-left: 10px;">
-		                                    <figure class="thumbnail" style="margin-left: 10px; margin-top: 30px;">
-		                                        <img class="img-responsive" src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="avatar" style="border-radius: 50px; width: 50px; height: 50px;"/>
-		                                    </figure>
-		                                </div>
-		                                <div class="col-md-10 col-sm-10 col-xs-9">
-		                                    <div class="panel panel-default arrow left">
-		                                        <div class="panel-body">
-		                                            <header class="text-left">
-		                                            	<br>
-		                                            	<div class="comment-user">
-		                                                	<div style="text-align: right;">${requestScope.crFeedbackDTO.crFeedDate}</div>
-		                                                	<b>${requestScope.menteeDTO.userName} 멘토 :</b>
-		                                                </div>
-		                                            </header>
-		                                            <div class="comment-post">
-		                                                <p>
-		                                                
-		                                                	${requestScope.crFeedbackDTO.crFeedContent}
-		                                                </p>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </article>
-					                                    	
-                                    <div class="form-group">
-                                        <label>댓글 :</label>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
-                                        <input type="hidden" name="crAsgnCode" value="${requestScope.crSubAsgnDTO.crAsgnCode}">
-                                        <input type= "hidden" name="userId" value="astro">
-                                        <input type= "hidden" name="mentoId" value="bogummy">
-                                        <textarea rows="6" name="crFeedContent" class="form-control"></textarea>
-                                    </div>
-                                    <div class="form-group" style="text-align: right; margin-bottom: 5px;">
-                                         <input type="submit" class="btn btn-primary" value="피드백등록">
-                                    </div>
+	                            
+		                            <sec:authorize access="hasRole('ROLE_MENTEE')">
+				                    	<c:set var="menteeId"><sec:authentication property="principal.userId" /></c:set>
+				                    	<c:if test="${menteeId!=sessionScope.classroomMento}">
+							                    <div class="form-group" style="text-align: right;">
+				                                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/subAsgn/updateform/${requestScope.crSubAsgnDTO.crAsgnCode}/<sec:authentication property="principal.userId" />">과제수정</a>
+				                                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cr/subAsgn/delete/${requestScope.crSubAsgnDTO.crAsgnCode}/<sec:authentication property="principal.userId" />">과제삭제</a><br><br>
+				                                </div>
+					                    </c:if>
+					    			</sec:authorize>
+
+	                                <c:choose>
+	                                	<c:when test="${empty requestScope.crFeedbackDTO}">
+			                                <div class="blog-div">
+					                            <div class="blog-desc" style="text-align: center;">
+					                            	<h4>등록된 피드백이 없습니다.</h4>	              
+					                            </div>
+					                        </div>
+	                                	</c:when>
+	                                	<c:otherwise>
+	                                		<article class="row">
+				                                <div style="margin-left: 10px;">
+				                                    <figure class="thumbnail" style="margin-left: 10px; margin-top: 30px;">
+				                                        <img class="img-responsive" src="${pageContext.request.contextPath}/resources/images/users/2.jpg" alt="avatar" style="border-radius: 50px; width: 50px; height: 50px;"/>
+				                                    </figure>
+				                                </div>
+				                                <div class="col-md-10 col-sm-10 col-xs-9">
+				                                    <div class="panel panel-default arrow left">
+				                                        <div class="panel-body">
+				                                            <header class="text-left">
+				                                            	<br>
+				                                            	<div class="comment-user">
+				                                                	<div style="text-align: right;">${requestScope.crFeedbackDTO.crFeedDate}</div>
+				                                                	<b>${requestScope.menteeDTO.userName} 멘토 :</b>
+				                                                </div>
+				                                            </header>
+				                                            <div class="comment-post">
+				                                                <p>
+				                                                	${requestScope.crFeedbackDTO.crFeedContent}
+				                                                </p>
+				                                            </div>
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </article>
+	                                	</c:otherwise>
+	                                </c:choose>
+	                                
+					                
+					                <sec:authorize access="hasRole('ROLE_MENTEE')">
+				                    	<sec:authorize access="hasRole('ROLE_MENTO')">
+					                    	<c:set var="mentoId"><sec:authentication property="principal.userId" /></c:set>
+					                    	<c:if test="${mentoId==sessionScope.classroomMento}">
+					                    		<div class="form-group">
+			                                        <label>댓글 :</label>
+			                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
+			                                        <input type="hidden" name="crAsgnCode" value="${requestScope.crSubAsgnDTO.crAsgnCode}">
+			                                        <input type= "hidden" name="userId" value="${requestScope.crSubAsgnDTO.userId}">
+			                                        <input type= "hidden" name="mentoId" value="${mentoId}">
+			                                        <textarea rows="6" name="crFeedContent" class="form-control"></textarea>
+			                                    </div>
+			                                    <div class="form-group" style="text-align: right; margin-bottom: 5px;">
+			                                         <input type="submit" class="btn btn-primary" value="피드백등록">
+			                                    </div>
+					                    	</c:if>
+				                    	</sec:authorize>
+						  			</sec:authorize>        	
 	                            </div>
 	                        </div>
 	                    </form>               

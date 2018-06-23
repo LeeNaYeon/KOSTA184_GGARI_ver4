@@ -123,6 +123,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by rep_date
 	</select>
 	
+	<!-- 회원가입된 멤버인지 확인 -->
+	<select id="selectSeachMember" parameterType="map" resultType="string">
+		select user_id from mentee where user_name=#{userName} and user_email=#{userEmail}
+	</select>
+	
+	<!-- 암호화된 비밀번호로 수정 -->
+	<update id="updateUserPwd" parameterType="map">
+		update mentee set user_pwd=#{userPwd} where user_id=#{userId} 
+	</update>
+	
 	<!-- 멘티확인 -->
 	<select id="isMentee" parameterType="string"  resultMap="menteeSelectMap" >
 		select <include refid="menteeColumn"/>
