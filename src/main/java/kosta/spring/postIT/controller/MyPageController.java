@@ -176,7 +176,6 @@ public class MyPageController {
 
 		// System.out.println(menteeList.get(0));
 
-		mv.addObject("userId", userId);
 		mv.addObject("mentoList", mentoList);
 		mv.addObject("menteeList", menteeList);
 
@@ -204,7 +203,7 @@ public class MyPageController {
 		List<CourseFavDTO> favList = myPageService.favStudySelect(userId);
 
 		mv.addObject("favList", favList);
-		mv.addObject("userId", userId);
+		
 		mv.setViewName("mentee/myPage/selectFav");
 
 		return mv;
@@ -219,7 +218,7 @@ public class MyPageController {
 
 	}
 	
-	@RequestMapping("/myPage/exStudy/select")
+	@RequestMapping("/myPage/exStudy/select") //강사님 설명 부분
 	public ModelAndView exStudySelect(String userId  ) {
 
 		ModelAndView mv = new ModelAndView();
@@ -227,13 +226,10 @@ public class MyPageController {
 		List<CourseDTO> mentoExList = myPageService.selectMentoEx(userId);
 
 		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(userId);
-
-		// System.out.println(menteeList.get(0));
-
-		mv.addObject("userId", userId);
-		mv.addObject("mentoExList", mentoExList);
-		mv.addObject("menteeExList", menteeExList);
-
+		
+		mv.addObject("mentoExList", mentoExList);//강좌정보
+		mv.addObject("menteeExList", menteeExList);//my수강
+		
 		mv.setViewName("mentee/myPage/selectEx");
 
 		return mv;
@@ -252,7 +248,7 @@ public class MyPageController {
 		return mv;
 	}
 	
-	@RequestMapping("/myPage/exStudy/reviewInsert")
+	@RequestMapping("/myPage/exStudy/reviewInsert") //똑같음
 	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)//userId
 	{
 		ModelAndView mv = new ModelAndView();

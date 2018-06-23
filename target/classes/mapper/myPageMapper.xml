@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <result column="regist_course_code" property="courseCode"/>
 <result column="pay_code" property="payCode"/>
 <result column="regist_user_id" property="userId"/>
-
+<result column="state" property="state"/>
 
 <association property="courseDTO" javaType="courseDTO">
 <id column="course_code" property="courseCode"/>
@@ -75,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </association>
 
 </association>
+
 </resultMap>
 
 <resultMap id="selectFavStudyMap" type="courseFavDTO">
@@ -206,6 +207,7 @@ from course,mentee
 where mentee.user_id=course.user_id and
 course.course_end_date>sysdate and
 course.user_id=#{value}
+order by course_start_date asc
 </select>
 
 <select id="selectMentee" parameterType="string" resultMap="selectMenteeMap">
@@ -217,6 +219,7 @@ where course_regist.course_code=course.course_code and
 course.user_id=mentee.user_id and
 course.course_end_date>sysdate and
 course_regist.user_id=#{value}
+order by course_start_date asc
 </select>
 
 <delete id="menteeStudyDelete" parameterType="map">
@@ -240,6 +243,7 @@ where course_fav.course_code=course.course_code and
 course.user_id=mentee.user_id and
 course.course_end_date>sysdate and
 course_fav.user_id=#{value}
+order by course_start_date asc
 </select>
 
 <delete id="favStudyDelete" parameterType="map">
@@ -255,17 +259,33 @@ from course,mentee
 where course.user_id=mentee.user_id and
 sysdate>course.course_end_date and
 course.user_id=#{value}
+order by course_start_date asc
 </select>
 
 <select id="selectMenteeEx" parameterType="string" resultMap="selectMenteeMap">
-select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+<!-- select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
 course_end_time, course_loc, course_price, course_url, course_backpic, 
 mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
 from course_regist,course,mentee  
 where course_regist.course_code=course.course_code and
 course.user_id=mentee.user_id and
 sysdate>course.course_end_date and
-course_regist.user_id=#{value}
+course_regist.user_id=#{value} 
+order by course_start_date asc -->
+
+select regist_code, course_regist.course_code as regist_course_code, pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, course_title, course_top_group, course_sub_group, course_detail, course_level, course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, course_end_date, course_frequency, course_start_time,
+course_end_time, course_loc, course_price, course_url, course_backpic, 
+mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo,
+case 
+  when course_regist.course_code in (select  course_code from MENTO_REPUTATION where rep_writer =#{value} ) then '리뷰 작성 완료'
+  else '리뷰 작성하러 가기'
+end state
+from course_regist,course,mentee  
+where course_regist.course_code=course.course_code and
+course.user_id=mentee.user_id and
+sysdate>course.course_end_date and
+course_regist.user_id=#{value}  
+order by course_start_date asc
 </select>
 
 <select id="selectMenteeExByCourseCode" parameterType="map" resultMap="selectMenteeMap">

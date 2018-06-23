@@ -85,21 +85,18 @@ public class HomeController {
 		return "common/member/joinMento";
 	}
 
-	@RequestMapping("/course")
-	public String course() {
-
-		return "common/courese/course";
-	}
-
-	@RequestMapping("/courseDetail")
-	public String courseDetail() {
-
-		return "common/courese/courseDetail";
-	}
 	
 	@RequestMapping(value = "/classroom")
 	public String goClassroom(HttpSession session) {
 		session.setAttribute("courseCode", "a1");
 		return "redirect:/cr/notice/selectList";
+	}
+	
+	/////////////////////////////////////////////////
+	
+	@RequestMapping("/admin")
+	public String memberSelect() {
+		
+		return "admin/selectCourse";
 	}
 }
