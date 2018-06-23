@@ -39,8 +39,6 @@
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내 스터디</a></li>
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한 스터디</a></li>
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">프로필 수정</a></li>
-						<li class="filter" data-filter="all"><a href="#">스터디 만들기</a></li>
 						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필 수정</a></li>
 						<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
 					</ul>					

@@ -445,7 +445,7 @@ IMP.init("imp99503400");
 					pay_method : 'card',
 					merchant_uid : 'merchant_' + new Date().getTime(),
 					name : '주문명:postIT 수강결제',
-					amount : courseAmount,
+					amount : 1000,
 					buyer_email : userMail,
 					buyer_name : userName,
 					buyer_tel : userPhone,

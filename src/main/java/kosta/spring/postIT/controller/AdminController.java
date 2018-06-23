@@ -18,7 +18,6 @@ public class AdminController {
 	@Autowired 
 	private AdminService service;
 	
-	
 	@RequestMapping("/menteeSelect") 
 	public ModelAndView menteeSelect() {
 		
@@ -27,7 +26,7 @@ public class AdminController {
 		List<MenteeDTO> list = service.menteeSelect();
 		
 		mv.addObject("list",list);	
-		mv.setViewName("admin/menteeSelectList");
+		mv.setViewName("admin/memberMgr/menteeSelectList");
 		
 		return mv;
 		
@@ -50,7 +49,7 @@ public class AdminController {
 		List<MentoDTO> list = service.mentoSelect();
 		
 		mv.addObject("list",list);
-		mv.setViewName("admin/mentoSelectList");
+		mv.setViewName("admin/memberMgr/mentoSelectList");
 		
 		return mv;
 	}

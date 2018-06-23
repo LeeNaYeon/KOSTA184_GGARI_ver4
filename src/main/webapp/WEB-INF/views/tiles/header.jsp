@@ -337,7 +337,7 @@
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 
                                  <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
-                                
+                                 <li><a href="${pageContext.request.contextPath}/admin/menteeSelect">Member</a></li>
                                 </sec:authorize>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
