@@ -205,7 +205,7 @@ $(function(){
 								String mTime = formatter.format(currentTime);								
 								Date c1 = formatter.parse(mTime);
 								
-								long difference1 = d1.getTime() - c1.getTime();
+								long difference1 = d2.getTime() - c1.getTime();
 								long differenceDay1 = difference1 / (1000 * 60 * 60 * 24 * 7 );		
 								int result1 = (int) Math.ceil(differenceDay1);
 								

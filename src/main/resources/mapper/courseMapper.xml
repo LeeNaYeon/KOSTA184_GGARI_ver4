@@ -157,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		join mentee m
 		on c.user_id = m.user_id
 		where course_recruit_max > course_recruit_current
-		and course_end_date >= sysdate
+		and course_start_date > sysdate
 		ORDER BY course_recruit_current DESC
 	</select>
 
@@ -171,7 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		join mentee m
 		on c.user_id = m.user_id
 		where course_recruit_max > course_recruit_current
-		and course_end_date >= sysdate
+		and course_start_date > sysdate
 		<if test="courseLevel!='레벨'">
 			and course_level=#{courseLevel}
 		</if>

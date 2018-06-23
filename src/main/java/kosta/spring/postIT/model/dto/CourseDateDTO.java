@@ -6,7 +6,7 @@ public class CourseDateDTO {
 	private String courseCode;
 	private String day;
 	
-	
+	public CourseDateDTO() {}
 	
 	public CourseDateDTO(String courseCode, String day) {
 		super();

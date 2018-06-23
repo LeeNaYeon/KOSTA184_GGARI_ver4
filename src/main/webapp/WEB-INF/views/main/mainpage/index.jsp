@@ -95,6 +95,8 @@
 }
 </style>
 
+<!-- DashBoard용 test 태그입니다. 추후 삭제예정입니다. -->
+<a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse">Dashboard 이동 (테스트용)</a>
 
 <%-- <sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.userName" /> 님 환영합니다. 
