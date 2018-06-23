@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -105,6 +107,72 @@ public class MemberServiceImpl implements MemberService {
 	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
 		return memberDAO.selectReputation(mentoReputationDTO);
 	}
+
+
+	@Override
+	public String isMenteeMentoCheck(String userid) {
+		
+		return memberDAO.isMenteeMentoCheck(userid);
+	}
+
+
+	@Override
+	public List<ApplicantDTO> selectApplicant() {
+		
+		return memberDAO.selectApplicant();
+	}
+
+
+	@Override
+	public int applicantStatusUpdate(String userId, String selectBoxStatus) {
+		
+		return memberDAO.applicantStatusUpdate(userId,selectBoxStatus);
+	}
+
+
+	@Override
+	public int applicantStatusDelete(String userId) {
+	
+		return memberDAO.applicantStatusDelete(userId);
+	}
+
+
+	@Override
+	public int menteeRoleUpdate(String userId) {
+		
+		return memberDAO.menteeRoleUpdate(userId);
+	}
+
+	@Override
+	public int notificationInsert(String userId) {
+		
+		return memberDAO.notificationInsert(userId);
+		
+	}
+
+
+	@Override
+	public int notificationInsertDeny(String userId) {
+		
+		return memberDAO.notificationInsertDeny(userId);
+	}
+
+	@Override
+	public ApplicantDTO beforeApplicantSelect(String userId) {
+		
+		return memberDAO.beforeApplicantSelect(userId);
+	}
+
+
+	@Override
+	public int afterApplicantInsert(MentoDTO mentoDTO) {
+		
+		return memberDAO.afterApplicantInsert(mentoDTO);
+	}
+
+
+	
+	
 
 
 	

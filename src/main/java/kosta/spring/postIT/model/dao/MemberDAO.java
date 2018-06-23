@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.dao;
 
+import java.util.List;
+
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
@@ -63,6 +65,52 @@ public interface MemberDAO {
 	 * main 수강생 강사 리뷰
 	 * */
 	MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO);
+	
+	/**
+	 * 멘티/멘토 확인
+	 * */
+	String isMenteeMentoCheck(String userid);
+	
+	/**
+	 * 전체 지원자 조회
+	 * */
+	List<ApplicantDTO> selectApplicant();
+	
+	/**
+	 * 지원자 상태 insert
+	 * */
+	int applicantStatusUpdate(String userId, String selectBoxStatus);
+	
+	/**
+	 * 지원자 상태 delete
+	 * */
+	int applicantStatusDelete(String userId);
+	
+	/**
+	 * authority table update 
+	 * */
+	int menteeRoleUpdate(String userId);
+	
+	/**
+	 * notification 승인 insert
+	 * */
+	int notificationInsert(String userId);
+	
+	/**
+	 * notification 거절 insert
+	 * */
+	int notificationInsertDeny(String userId);
+	
+	/**
+	 * mento 승인 전 applicant 정보 select
+	 * */
+	ApplicantDTO beforeApplicantSelect(String userId);
+	
+	/**
+	 * mento 승인 후 mento 정보 insert
+	 * */
+	int afterApplicantInsert(MentoDTO mentoDTO);
+	
 	
 
 }

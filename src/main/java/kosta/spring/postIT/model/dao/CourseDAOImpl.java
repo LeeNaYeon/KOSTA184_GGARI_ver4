@@ -121,6 +121,12 @@ public class CourseDAOImpl implements CourseDAO {
 		return session.selectList("courseMapper.courseSeach",map);
 	}
 
+	@Override
+	public List<CourseDTO> selectCourseRecommend() {
+		
+		return session.selectList("courseMapper.selectCourseRecommend");
+	}
+
 	
 	
 	

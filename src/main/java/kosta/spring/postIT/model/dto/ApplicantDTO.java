@@ -3,11 +3,13 @@ package kosta.spring.postIT.model.dto;
 public class ApplicantDTO {
 
 	private String userId;
+	private String userName;
 	private String applicantResume;
 	private String applicantMajor1;
 	private String applicantMajor2;
 	private String applicantMajor3;
 	private String applicantStatus;
+	private MenteeDTO menteeDTO;
 	
 	public ApplicantDTO() {}
 	
@@ -22,6 +24,23 @@ public class ApplicantDTO {
 		this.applicantStatus = applicantStatus;
 	}
 	
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public MenteeDTO getMenteeDTO() {
+		return menteeDTO;
+	}
+
+	public void setMenteeDTO(MenteeDTO menteeDTO) {
+		this.menteeDTO = menteeDTO;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

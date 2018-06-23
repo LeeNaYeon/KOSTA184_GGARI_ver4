@@ -45,7 +45,7 @@ footer .newsletter-form .form-group button[type="submit"] {
                         <div class="widget-content">
                             <div class="text" style="color:orange">Let's code together!</div>
                             <address>
-                                <p><i class="fa fa-map-marker"></i>서울특별시 서초구 서초동 벨라채빌딩 5층</p>
+                                <p><i class="fa fa-map-marker"></i>서울특별시 서초구 서초동 벨라빌딩 5층</p>
                                 <p><i class="fa fa-phone"></i>010-2534-1756</p>
                                 <p><i class="fa fa-envelope"></i> postIT@gmail.com</p>
                             </address>
@@ -117,7 +117,6 @@ footer .newsletter-form .form-group button[type="submit"] {
                 <div class="col-md-6 col-sm-6">
                     <ul class="social-links text-right">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li class="active"><a href="#"><i class="fa fa-twitter"></i></a></li>
                         <li><a href="#"><i class="fa fa-youtube"></i></a></li>
                         <li><a href="#"><i class="fa fa-instagram"></i></a></li>
                     </ul>

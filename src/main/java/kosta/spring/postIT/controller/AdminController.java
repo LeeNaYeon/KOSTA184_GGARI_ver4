@@ -1,0 +1,74 @@
+package kosta.spring.postIT.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import kosta.spring.postIT.model.dto.ApplicantDTO;
+import kosta.spring.postIT.model.dto.MentoDTO;
+import kosta.spring.postIT.model.service.CourseService;
+import kosta.spring.postIT.model.service.MemberService;
+
+@Controller
+public class AdminController {
+
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private CourseService courseService;
+	
+	/**
+	 * 지원자 list
+	 * */
+	@RequestMapping("/admin")
+	public ModelAndView adminApplicant() {
+		System.out.println("dd");
+		ModelAndView mv = new ModelAndView();
+		List<ApplicantDTO> selectApplicantList = memberService.selectApplicant();
+
+		mv.addObject("selectApplicantList", selectApplicantList);	
+		mv.setViewName("admin/adminpage/applicantSelectList");
+		return mv;
+	}
+	/**
+	 * 지원자 상태 update
+	 * */
+	@RequestMapping("/admin/changeStatus")
+	public String changeApplicantStatus(String userId,String selectBox) {
+		
+		if(selectBox.equals("멘토승인완료")) {
+				
+			//notification 알림 서비스 호출
+			memberService.notificationInsert(userId);
+			
+			//authority 권한 멘토추가
+			memberService.menteeRoleUpdate(userId);
+			
+			//mento 해당 applicant정보 입력 서비스 호출
+			ApplicantDTO applicantDTO = memberService.beforeApplicantSelect(userId);
+		
+			MentoDTO mentoDTO = new MentoDTO(userId, applicantDTO.getApplicantResume(), "본인을 소개해주세요.", 
+											 applicantDTO.getApplicantMajor1(), applicantDTO.getApplicantMajor2(), applicantDTO.getApplicantMajor3());
+			memberService.afterApplicantInsert(mentoDTO);
+			
+			//applicant 해당 레코드 삭제 서비스 호출
+			memberService.applicantStatusDelete(userId);
+						
+		}else if(selectBox.equals("거절")) {
+			
+			//notification 알림 서비스 호출
+			memberService.notificationInsertDeny(userId);
+			
+			//applicant 해당 레코드 삭제 서비스 호출
+			memberService.applicantStatusDelete(userId);
+						
+		}
+		
+		memberService.applicantStatusUpdate(userId, selectBox);
+		return "redirect:/admin";
+
+	}
+}

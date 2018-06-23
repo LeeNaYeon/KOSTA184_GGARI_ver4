@@ -70,4 +70,11 @@ public interface CourseService {
 	 */
 	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
 	
+	/**
+	 * ÃßÃµ°­ÁÂ
+	 * */
+	List<CourseDTO> selectCourseRecommend();
+	
+	
+	
 }

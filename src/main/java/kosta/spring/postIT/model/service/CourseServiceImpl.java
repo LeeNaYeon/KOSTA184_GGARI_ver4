@@ -68,7 +68,6 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public List<CourseDTO> mainCourseSearch(String search) {
-		System.out.println(courseDAO.mainCourseSearch(search));
 		return courseDAO.mainCourseSearch(search);
 	}
 	
@@ -82,6 +81,12 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO) {
 	
 		return courseDAO.courseSearch(courseDTO,courseDateDTO);
+	}
+
+	@Override
+	public List<CourseDTO> selectCourseRecommend() {
+		
+		return courseDAO.selectCourseRecommend();
 	}
 
 	

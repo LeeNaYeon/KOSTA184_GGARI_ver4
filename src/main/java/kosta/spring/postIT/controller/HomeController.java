@@ -1,5 +1,6 @@
 package kosta.spring.postIT.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
+import kosta.spring.postIT.model.dto.CrAsgnDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.dto.MentoDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
@@ -24,6 +27,8 @@ public class HomeController {
 	private MemberService memberService;
 	@Autowired
 	private CourseService courseService;
+	
+	
 	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session) {
 		
@@ -33,25 +38,36 @@ public class HomeController {
 //		session.setAttribute("courseCode", "a1");
 //		return "redirect:/cr/notice/selectList";
 	}*/
+	
+	
 	/**
 	 * main
 	 * */
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView home(MenteeDTO menteeDTO, MentoDTO mentoDTO, CourseDTO courseDTO, MentoReputationDTO mentoReputationDTO) {
+	public ModelAndView home(MenteeDTO menteeDTO, MentoDTO mentoDTO, CourseDTO courseDTO, MentoReputationDTO mentoReputationDTO, String userid) {
 		ModelAndView mv = new ModelAndView();
+		
+		
+		
+		
 		/**
 		 * 누적 확인
 		 * */
+		
 		int MenteeCount = memberService.selectCountMentee(menteeDTO);
 		int MentoCount = memberService.selectCountMento(mentoDTO);
 		int CourseCount = memberService.selectCountCourse(courseDTO);
 		int RepCount = memberService.selectCountReputation(mentoReputationDTO);
 		List<MentoReputationDTO> mentoRepList = courseService.selectReputation();
+		List<CourseDTO> courseRecommedList=courseService.selectCourseRecommend();
+		String isMenteeMentoCheck=memberService.isMenteeMentoCheck(userid);
 		mv.addObject("MenteeCount", MenteeCount);
 		mv.addObject("MentoCount", MentoCount);
 		mv.addObject("CourseCount", CourseCount);
 		mv.addObject("RepCount",RepCount);
 		mv.addObject("mentoRepList", mentoRepList);
+		mv.addObject("courseRecommedList", courseRecommedList);
+		mv.addObject("isMenteeMentoCheck",isMenteeMentoCheck);
 		mv.setViewName("main/mainpage/index");
 		return mv;
 	}
@@ -91,17 +107,6 @@ public class HomeController {
 		return "common/member/joinMento";
 	}
 	
-	/*@RequestMapping("/course")
-	public String course() {
-
-		return "common/courese/course";
-	}
-
-	@RequestMapping("/courseDetail")
-	public String courseDetail() {
-
-		return "common/courese/courseDetail";
-	}*/
 	
 	@RequestMapping("/search")
 	public ModelAndView search(String search) {
@@ -110,9 +115,10 @@ public class HomeController {
 		ModelAndView mv=new ModelAndView();
 		
 		mv.addObject("mainCourseList", mainCourseList);
-		mv.setViewName("common/courese/course");
+		mv.setViewName("common/courese/course2");
 		return mv;
 		
 	}
 
+	
 }

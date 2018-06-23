@@ -68,4 +68,9 @@ public interface CourseDAO {
 	 * 스터디 검색
 	 */
 	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
+	
+	/**
+	 * 추천 스터디 조회
+	 * */
+	List<CourseDTO> selectCourseRecommend();
 }

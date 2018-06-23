@@ -1,5 +1,9 @@
 package kosta.spring.postIT.model.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -83,6 +87,79 @@ public class MemberDAOImpl implements MemberDAO {
 	public MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO) {
 		return null;
 	}
+
+	@Override
+	public String isMenteeMentoCheck(String userid) {
+		MenteeDTO menteeDTO = session.selectOne("memberMapper.isMentee", userid);
+		MentoDTO mentoDTO = session.selectOne("memberMapper.isMento", userid);
+		
+		if(menteeDTO != null && mentoDTO != null) {
+			return "mento";
+		}else{ return "mentee";}
+		
+		
+	}
+
+	@Override
+	public List<ApplicantDTO> selectApplicant() {
+		
+		return session.selectList("memberMapper.selectApplicant");
+	}
+
+	@Override
+	public int applicantStatusUpdate(String userId, String selectBoxStatus) {
+		String userid = userId;
+		String selectBoxstatus = selectBoxStatus;
+		
+		
+		//System.out.println(courseLevel+"|"+courseLoc+"|"+courseSubGroup+"|"+day);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("selectBoxStatus", selectBoxstatus);
+		map.put("userId", userid);
+		
+		
+		
+		return session.update("memberMapper.applicantStatusUpdate", map);
+	}
+
+	@Override
+	public int applicantStatusDelete(String userId) {
+		
+		return session.delete("memberMapper.applicantStatusDelete", userId);
+	}
+
+	@Override
+	public int menteeRoleUpdate(String userId) {
+		
+		return session.update("memberMapper.menteeRoleUpdate",userId);
+	}
+
+	@Override
+	public int notificationInsert(String userId) {
+		
+		return session.insert("memberMapper.notificationInsert", userId);
+	}
+
+	@Override
+	public int notificationInsertDeny(String userId) {
+		
+		return session.insert("memberMapper.notificationInsertDeny", userId);
+	}
+
+	@Override
+	public ApplicantDTO beforeApplicantSelect(String userId) {
+		
+		return session.selectOne("memberMapper.beforeApplicantSelect", userId);
+	}
+
+	@Override
+	public int afterApplicantInsert(MentoDTO mentoDTO) {
+		
+		return session.insert("memberMapper.afterApplicantInsert", mentoDTO);
+	}
+
+	
 	
 	
 
