@@ -53,6 +53,8 @@
 
 <!-- 아직 마이페이지가 구현이 안되있어서 클래스룸 이동하는 태그를 직접 설정해줬습니다. 추후 삭제할게요 -->
 <a href="${pageContext.request.contextPath}/classroom">클래스룸 이동 (테스트용)</a>
+<!-- DashBoard용 test 태그입니다. 추후 삭제예정입니다. -->
+<a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse">Dashboard 이동 (테스트용)</a>
 
 
 <%-- <sec:authorize access="isAuthenticated()">
