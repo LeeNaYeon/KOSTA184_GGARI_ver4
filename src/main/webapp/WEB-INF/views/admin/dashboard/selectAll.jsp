@@ -337,8 +337,17 @@
                 	</div>
                   </div>
                 </div>
+                	<%
+			
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+														
+						Date currentTime = new Date ();
+						String mTime = formatter.format(currentTime);								
+						String month = mTime.substring(5,7);
+		
+					%>
                 	<div class="col-md-8" style="flex:77%; max-width:77%">
-                    	<div><h3 class="mentoImage" style="font-size: 20px"><img src="${pageContext.request.contextPath}/resources/images/dashboard/MonthYearImage.png">총 월별 수익 그래프</h3></div>
+                    	<div><h3 class="mentoImage" style="font-size: 20px"><img src="${pageContext.request.contextPath}/resources/images/dashboard/MonthYearImage.png"><%=month%>월 수익 그래프</h3></div>
                         	<!-- 관리자 멘토신청자 명단 리스트 화면 -->
                         <div style="margin-top: .5em;"> 
                        		<table class="table" id="resultTable" style="width: 400px; height: 400px; float:left; margin:20px 10px">

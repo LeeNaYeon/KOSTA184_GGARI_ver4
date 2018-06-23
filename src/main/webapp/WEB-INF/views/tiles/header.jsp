@@ -263,7 +263,7 @@
 			                               <sec:authorize access="isAuthenticated()">
 			                                 <a href="${pageContext.request.contextPath}/myPage/study/select?userId=<sec:authentication property="principal.userId" />"><sec:authentication property="principal.userName"/>님 MyPage </a>
 			                                 <!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
-			                               <input type="text" id="ajaxNotId" value="<sec:authentication property="principal.userId"/>">
+			                               <input type="hidden" id="ajaxNotId" value="<sec:authentication property="principal.userId"/>">
 			                               </sec:authorize>
 										</li>  
 								</c:when>
@@ -333,6 +333,12 @@
                                 
                               	<li><a href="${pageContext.request.contextPath}/qna">Q&A</a></li>
                                 <li><a href="#">Contact</a></li>
+                                
+                                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                
+                                 <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
+                                
+                                </sec:authorize>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
                                 	<li>

@@ -95,15 +95,7 @@
 }
 </style>
 
-<<<<<<< HEAD
-<!-- 아직 마이페이지가 구현이 안되있어서 클래스룸 이동하는 태그를 직접 설정해줬습니다. 추후 삭제할게요 -->
-<a href="${pageContext.request.contextPath}/classroom">클래스룸 이동 (테스트용)</a>
-<!-- DashBoard용 test 태그입니다. 추후 삭제예정입니다. -->
-<a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse">Dashboard 이동 (테스트용)</a>
 
-
-=======
->>>>>>> branch 'master' of https://github.com/LeeNaYeon/KOSTA184_GGARI_ver4.git
 <%-- <sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.userName" /> 님 환영합니다. 
 		<!-- Authentication의 getPrincipal().getName() -> Principal은 Provider에서 Authentication 에 넣어준 VO(생성자 첫 매개변수) -->
