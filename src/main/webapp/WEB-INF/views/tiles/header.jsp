@@ -251,7 +251,7 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-5 col-xs-5">
                         <ul class="tophead-link" >
-                            <li><a href="${pageContext.request.contextPath}/"><i > Welcome to PostIT center!</i></a></li>
+                            <li><a href="${pageContext.request.contextPath}/"><i> Welcome to PostIT center!</i></a></li>
                         </ul>
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-7 tophead-right">
@@ -337,7 +337,7 @@
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 
                                  <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
-                                
+                                 <li><a href="${pageContext.request.contextPath}/admin/menteeSelect">Member</a></li>
                                 </sec:authorize>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">

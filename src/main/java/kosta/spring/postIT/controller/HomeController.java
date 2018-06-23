@@ -26,6 +26,7 @@ public class HomeController {
 	@Autowired
 	private CourseService courseService;
 
+
 	/**
 	 * main
 	 */
@@ -47,7 +48,6 @@ public class HomeController {
 		mv.addObject("RepCount", RepCount);
 		mv.addObject("mentoRepList", mentoRepList);
 		mv.setViewName("main/mainpage/index");
-		
 		return mv;
 	}
 
@@ -93,4 +93,11 @@ public class HomeController {
 		return "redirect:/cr/notice/selectList";
 	}
 	
+	/////////////////////////////////////////////////
+	
+	@RequestMapping("/admin")
+	public String memberSelect() {
+		
+		return "admin/selectCourse";
+	}
 }
