@@ -347,6 +347,7 @@
                                  <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
                                  <li><a href="${pageContext.request.contextPath}/admin/menteeSelect">Member</a></li>
                                  <li><a href="${pageContext.request.contextPath}/admin/applicationSelect">Applicant</a></li>
+                                 <li><a href="${pageContext.request.contextPath}/banner/selectList">banner</a></li>
                                 </sec:authorize>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
