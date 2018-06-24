@@ -313,7 +313,7 @@
                     <div class="header-search">
                        <i class="fa fa-search top-search" style="padding-top: 30px"></i>
                           <div class="search-popup" >
-                               <form role=search action="search" class="search-wrapper">
+                               <form role=search action="${pageContext.request.contextPath}/search" class="search-wrapper">
                                    <div>
                                        <input type="text" name="search" placeholder="강사, 강좌이름으로 검색해주세요.">
                                        <input type="submit" name="button" class="pop-search" value="검색">
@@ -350,6 +350,7 @@
                                 
                                  <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
                                  <li><a href="${pageContext.request.contextPath}/admin/menteeSelect">Member</a></li>
+                                 <li><a href="${pageContext.request.contextPath}/admin/applicationSelect">Applicant</a></li>
                                 </sec:authorize>
                                 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">

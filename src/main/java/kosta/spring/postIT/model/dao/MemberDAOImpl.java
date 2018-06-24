@@ -158,8 +158,8 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int menteeRoleUpdate(String userId) {
-		
-		return session.update("memberMapper.menteeRoleUpdate",userId);
+		System.out.println("dao"+userId);
+		return session.insert("memberMapper.menteeRoleUpdate",userId);
 	}
 
 	@Override

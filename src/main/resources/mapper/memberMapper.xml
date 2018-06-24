@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</sql>
 	
 	<sql id="applicant">
-		applicant_resume,applicant_major1,applicant_major2,applicant_major3,applicant_status
+		applicant_resume,applicant_major,applicant_major2,applicant_major3,applicant_status
 	</sql>
 	
 	
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <resultMap type="applicantDTO" id="applicantSelectMap">
 	  <result column="user_id" property="userId"/>
 	  <result column="applicant_resume" property="applicantResume"/>
-	  <result column="applicant_major1" property="applicantMajor1"/>
+	  <result column="applicant_major" property="applicantMajor"/>
 	  <result column="applicant_major2" property="applicantMajor2"/>
 	  <result column="applicant_major3" property="applicantMajor3"/>
 	  <result column="applicant_status" property="applicantStatus"/>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
    <insert id="insertApplicant" parameterType="applicantDTO">
       insert into applicant
-      values(#{userId},#{applicantResume},#{applicantMajor1},#{applicantMajor2},#{applicantMajor3},#{applicantStatus})
+      values(#{userId},#{applicantResume},#{applicantMajor},#{applicantMajor2},#{applicantMajor3},#{applicantStatus})
    </insert>
    
    <insert id="insertInterested" parameterType="interestedDTO">
@@ -147,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 지원자조회 -->
 	<select id="selectApplicant" resultMap="applicantSelectMap">
-		select a.user_id, applicant_resume,applicant_major1,applicant_major2,applicant_major3,applicant_status,m.user_name
+		select a.user_id, applicant_resume,applicant_major,applicant_major2,applicant_major3,applicant_status,m.user_name
 		from applicant a 
 		join mentee m
 		on a.user_id = m.user_id
@@ -168,22 +168,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원 role insert -->
 	<insert id="menteeRoleUpdate" parameterType="string">
-		insert into authority values('#{_parameter}','ROLE_MENTO')
+		insert into authority values(#{_parameter},'ROLE_MENTO')
 	</insert>
 	
 	<!-- notification 승인 insert -->
 	<insert id="notificationInsert" parameterType="string">
-		insert into notification values(lpad(inter_seq.nextval,4,'0'),#{userId},'관리자','멘토승인이 완료되었습니다. 시간과 장소는 공지사항을 확인해주세요.',sysdate,null)
+		insert into notification values(lpad(inter_seq.nextval,4,'0'),#{userId},'관리자','멘토승인이 완료되었습니다. 마이페이지 프로필수정에서 본인을 수정해주세요.',sysdate,0)
 	</insert>
 	
 	<!-- notification 거절 insert -->
 	<insert id="notificationInsertDeny" parameterType="string">
-		insert into notification values(lpad(inter_seq.nextval,4,'0'),#{userId},'관리자','멘토승인이 거절되었습니다.',sysdate,null)
+		insert into notification values(lpad(inter_seq.nextval,4,'0'),#{userId},'관리자','멘토승인이 거절되었습니다.',sysdate,0)
 	</insert>
 	
 	<!-- mento 승인 전 applicant 정보 select -->
 	<select id="beforeApplicantSelect" parameterType="string" resultMap="applicantSelectMap">
-		select user_id,applicant_resume,applicant_major1,applicant_major2,applicant_major3
+		select *
 		from applicant
 		where user_id=#{_parameter}
 	</select>

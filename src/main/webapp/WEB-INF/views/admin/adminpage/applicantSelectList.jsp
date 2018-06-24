@@ -75,7 +75,7 @@
 					                            <td><span>${applicantDTO.menteeDTO.userName}</span></td>
 					                            <td><span>${applicantDTO.userId}</span></td>
 					                            <td>
-					                            	<span>${applicantDTO.applicantMajor1}</span>
+					                            	<span>${applicantDTO.applicantMajor}</span>
 					                            	<span>${applicantDTO.applicantMajor2}</span>
 					                            	<span>${applicantDTO.applicantMajor3}</span>
 					                            </td>

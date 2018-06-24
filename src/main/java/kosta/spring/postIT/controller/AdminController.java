@@ -28,7 +28,7 @@ public class AdminController {
 	/**
 	 * 지원자 list
 	 * */
-	@RequestMapping("/")
+	@RequestMapping("/applicationSelect")
 	public ModelAndView adminApplicant() {
 		System.out.println("dd");
 		ModelAndView mv = new ModelAndView();
@@ -45,7 +45,8 @@ public class AdminController {
 	public String changeApplicantStatus(String userId,String selectBox) {
 		
 		if(selectBox.equals("멘토승인완료")) {
-				
+			
+			System.out.println("userId: "+userId);
 			//notification 알림 서비스 호출
 			memberService.notificationInsert(userId);
 			
@@ -56,7 +57,7 @@ public class AdminController {
 			ApplicantDTO applicantDTO = memberService.beforeApplicantSelect(userId);
 		
 			MentoDTO mentoDTO = new MentoDTO(userId, applicantDTO.getApplicantResume(), "본인을 소개해주세요.", 
-											 applicantDTO.getApplicantMajor1(), applicantDTO.getApplicantMajor2(), applicantDTO.getApplicantMajor3());
+											 applicantDTO.getApplicantMajor(), applicantDTO.getApplicantMajor2(), applicantDTO.getApplicantMajor3());
 			memberService.afterApplicantInsert(mentoDTO);
 			
 			//applicant 해당 레코드 삭제 서비스 호출
@@ -73,7 +74,7 @@ public class AdminController {
 		}
 		
 		memberService.applicantStatusUpdate(userId, selectBox);
-		return "redirect:/admin";
+		return "redirect:/admin/applicationSelect";
 
 	}
 	
