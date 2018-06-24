@@ -38,7 +38,7 @@
 
 			$.ajax({
     	  		type:"post",//전송방식
-				url:"${pageContext.request.contextPath}/admin/dashboard/selectMentoDashboardGraph", //서버주소
+				url:"${pageContext.request.contextPath}/admin/dashboard/selectMentoDashboardGraphTop", //서버주소
 				data:"${_csrf.parameterName}=${_csrf.token}",
 				dataType:"json", //서버가 front로 보내주는 데이터 타입(text,html,xml,json)
 				success:function(data) {  
@@ -87,7 +87,7 @@
 			//alert("drawChart");
 			$.ajax({
     	  		type:"post",//전송방식
-				url:"${pageContext.request.contextPath}/admin/dashboardGraph", //서버주소
+				url:"${pageContext.request.contextPath}/admin/dashboardGraphTop", //서버주소
 				data:"${_csrf.parameterName}=${_csrf.token}",
 				dataType:"json", //서버가 front로 보내주는 데이터 타입(text,html,xml,json)
 				success:function(data) {  
@@ -242,7 +242,7 @@
 			//alert("drawChart");
 			$.ajax({
     	  		type:"post",//전송방식
-				url:"${pageContext.request.contextPath}/admin/dashboard/selectBannerDashboardGraph", //서버주소
+				url:"${pageContext.request.contextPath}/admin/dashboard/selectBannerDashboardGraphTop", //서버주소
 				data:"${_csrf.parameterName}=${_csrf.token}",
 				dataType:"json", //서버가 front로 보내주는 데이터 타입(text,html,xml,json)
 				success:function(data) {  
@@ -319,32 +319,30 @@
 				    </div>
 				    <ul>
 				      <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">DashBoard메인</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectAll" style="color: black" >DashBoard메인</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse">스터디별 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse" style="color: black">스터디별 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectMento">강사별 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectMento" style="color: black">강사별 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectBanner">광고 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectBanner" style="color: black">광고 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectByMonthYear">월/년 총매출</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectByMonthYear" style="color: black">월/년 총매출</a>
                       </li>
                     </ul>                    
                 	</div>
                   </div>
                 </div>
                 	<%
-			
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 														
 						Date currentTime = new Date ();
 						String mTime = formatter.format(currentTime);								
 						String month = mTime.substring(5,7);
-		
 					%>
                 	<div class="col-md-8" style="flex:77%; max-width:77%">
                     	<div><h3 class="mentoImage" style="font-size: 20px"><img src="${pageContext.request.contextPath}/resources/images/dashboard/MonthYearImage.png"><%=month%>월 수익 그래프</h3></div>

@@ -31,16 +31,15 @@
 <body>
    
    <!-- 여기부터 수정 -->
-   <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1><a href="signin.html">회원가입</a></h1>
-            <span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Join</span>
-            
-        </div>
-    </section>
+    <div style="margin: 50px 0 0 0;text-align: center; width: 100%;">
+	    <div style="margin: 0px auto; width:140px">
+		    <div class="title sec-title" style=" text-align:right; ">
+				<h2>회원가입</h2>
+			</div>
+		</div>
+    </div>
     
-   <section id="gallery">
+   <section id="gallery" style="padding:0 0 20px 0">
         <div class="container">
             <div class="col-md-12">
                 <div class="row">

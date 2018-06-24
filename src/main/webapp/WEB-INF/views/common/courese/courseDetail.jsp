@@ -104,7 +104,7 @@
 }
 
 .section-content1 {
-	float: right;
+	/* float: right; */
 }
 
 .section-content {
@@ -333,8 +333,8 @@ li {
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- <script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
 <script type="text/javascript"
 	src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
@@ -485,25 +485,29 @@ IMP.init("imp99503400");
 
 <!-- 여기부터 수정 -->
 
-<section class="breadcrumb"
-	style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="courses.html">스터디</a>
-		</h1>
-		<span><a href="index.html">Home</a></span><span><i
-			class="fa fa-angle-right"></i>Courses</span>
-	</div>
-</section>
 
-<div class="fixed-width-wrap">
+
+<div class="fixed-width-wrap" >
 	<div id="product-related-info"
 		style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.10);">
 		<header id="product-header">
 			<div id="product-header-images" class="swiper-container-horizontal">
-				<img style="width: 696px; height: 360px"
-					src="${pageContext.request.contextPath}/resources/images/background/common.jpg">
+				<!-- 코스 배경화면 -->				
+				<c:choose>
+					<c:when test="${empty courseDTO.courseBackpic}">
+						<img class="img-responsive "
+							src="${pageContext.request.contextPath}/resources/images/course/2.jpg "
+							style="width: 696px; height: 360px"/>
+					</c:when>
+					<c:otherwise>
+						<%-- <img style="width: 696px; height: 360px"
+						src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic}"> --%>
+						<img class="img-responsive "
+							src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic} "
+							style="width: 696px; height: 360px"/>
+					</c:otherwise>
+					<%-- ${courseDTO.courseBackpic}/${courseDTO.menteeDTO.userPhoto} --%>
+				</c:choose>
 			</div>
 			<div id="product-header-texts">
 				<div class="level-mark">
@@ -666,11 +670,21 @@ IMP.init("imp99503400");
 				<div class="section-wrap">
 					<header class="section-label">
 						<h1 style="font-size: 14pt;">멘토 소개</h1>
-						<img
-							src="https://cdn.studysearch.co.kr/images/users/65235/profile/1518656373"
-							class="leader-profile-image">
-						////////${courseDTO.mentoDTO.menteeDTO.userPhoto}
-
+						<!-- <img src="https://cdn.studysearch.co.kr/images/users/65235/profile/1518656373"
+							class="leader-profile-image"> -->
+						<%-- 	<img src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.mentoDTO.menteeDTO.userPhoto}"
+							class="leader-profile-image"> --%>
+							<%-- ${courseDTO.mentoDTO.menteeDTO.userPhoto} --%>
+						<c:choose>
+							<c:when test="${empty courseDTO.mentoDTO.menteeDTO.userPhoto}">
+								<img src="${pageContext.request.contextPath}/resources/images/users/2.jpg"
+									class="leader-profile-image">
+							</c:when>
+							<c:otherwise>
+								<img src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.mentoDTO.menteeDTO.userPhoto}"
+									class="leader-profile-image">
+							</c:otherwise>
+						</c:choose>
 					</header>
 					<div class="section-content">
 						<span class="leader-greeting"> </span> <br>
@@ -685,7 +699,7 @@ IMP.init("imp99503400");
 			<c:if test="${!empty courseReviewList}">
 				<section id="review-info" class="section-content1">
 					<header>
-						<h1 id="review-count" class="heading">멘토에 대한 후기</h1>
+						<h1 id="review-count" class="heading"><strong>멘토에 대한 후기</strong></h1>
 					</header>
 					<ul id="reviews">
 
@@ -695,10 +709,20 @@ IMP.init("imp99503400");
 
 									<li class="review"><a name="review-5681"></a>
 										<div class="heading writer-photo-wrap">
-											<div class="writer-photo"
-												style="display: inline-block; background-image: url(&amp;quot;https://cdn.studysearch.co.kr/images/users/106906/profile/1518666770&amp;quot;); background-size: cover; background-position: 50% 50%; float: left;">
-											</div>
-											<!-- ${mentee.userPhoto}  -->
+											<!-- 리뷰작성자 사진 -->											
+											<c:choose>
+												<c:when test="${empty mentee.userPhoto}">
+													<div class="writer-photo"
+														style="display: inline-block; background-image: url(${pageContext.request.contextPath}/resources/images/users/2.jpg); background-size: cover; background-position: 50% 50%; float: left;">
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="writer-photo"
+														style="display: inline-block; background-image: url(${pageContext.request.contextPath}/resources/images/test/${mentee.userPhoto}); background-size: cover; background-position: 50% 50%; float: left;">
+													</div>
+												</c:otherwise>
+											</c:choose>
+											<%-- ${mentee.userPhoto}  --%>
 										</div>
 										<div class="review-content-wrap trailing"
 											style="margin: 0 0 20px;">

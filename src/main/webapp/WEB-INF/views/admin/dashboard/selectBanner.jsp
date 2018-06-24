@@ -146,19 +146,19 @@
 				    </div>
 				    <ul>
 				      <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">DashBoard메인</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectAll" style="color: black" >DashBoard메인</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse">스터디별 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectCourse" style="color: black">스터디별 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectMento">강사별 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectMento" style="color: black">강사별 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectBanner">광고 수익</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectBanner" style="color: black">광고 수익</a>
                       </li>
                       <li>
-                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectByMonthYear">월/년 총매출</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard/selectByMonthYear" style="color: black">월/년 총매출</a>
                       </li>
                     </ul>                    
                 	</div>

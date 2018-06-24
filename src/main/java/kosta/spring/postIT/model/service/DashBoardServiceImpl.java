@@ -44,6 +44,24 @@ public class DashBoardServiceImpl implements DashBoardService {
 		
 		return dashBoardDAO.MonthByBanner();
 	}
+
+	@Override
+	public List<CourseDTO> CourseByTop() {
+
+		return dashBoardDAO.CourseByTop();
+	}
+
+	@Override
+	public List<CourseDTO> MentoByTop() {
+
+		return dashBoardDAO.MentoByTop();
+	}
+
+	@Override
+	public List<AdsBannerDTO> BannerTop() {
+
+		return dashBoardDAO.BannerTop();
+	}
 	
 	
 	

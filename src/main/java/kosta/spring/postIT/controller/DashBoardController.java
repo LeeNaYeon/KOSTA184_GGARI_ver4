@@ -90,6 +90,8 @@ public class DashBoardController {
 
 		//String state = request.getParameter("state");
 		
+		System.out.println("dd: "+courseDTO.getCourseCode());
+		
 		List<CourseDTO> courseByList = dashBoardService.CourseBy(courseDTO);
 		
 	/*	System.out.println("dd = " + courseByList.size());
@@ -120,10 +122,10 @@ public class DashBoardController {
 		//String state = request.getParameter("state");
 		List<AdsBannerDTO> Banner = dashBoardService.Banner(adsBannerDTO);
 		
-		System.out.println("dd = " + Banner.size());
+		/*System.out.println("dd = " + Banner.size());
 		for(AdsBannerDTO dto : Banner) {
 			System.out.println(dto.getAdsName()+" | "+dto.getAdsPrice());
-		}
+		}*/
 
 		return Banner;
 	}
@@ -135,11 +137,54 @@ public class DashBoardController {
 		List<CourseDTO> MonthBy = dashBoardService.MonthBy(courseDTO);
 		//List<AdsBannerDTO> MonthByBanner = dashBoardService.MonthByBanner();
 		
-		System.out.println("dd = " + MonthBy.size());
+		/*System.out.println("dd = " + MonthBy.size());
 		for(CourseDTO dto : MonthBy) {
 			System.out.println(dto.getCourseStartDate()+" | "+dto.getCoursePrice());
-		}
+		}*/
 
 		return MonthBy;
+	}
+	
+	
+	@RequestMapping("/admin/dashboardGraphTop")
+	@ResponseBody
+	public List<CourseDTO> courseByTop() {
+
+		List<CourseDTO> courseByTopList = dashBoardService.CourseByTop();
+		
+		System.out.println("courseByTop = " + courseByTopList.size());
+		for(CourseDTO dto : courseByTopList) {
+			System.out.println(dto.getCourseSubGroup()+" | "+dto.getCoursePrice());
+		}
+	
+		return courseByTopList;
+	} 
+	
+	@RequestMapping("/admin/dashboard/selectMentoDashboardGraphTop")
+	@ResponseBody
+	public List<CourseDTO> MenteeByTop() {
+		//String state = request.getParameter("state");
+		List<CourseDTO> MenteeByTop = dashBoardService.MentoByTop();
+		
+		/*System.out.println("dd = " + MenteeBy.size());
+		for(CourseDTO dto : MenteeBy) {
+			System.out.println(dto.getUserId()+" | "+dto.getCoursePrice());
+		}*/
+
+		return MenteeByTop;
+	}
+	
+	@RequestMapping("/admin/dashboard/selectBannerDashboardGraphTop")
+	@ResponseBody
+	public List<AdsBannerDTO> BannerTop() {
+		//String state = request.getParameter("state");
+		List<AdsBannerDTO> BannerTop = dashBoardService.BannerTop();
+		
+		/*System.out.println("dd = " + Banner.size());
+		for(AdsBannerDTO dto : Banner) {
+			System.out.println(dto.getAdsName()+" | "+dto.getAdsPrice());
+		}*/
+
+		return BannerTop;
 	}
 }

@@ -98,13 +98,22 @@ $(function(){
     
    <!-- 여기부터 수정 -->
    
-   <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
+<%--    <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
         <div class="breadcrumb-overlay"></div>
         <div class="container">
             <h1><a href="courses.html">스터디</a></h1>
             <span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Courses</span>
         </div>
-    </section>
+    </section> --%>
+    
+    <div style="margin: 50px 0 0 0;text-align: center; width: 100%;">
+	    <div style="margin: 0px auto; width:140px">
+		    <div class="title sec-title" style=" text-align:right; ">
+				<h2>스터디</h2>
+			</div>
+		</div>
+    </div>
+    
 
    <div class="popular-course course-page">
         <div class="container">           
@@ -211,7 +220,7 @@ $(function(){
 								
 								String cut="";	
 								String reClass="";
-								if(result1<=2){
+								if(result1<2){
 									cut = "마감임박";
 									reClass = "recruiting-status-end";
 								}else{
@@ -303,8 +312,16 @@ $(function(){
 		                    <div class=" col-md-4 col-lg-4">		            
 		                        <div class="course-content">	                        	
 		                            <div class="course-img ">
-		                                <img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/2.jpg " alt="image" />
-		                            	<!-- ${courseDTO.courseBackpic} -->
+		                            	<!-- 코스 배경화면 -->
+		                            	<c:choose>
+			                            	<c:when test="${empty courseDTO.courseBackpic}">
+			                               		<img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/2.jpg " alt="image" />
+			                            	</c:when>
+			                            	<c:otherwise>
+			                            		<img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
+			                            	</c:otherwise>
+			                            	<%-- ${courseDTO.courseBackpic}/${courseDTO.menteeDTO.userPhoto} --%>
+		                            	</c:choose>
 		                            	<div class="<%=reClass%>">
 			                        		<%=cut %>                       	
 			                        	</div>
@@ -327,8 +344,17 @@ $(function(){
 		                               </div>
 
 		                                <div class="course-icon">
-		                                    <img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
-		                                </div>
+		                                	<!-- 멘토 프로필사진 -->
+											<c:choose>
+												<c:when test="${empty courseDTO.menteeDTO.userPhoto}">
+													<img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
+												</c:when>
+												<c:otherwise>
+													<img src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.menteeDTO.userPhoto}" class="img-responsive" alt="image">		                               
+												</c:otherwise>
+											</c:choose>
+
+										</div>
 		                                <div class="course-bottom">
 		                                  <!--   <span><i class="fa fa-users"></i>365</span>
 		                                    <span><i class="fa fa-comment"></i>7</span> -->

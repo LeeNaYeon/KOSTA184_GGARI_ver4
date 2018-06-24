@@ -31,5 +31,21 @@ public interface DashBoardDAO {
 	 * 달별 광고 수익 표시
 	 */
 	List<AdsBannerDTO> MonthByBanner();
+	
+	/**
+	 * 스터디 소분류별 Top수익표시
+	 */
+	List<CourseDTO> CourseByTop ();
+	
+	/**
+	 * 멘토별 수익 표시
+	 */
+	List<CourseDTO> MentoByTop();
+	
+	/**
+	 * 광고별 수익표시
+	 */
+	List<AdsBannerDTO> BannerTop();
+	
 
 }

@@ -163,14 +163,12 @@
 <body>
     
    <!-- 여기부터 수정 -->
-    <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1><a href="signin.html">멘티로 회원가입</a></h1>
-            <span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Join</span>
-            
-        </div>
-    </section>
+    
+<!--     <div class="login-form" style="box-shadow:none; padding:50px 0 0 0">
+    	<div class="title sec-title" style="text-align: left">
+			<h2>멘티로 회원가입</h2>
+		</div>
+    </div> -->
 
     <!--login-page-->
     <div class="inner-page login-page">
@@ -178,9 +176,11 @@
             <div class="row">
                 <div class="login-form">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="navbar-brand"  style="margin-bottom: 30px">
+                        <div class="navbar-brand"  style="margin-bottom: 10px">
                             <!-- <img src="images/logo.png" class="img-responsive" alt=""> -->
-                            <span style="font-size:40px; color:orange;"><strong>Let's code together</strong></span>
+					        <div class="title sec-title" style="text-align: left; margin: 20px 0 0 0" >
+								<h2>멘티로 회원가입</h2>
+							</div>
                         </div>
                     </div>
                     

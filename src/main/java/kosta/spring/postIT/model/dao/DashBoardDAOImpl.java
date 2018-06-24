@@ -89,6 +89,24 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		return session.selectList("dashboardMapper.MonthBanner");
 	}
 
+	@Override
+	public List<CourseDTO> CourseByTop() {
+
+		return session.selectList("dashboardMapper.CourseByTop");
+	}
+
+	@Override
+	public List<CourseDTO> MentoByTop() {
+
+		return session.selectList("dashboardMapper.MentoByTop");
+	}
+
+	@Override
+	public List<AdsBannerDTO> BannerTop() {
+
+		return session.selectList("dashboardMapper.BannerTop");
+	}
+
 	
 	
 	

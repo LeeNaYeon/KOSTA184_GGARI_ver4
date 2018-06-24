@@ -35,17 +35,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="ads_link" property="adsLink"/>
 		<result column="ads_price" property="adsPrice"/>
 	</resultMap>	
-
 	
-	<!-- <select id="CourseBy" resultMap="CourseBySelectMap">
-		select c.course_sub_group, sum(pay_price) as course_price
+	<select id="CourseByTop" resultMap="CourseBySelectMap">
+		select course_sub_group,course_price
+        from
+        (select c.course_sub_group, sum(pay_price) as course_price
         from payment p 
         join course_regist r
         on p.pay_code = r.pay_code 
         join course c 
-        on c.course_code = r.course_code
+        on r.course_code =c.course_code 
+        where substr(pay_date,0,5) = (SELECT TO_CHAR(SYSDATE, 'YY/MM')FROM DUAL)       
         group by course_sub_group
-	</select> -->
+        order by sum(pay_price) desc)
+        where rownum &lt;6
+	</select> 
 	
 	<select id="CourseBy" resultMap="CourseBySelectMap">
 		select c.course_sub_group, sum(pay_price) as course_price
@@ -71,15 +75,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by sum(pay_price) desc
 	</select>
 	
-	<!-- <select id="MentoBy" resultMap="CourseBySelectMap">	
-		select c.user_id, sum(pay_price) as course_price
+	<select id="MentoByTop" resultMap="CourseBySelectMap">	
+        select user_id,course_price
+        from
+        (select c.user_id, sum(pay_price) as course_price
         from payment p 
         join course_regist r
         on p.pay_code = r.pay_code 
         join course c 
-        on c.course_code = r.course_code
+        on r.course_code =c.course_code 
+        where substr(pay_date,0,5) = (SELECT TO_CHAR(SYSDATE, 'YY/MM')FROM DUAL)  
         group by c.user_id
-	</select> -->
+        order by sum(pay_price) desc)
+        where rownum &lt;6
+	</select> 
 	
 	<select id="MentoBy" resultMap="CourseBySelectMap">	
         select c.user_id, sum(pay_price) as course_price
@@ -119,6 +128,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ads_start_date &gt;= substr(#{adsStartDate},3,10) and ads_start_date &lt;= substr(#{adsEndDate},3,10)       
         group by ads_name
         order by ads_price desc
+	</select>
+	
+	<select id="BannerTop" resultMap="BannerSelectMap">
+		select ads_name,ads_price
+        from
+        (select ads_name, sum(ads_price) as ads_price
+        from ads_banner
+        where substr(ads_start_date,0,5) = (SELECT TO_CHAR(SYSDATE, 'YY/MM')FROM DUAL)     
+        group by ads_name
+        order by ads_price desc)
+        where rownum &lt;6
 	</select>
 	
 <!-- 	<select id="MonthBy" resultMap="CourseBySelectMap">
