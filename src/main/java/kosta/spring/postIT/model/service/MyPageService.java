@@ -2,6 +2,7 @@ package kosta.spring.postIT.model.service;
 
 import java.util.List;
 
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -76,6 +77,20 @@ public interface MyPageService {
 	 * @return
 	 */
 	public MentoDTO getMentoMajor(String userId);
+	
+	/**
+	 * to insert mento to applicant table
+	 * @param applicantDTO get applicant's informations as applicantDTO
+	 * @return success or fail to return
+	 */
+	public int insertApplicant(ApplicantDTO applicantDTO);
+	
+	/**
+	 * 
+	 * @param mentoDTO
+	 * @return
+	 */
+	public int mentoDescUpdate(MentoDTO mentoDTO);
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	

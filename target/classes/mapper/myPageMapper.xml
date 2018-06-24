@@ -135,13 +135,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="user_phone" property="userPhone" />
 		<result column="user_email" property="userEmail" />
 		<result column="user_photo" property="userPhoto" />
-		<collection property="mento" javaType="MentoDTO">
-			<id column="user_id" property="userId" />
-			<result column="mento_desc" property="mentoDesc" />
-			<result column="mento_major" property="mentoMajor" />
-			<result column="mento_major2" property="mentoMajor2" />
-			<result column="mento_major3" property="mentoMajor3" />
-		</collection>
 	</resultMap>
 
 	<resultMap type="mentoDTO" id="getMentoMajor">
@@ -196,15 +189,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 
-	<select id="memberInfoCollect" parameterType="string" resultMap="userInfoSelection">
-		select t.user_id, user_name,
-		user_phone,user_email,user_photo,
-		mento_major,mento_major2,mento_major3,mento_desc
-		from mentee t join
-		mento m
-		on t.user_id = m.user_id
-		where t.user_id = #{_parameter}
+	<select id="memberInfoCollect" parameterType="string" resultType="menteeDTO">
+		select user_id as userId, user_name as userName,
+		user_phone as userPhone ,user_email as userEmail,user_photo as userPhoto
+		from mentee
+		where user_id = #{_parameter}
 	</select>
+	
+	<update id="description" parameterType="mentoDTO">
+		update mento
+		set mento_desc=#{mentoDesc}
+		where user_id=#{userId}
+	</update>
+	
 
 	<insert id="paymentInsert" parameterType="paymentDTO">
 		insert into payment
@@ -400,6 +397,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from mento
 		where user_id=#{_parameter} 
 	</select>
+	
+	<insert id="insertApplicant" parameterType="applicantDTO">
+		insert into
+		applicant 
+		values(#{userId}, #{applicantResume}, #{applicanteMajor1}, #{applicanteMajor2}, #{applicanteMajor3},0)
+	</insert>
 
 
 </mapper>

@@ -327,7 +327,7 @@
                                 <li class="menu-item-has-children"><a href="#">courses</a>
                                     <ul>
                                         <li><a href="${pageContext.request.contextPath}/course">Courses</a></li>
-                                        <li><a href="${pageContext.request.contextPath}/course/detail">Course details</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/myPage/insertApplicantForm">Apply for Mento</a></li>
                                     </ul>
                                 </li>
                                 

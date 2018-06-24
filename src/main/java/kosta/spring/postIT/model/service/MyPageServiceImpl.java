@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.MyPageDAO;
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -180,6 +181,18 @@ public class MyPageServiceImpl implements MyPageService {
 	public MentoDTO getMentoMajor(String userId) {
 		
 		return myPageDAO.getMentoMajor(userId);
+	}
+
+	@Override
+	public int insertApplicant(ApplicantDTO applicantDTO) {
+		myPageDAO.insertApplicant(applicantDTO);
+		return 0;
+	}
+
+	@Override
+	public int mentoDescUpdate(MentoDTO mentoDTO) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

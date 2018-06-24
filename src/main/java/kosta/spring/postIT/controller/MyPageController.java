@@ -1,7 +1,6 @@
 package kosta.spring.postIT.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kosta.spring.postIT.model.dto.CourseApplyDTO;
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -37,7 +36,7 @@ public class MyPageController {
 	private final String savePath = "C:\\edu_j\\springworkspace\\springUserBoardTilesSaveFolder";
 
 	@RequestMapping("/myPage/studyInsert/insertForm")
-	public String studyInsertForm(Model model) throws Exception{
+	public String studyInsertForm(Model model) throws Exception {
 
 		/**
 		 * 여기서 아이디 값을 받아서 다오 가서 아이디 값 받아서 넘어온다. 아이디에 해당하는 정보들도 DTO에 넣어서 뷰로 뿌려준다. 정보는
@@ -52,11 +51,9 @@ public class MyPageController {
 			userId = pvo.getUserId();
 		}
 
-		
 		MenteeDTO menteeDTO = myPageService.selectMember(userId);
 		MentoDTO mentoDTO = myPageService.getMentoMajor(userId);
 
-		
 		model.addAttribute("majorList", mentoDTO);
 		model.addAttribute("memberInfo", menteeDTO);
 
@@ -121,8 +118,7 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/courseInsertConfirm")
-	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO)
-			throws Exception {
+	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO) throws Exception {
 		MultipartFile file = courseDTO.getFile();
 		if (courseDTO.getFile().getSize() > 0) {
 			courseDTO.setCourseBackpic(file.getOriginalFilename());
@@ -130,7 +126,7 @@ public class MyPageController {
 			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
 
 		}
-		String userId=null;
+		String userId = null;
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (obj instanceof MenteeDTO) {
 			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -189,6 +185,17 @@ public class MyPageController {
 			}
 		}
 
+		if (request.getParameter("description") != null) {
+			String userId = menteeDTO.getUserId();
+			String mentoDesc = request.getParameter("description");
+
+			MentoDTO mentoDTO = new MentoDTO();
+			mentoDTO.setMentoDesc(mentoDesc);
+			mentoDTO.setUserId(userId);
+			
+			myPageService.mentoDescUpdate(mentoDTO);
+			
+		}
 		myPageService.updateMenteeUserInfo(menteeDTO);
 
 		myPageService.updateInterested(interestedDTO);
@@ -334,6 +341,53 @@ public class MyPageController {
 
 		return mv;
 
+	}
+
+	@RequestMapping("myPage/insertApplicantForm")
+	public String insertApplicantForm(Model model) {
+
+		String userId = null;
+
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
+		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		model.addAttribute("menteeDTO", menteeDTO);
+
+		return "mentee/myPage/applicantForm";
+	}
+
+	@RequestMapping("myPage/insertApplicant")
+	public String insertApplicant(ApplicantDTO applicantDTO, HttpServletRequest request, Model model) throws Exception {
+
+		MultipartFile file = applicantDTO.getFile();
+
+		if (applicantDTO.getFile().getSize() > 0) {
+			applicantDTO.setApplicantResume(file.getOriginalFilename());
+
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+
+		}
+
+		String[] classes = request.getParameterValues("classification");
+		if (classes[0] != null) {
+			applicantDTO.setApplicantMajor1(classes[0]);
+			if (classes[1] != null) {
+				applicantDTO.setApplicantMajor2(classes[1]);
+				if (classes[2] != null) {
+					applicantDTO.setApplicantMajor3(classes[2]);
+				}
+			}
+		}
+
+		myPageService.insertApplicant(applicantDTO);
+
+		model.addAttribute("applicant", applicantDTO);
+
+		return "mentee/myPage/applicantRequested";
 	}
 
 }

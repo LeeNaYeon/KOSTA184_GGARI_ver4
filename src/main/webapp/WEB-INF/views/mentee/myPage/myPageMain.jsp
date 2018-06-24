@@ -26,11 +26,11 @@
 						<li class="filter" data-filter="all"><a href="#">완료된 스터디</a></li>
 						<li class="filter" data-filter="all"><a
 							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필 수정</a></li>
-<%-- 						<sec:authorize access="hasRole('ROLE_MENTO')">
- --%>							<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+ 						<sec:authorize access="hasRole('ROLE_MENTO')">
+						<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
 									만들기</a></li>
-<%-- 						</sec:authorize>
- --%>					</ul>
+						</sec:authorize>
+					</ul>
 				</div>
 			</div>
 		</div>
