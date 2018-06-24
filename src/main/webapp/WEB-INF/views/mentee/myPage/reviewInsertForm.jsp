@@ -6,13 +6,7 @@
 <html>
 
 <body>
- <section class="breadcrumb" style="background-image: url(s/images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1><a href="Contact.html">Contact</a></h1>
-            <span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Conatact</span>
-        </div>
-    </section>
+ 
 
     <section class="contact-page inner-page">
         <div class="container">

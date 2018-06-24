@@ -53,6 +53,7 @@
 		});
 	}
 
+	//유효성체크
 	function checkValid() {
 		var f = window.document.courseAddForm;
 
@@ -61,9 +62,11 @@
 			f.courseTitle.focus();
 			return false;
 		}
+		
 		var text = $('#courseTitle').val();
         // 입력값 길이 저장
         var textlength = text.length;
+        var limit = 10;
         if(textlength > 10)
         {
                 $('#courseTitle').html('글내용을 '+limit+
@@ -75,9 +78,7 @@
 		var major1 = $('#major1').val();
 		var major2 = $('#major2').val();
 		var major3 = $('#major3').val();
-		
-		alert(major1+major2+major3);
-		
+	
 		if (f.classification.value == "") {
 			alert("맞는 분야를 선택해 주십시오.");
 			f.classification.focus();
@@ -155,18 +156,6 @@
 </head>
 
 <body>
-
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="signin.html">강좌개설</a>
-		</h1>
-		<span><a href="index.html">마이페이지</a></span><span><i
-			class="fa fa-angle-right"></i>강좌개설</span>
-	</div>
-	</section>
 
 	<section id="gallery">
 	<div class="container">

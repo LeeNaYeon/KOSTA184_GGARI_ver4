@@ -102,18 +102,7 @@
 </head>
 <body>
 
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="courses.html">Courses</a>
-		</h1>
-		<span><a href="index.html">Home</a></span><span><i
-			class="fa fa-angle-right"></i>Courses</span>
-	</div>
-	</section>
-
+	
 	<section id="gallery">
 	<div class="container">
 		<div class="col-md-12">

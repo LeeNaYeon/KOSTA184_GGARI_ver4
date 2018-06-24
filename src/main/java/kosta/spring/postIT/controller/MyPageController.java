@@ -373,11 +373,15 @@ public class MyPageController {
 		}
 
 		String[] classes = request.getParameterValues("classification");
-		if (classes[0] != null) {
+		System.out.println(classes.length);
+		if (classes.length>=1) {
+			System.out.println(classes[0]);
 			applicantDTO.setApplicantMajor1(classes[0]);
-			if (classes[1] != null) {
+			if (classes.length>=2) {
+				System.out.println(classes[1]);
 				applicantDTO.setApplicantMajor2(classes[1]);
-				if (classes[2] != null) {
+				if (classes.length>=3) {
+					System.out.println(classes[2]);
 					applicantDTO.setApplicantMajor3(classes[2]);
 				}
 			}

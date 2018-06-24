@@ -122,7 +122,7 @@
 					
 						<div class="form-join">
 							<div style="font-size: 1.2em;">
-								<strong>your major</strong>
+								<strong>(*)your major</strong>
 							</div>
 
 							<div class="form-fav" style="float: left">
