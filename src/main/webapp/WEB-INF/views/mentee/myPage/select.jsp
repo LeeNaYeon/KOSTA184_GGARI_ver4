@@ -3,28 +3,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
+<script type="text/javascript">
+	var validation = $('#isMento').val();
+</script>
 <body>
-	<%-- <%
-	String userId = (String)request.getAttribute("userId");
-		
-	%>
-	<%= userId %> --%>
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="courses.html">MyPage</a>
-		</h1>
-		<span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>MyPage</span>
-	</div>
-	</section>
-
 	<div class="popular-course course-page inner-page"
 		style="margin-top: 20px">
 		<div class="container">
@@ -32,36 +19,53 @@
 			<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
 			<div class="course-filter">
 				<div class="gallery-nav">
-				
-				<c:set var="userId"><sec:authentication property="principal.userId"/></c:set>
-				
+					<sec:authorize access="hasRole('ROLE_MENTO')">
+						<c:set var="validation" value="Mento" />
+					</sec:authorize>
+					<c:set var="userId">
+						<sec:authentication property="principal.userId" />
+					</c:set>
+
 					<ul>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필 수정</a></li>
-						<li class="filter"><a href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
-					</ul>					
-				
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+								스터디</a></li>
+
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/profile/updateForm?validation=${validation}">프로필
+								수정</a></li>
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<li class="filter"><a
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+									만들기</a></li>
+						</sec:authorize>
+					</ul>
+
 				</div>
 			</div>
 			</section>
 
 			<div class="pupular-course-inner clear">
-			<c:choose>
-				<c:when test="${mentoList[0] eq null}">
-				</c:when>
-				<c:otherwise>
-					<h1>멘토 스터디</h1>
-				</c:otherwise>
-			</c:choose>
+				<c:choose>
+					<c:when test="${mentoList[0] eq null}">
+					</c:when>
+					<c:otherwise>
+						<h1>멘토 스터디</h1>
+					</c:otherwise>
+				</c:choose>
 				<div class="row">
 					<c:choose>
 						<c:when test="${mentoList[0] eq null}">
 						</c:when>
-						<c:otherwise>						
-																		
-							<c:forEach items="${mentoList}" var="mento">							
+						<c:otherwise>
+
+							<c:forEach items="${mentoList}" var="mento">
 								<div class=" col-md-4 col-lg-4">
 									<div class="course-content">
 										<div class="course-img">
@@ -123,8 +127,10 @@
 												<span><%=result%>주</span> <span class="pull-right">${mento.coursePrice}</span>
 											</div>
 										</div>
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mento.courseCode}" target="_blank">클래스룸으로 이동</a>
-										
+										<a style="width: 100%;" class="btn btn-primary"
+											href="${pageContext.request.contextPath}/classroom/${mento.courseCode}"
+											target="_blank">클래스룸으로 이동</a>
+
 									</div>
 								</div>
 							</c:forEach>
@@ -132,21 +138,21 @@
 					</c:choose>
 
 				</div>
-				
+
 				<c:choose>
-				<c:when test="${menteeList[0] eq null}">
-				</c:when>
-				<c:otherwise>
-					
-					<h1>멘티 스터디</h1>
-				</c:otherwise>
+					<c:when test="${menteeList[0] eq null}">
+					</c:when>
+					<c:otherwise>
+
+						<h1>멘티 스터디</h1>
+					</c:otherwise>
 				</c:choose>
-				<div class="row">			
+				<div class="row">
 					<c:choose>
-						<c:when test="${menteeList[0] eq null}">						
+						<c:when test="${menteeList[0] eq null}">
 						</c:when>
 						<c:otherwise>
-					
+
 							<c:forEach items="${menteeList}" var="mentee">
 								<div class=" col-md-4 col-lg-4">
 									<div class="course-content">
@@ -170,7 +176,8 @@
 											<div class="course-date">
 												<p>
 													<%=updateStartDate%>
-													${mentee.courseDTO.courseStartTime}~${mentee.courseDTO.courseEndTime} 첫시작
+													${mentee.courseDTO.courseStartTime}~${mentee.courseDTO.courseEndTime}
+													첫시작
 												</p>
 											</div>
 
@@ -229,13 +236,17 @@
 														System.out.println(differenceDay);
 														if (differenceDay >= 14) {
 										%>
-										
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/myPage/study/delete?userId=${mentee.userId}&courseCode=${mentee.courseDTO.courseCode}">스터디 취소하기</a>
-											
+
+										<a style="width: 100%;" class="btn btn-primary"
+											href="${pageContext.request.contextPath}/myPage/study/delete?userId=${mentee.userId}&courseCode=${mentee.courseDTO.courseCode}">스터디
+											취소하기</a>
+
 										<%
 											} else {
 										%>
-										<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/classroom/${mentee.courseDTO.courseCode}" target="_blank">클래스룸으로 이동</a>										
+										<a style="width: 100%;" class="btn btn-primary"
+											href="${pageContext.request.contextPath}/classroom/${mentee.courseDTO.courseCode}"
+											target="_blank">클래스룸으로 이동</a>
 										<%
 											}
 										%>

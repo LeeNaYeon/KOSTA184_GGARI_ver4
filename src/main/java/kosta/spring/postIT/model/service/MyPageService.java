@@ -86,12 +86,18 @@ public interface MyPageService {
 	public int insertApplicant(ApplicantDTO applicantDTO);
 	
 	/**
-	 * 
+	 * 멘토 상세설명 업데이트
 	 * @param mentoDTO
 	 * @return
 	 */
 	public int mentoDescUpdate(MentoDTO mentoDTO);
 	
+	/**
+	 * 멘토 자기소개 가져오는 메소드.
+	 * @param userId
+	 * @return
+	 */
+	public String getMentoDesc(String userId);
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	List<CourseDTO> selectMentoStudy(String userId);

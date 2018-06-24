@@ -278,6 +278,7 @@
                                         <input type="hidden" id="ajaxNotId" value="<sec:authentication property="principal.userId"/>">
                                         </sec:authorize>
                               </li>  
+                              <li><a href="${pageContext.request.contextPath}/myPage/insertApplicantForm">멘토신청하기</a></li>
                         </c:when>
                         
                         
@@ -336,12 +337,7 @@
                                 <li class="current-menu-item "><a href="index">Home</a></li>
                                 <li><a href="#">About</a> </li>
                                 <li><a href="${pageContext.request.contextPath}/notice/mainPage">Notice</a> </li>
-                                <li class="menu-item-has-children"><a href="#">courses</a>
-                                    <ul>
-                                        <li><a href="${pageContext.request.contextPath}/course">Courses</a></li>
-                                        <li><a href="${pageContext.request.contextPath}/myPage/insertApplicantForm">Apply for Mento</a></li>
-                                    </ul>
-                                </li>
+                                <li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/course">courses</a></li>
                                 
                                  <li><a href="${pageContext.request.contextPath}/qna">Q&A</a></li>
                                 <li><a href="#">Contact</a></li>

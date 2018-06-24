@@ -182,6 +182,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 		// TODO Auto-generated method stub
 		return session.update("myPageMapper.description", mentoDTO);
 	}
+
+	@Override
+	public String getMentoDesc(String userId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("myPageMapper.getMentoDesc", userId);
+	}
 	
 	
 }

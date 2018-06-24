@@ -8,6 +8,9 @@
 			<div class="col-md-12">
 				<div class="row">
 					<!-- gallery Nav -->
+					<sec:authorize access="hasRole('ROLE_MENTO')">
+						<input type="hidden" name="isMento" value="mento"/>
+					</sec:authorize>
 					<div class="gallery-nav">
 						<ul>
 							<li class="filter" data-filter="all"><a

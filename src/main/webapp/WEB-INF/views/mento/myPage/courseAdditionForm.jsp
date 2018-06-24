@@ -62,37 +62,14 @@
 			f.courseTitle.focus();
 			return false;
 		}
-		
+
 		var text = $('#courseTitle').val();
-        // 입력값 길이 저장
-        var textlength = text.length;
-        var limit = 10;
-        if(textlength > 10)
-        {
-                $('#courseTitle').html('글내용을 '+limit+
-                '자 이상 쓸수 없습니다!');
-                // 제한 글자 길이만큼 값 재 저장
-                $('#courseTitle').val(text.substr(0,limit));
-                return false;
-        }
-		var major1 = $('#major1').val();
-		var major2 = $('#major2').val();
-		var major3 = $('#major3').val();
-	
-		if (f.classification.value == "") {
-			alert("맞는 분야를 선택해 주십시오.");
-			f.classification.focus();
+		var textlength = text.length;
+		var limit = 10;
+		if (textlength > 10) {
+			alert("제목은 10자를 초과할 수 없습니다.");
+			f.courseTitle.focus();
 			return false;
-		}else{
-			if (f.classification.value != major1) {
-				if (f.classification.value != major2) {
-					if (f.classification.value != major3) {
-						alert("본인과 맞는 분야를 선택해주십시오.");
-						f.classification.focus();
-						return false;
-					}
-				}
-			}
 		}
 
 		if (f.courseLevel.value == "") {
@@ -186,17 +163,10 @@
 								class="img-responsive" alt="">
 						</div>
 					</div>
-					<input type="hidden" id="major1" value="${majorList.mentoMajor}"/>
-					<c:if test="${majorList.mentoMajor2 ne null}">
-						<input type="hidden" id="major2" value="${majorList.mentoMajor2}"/>
-					</c:if>
-					<c:if test="${majorList.mentoMajor3 ne null}">
-						<input type="hidden" id="major3" value="${majorList.mentoMajor3}"/>
-					</c:if>
-					
-					
-					<form name="courseAddForm" method="post" 
-					action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
+
+
+					<form name="courseAddForm" method="post"
+						action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
 						onSubmit='return checkValid()' enctype="multipart/form-data">
 
 						<div class="form-group">
@@ -206,25 +176,79 @@
 						<div class="form-group">
 							강좌종류<br> <select name="courseSubGroup">
 								<optgroup label="스킬업단과">
-									<option value="U001">JAVA</option>
-									<option value="U002">C</option>
-									<option value="U003">알고리즘</option>
-									<option value="U004">DBMS</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U001'}">
+										<option value="U001">JAVA</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U002'}">
+										<option value="U002">C</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U003'}">
+										<option value="U003">알고리즘</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U004'}">
+										<option value="U004">DBMS</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="Web Developer">
-									<option value="W001">Back-End</option>
-									<option value="W002">Front-End</option>
-									<option value="W003">Android Application</option>
-									<option value="W004">iOS Application</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W001'}">
+										<option value="W001">Back-End</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W002'}">
+										<option value="W002">Front-End</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W003'}">
+										<option value="W003">Android Application</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W004'}">
+										<option value="W004">iOS Application</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="보안">
-									<option value="H001">사이버보안</option>
-									<option value="H002">웹 보안</option>
-									<option value="H003">시스템보안</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H001'}">
+										<option value="H001">사이버보안</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H002'}">
+										<option value="H002">웹 보안</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H003'}">
+										<option value="H003">시스템보안</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="server/networking">
-									<option value="S001">Linux</option>
-									<option value="S002">Network</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'S001'}">
+										<option value="S001">Linux</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'S002'}">
+										<option value="S002">Network</option>
+									</c:if>
+								</c:forEach>
+									
+									
 								</optgroup>
 							</select>
 						</div>

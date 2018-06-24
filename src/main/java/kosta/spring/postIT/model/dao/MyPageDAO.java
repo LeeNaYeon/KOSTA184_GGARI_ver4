@@ -98,6 +98,13 @@ public interface MyPageDAO {
 	 * @return
 	 */
 	public int mentoDescUpdate(MentoDTO mentoDTO);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public String getMentoDesc(String userId);
 	//////////////////////////////////////////////////////////////////////////////////
 	
 	

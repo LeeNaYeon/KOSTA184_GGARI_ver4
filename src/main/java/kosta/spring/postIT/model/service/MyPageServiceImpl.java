@@ -206,4 +206,10 @@ public class MyPageServiceImpl implements MyPageService {
 		return 0;
 	}
 
+	@Override
+	public String getMentoDesc(String userId) {
+		// TODO Auto-generated method stub
+		return myPageDAO.getMentoDesc(userId);
+	}
+
 }

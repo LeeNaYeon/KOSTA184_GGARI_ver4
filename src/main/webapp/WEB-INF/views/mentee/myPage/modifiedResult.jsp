@@ -9,7 +9,39 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
+			<div class="course-filter">
+				<div class="gallery-nav">
+					<sec:authorize access="hasRole('ROLE_MENTO')">
+						<input type="hidden" name="isMento" value="mento" />
+					</sec:authorize>
+					<c:set var="userId">
+						<sec:authentication property="principal.userId" />
+					</c:set>
+
+					<ul>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
+								수정</a></li>
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<li class="filter"><a
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+									만들기</a></li>
+						</sec:authorize>
+					</ul>
+
+				</div>
+			</div>
+			</section>
 
 	<section class="teacher-details-page inner-page">
 	<div class="container">

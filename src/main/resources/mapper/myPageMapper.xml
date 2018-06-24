@@ -231,13 +231,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="userInterUpdate" parameterType="interestedDTO">
 		update interested
-		set inter_field=#{interField1}
-		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>
-		<if test="#{interField2}==null">,null</if>
+		set inter_field1=#{interField1}
+		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>		
 		<if test="#{interField3}!=null">,inter_field3=#{interField3}</if>
-		<if test="#{interField3}==null">,null</if>
 		where user_id=#{userId}
 	</update>
+	
+	<select id="getMentoDesc" parameterType="string" resultType="string">
+		select mento_desc from mento where user_id=#{_parameter}
+	</select>
 
 
 	<select id="selectMento" parameterType="string" resultMap="selectMentoMap">

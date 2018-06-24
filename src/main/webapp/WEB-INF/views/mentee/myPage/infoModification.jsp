@@ -103,24 +103,39 @@
 <body>
 
 	
-	<section id="gallery">
-	<div class="container">
-		<div class="col-md-12">
-			<div class="row">
-				<!-- gallery Nav -->
+	<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
+			<div class="course-filter">
 				<div class="gallery-nav">
+					<sec:authorize access="hasRole('ROLE_MENTO')">
+						<input type="hidden" name="isMento" value="mento" />
+					</sec:authorize>
+					<c:set var="userId">
+						<sec:authentication property="principal.userId" />
+					</c:set>
+
 					<ul>
-						<li class="filter" data-filter="all"><a href="#">내 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">완료된 스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+								스터디</a></li>
 						<li class="filter" data-filter="all"><a
 							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
 								수정</a></li>
-						<li class="filter"><a
-							href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
-								만들기</a></li>
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<li class="filter"><a
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+									만들기</a></li>
+						</sec:authorize>
 					</ul>
+
 				</div>
+			</div>
+			</section>
 				<!--/ End gallery Nav -->
 
 				<div class="login-form">
@@ -165,11 +180,11 @@
 						</div>
 						<div class="form-group">
 							(*)연락처<br> <input type="text"
-								placeholder="${memberInfo.userPhone}" name="userPhone">
+								value="${memberInfo.userPhone}" name="userPhone">
 						</div>
 						<div class="form-group">
 							(*)이메일<br> <input type="text"
-								placeholder="${memberInfo.userEmail}" name="userEmail">
+								value="${memberInfo.userEmail}" name="userEmail">
 						</div>
 
 						<div class="form-join">
@@ -282,8 +297,7 @@
 							<div class="form-group">
 								introduce yourself<br>
 								<textarea rows="100" name="description" cols="50"
-									style="height: 300px"
-									placeholder="   강사소개말을 입력해 주십시오. 수강생들이 보는 강사에 대한 첫 인상이기 때문에 무엇보다도 중요할 수 있습니다. 그러니 조금이라도 신경을 써 주신다면 감사하겠습니다. 항상, 최선을 다 하는 postIT이 되겠습니다."></textarea>
+									style="height: 300px" placeholder="${mentoDTO.mentoDesc}"></textarea>
 							</div>
 						</sec:authorize>
 						<div>&nbsp</div>
@@ -292,10 +306,7 @@
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
-	</div>
-	</section>
+
 
 
 	<!--Footer Bottom-->
