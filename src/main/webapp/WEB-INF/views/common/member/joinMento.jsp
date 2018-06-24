@@ -211,12 +211,13 @@
                         </div>
                          <div class="form-join">
                         	※ 이력서 양식은 공지사항에서 확인해주세요.                        	
-                        	 <label class="btn btn-primary">
+                        	 <!-- <label class="btn btn-primary">
                                     이력서 등록
                                     <input type="file" name="file" style="display: none;">
-                             </label>     
+                             </label>  -->    
+                             <input type="file" name="file">
                         </div>
-                                                                                       
+                        <br>                                                  
                         <div class="form-join" id="checkbox">
                            <div style = "font-size:1.2em;">
                               <strong>주력분야</strong>

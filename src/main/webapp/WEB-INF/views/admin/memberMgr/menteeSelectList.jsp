@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
    	<section class="blog-page inner-page">
         <div class="container">
             <div class="blog-page-inner clear">
@@ -9,7 +8,9 @@
                 <div class="col-md-4" style="flex:23%; max-width:23%">
                   <div class="sidebar">
                    <div class="sidebar-widget category-widget">
-       
+       				<div class="title inner-page-title">
+				       <h3 style="font-size: 20px">Member</h3>
+				    </div>
 				    <ul>
 
                       <li>
@@ -39,22 +40,26 @@
 				                            <th>회원 삭제</th>
 				                        </tr>
 				                        
-				                        <c:forEach items="${list}" var="mentee" varStatus="status">
-				                         <tr>
-				                    		<td>${status.count}</td>
-				                            <td>${mentee.userName}</td>
-				                            <td>${mentee.userId}</td>
-				                            <td>${mentee.userPhone}</td>
-				                            <td>${mentee.userEmail}</td>
-				                            <td>
-				                            	<div class="blog-btn" id="delete">
-                               						<a href="${pageContext.request.contextPath}/admin/menteeDelete?userId=${mentee.userId}" class="btn btn-primary">삭제</a>
-                            					</div>
-				                            </td>
-				                        </tr>
+				                        <c:forEach items="${list}" var="mentee" varStatus="status">					                       
+					                        <c:choose>
+					                        	<c:when test="${'admin' eq mentee.userId}">
+					                        	</c:when>
+						                        <c:otherwise>
+						                         <tr>
+						                    		<td>${status.index}</td>
+						                            <td>${mentee.userName}</td>
+						                            <td>${mentee.userId}</td>
+						                            <td>${mentee.userPhone}</td>
+						                            <td>${mentee.userEmail}</td>
+						                            <td>
+						                            	<div class="blog-btn" id="delete">
+		                               						<a href="${pageContext.request.contextPath}/admin/menteeDelete?userId=${mentee.userId}" class="btn btn-primary" >삭제</a>
+		                            					</div>
+						                            </td>
+						                        </tr>				                        
+						                        </c:otherwise>
+					                        </c:choose>
 				                        </c:forEach>
-				                       
-				                    
 				                </table>
 				            </div>
 				            

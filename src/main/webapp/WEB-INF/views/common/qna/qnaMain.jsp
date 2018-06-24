@@ -20,9 +20,17 @@
 	<div class="container">
 		<div class="pupular-course-inner clear">
 			<div class="row">
-				<div style="text-align: center; width: 100%;">
+				<!-- <div style="text-align: center; width: 100%;">
 					<h3>QnA게시판</h3>
 					<hr>
+				</div> -->
+
+				<div style="margin: 50px 0 0 0; text-align: center; width: 100%;">
+					<div style="margin: 0px auto; width: 170px">
+						<div class="title sec-title" style="text-align: right;">
+							<h2>QnA게시판</h2>
+						</div>
+					</div>
 				</div>
 				<sec:authorize access="isAuthenticated()">
 					<div style="text-align: right; width: 100%;">
@@ -32,7 +40,7 @@
 				</sec:authorize>
 				<table class="table" style="margin-top: 5px;">
 					<thead>
-						<tr>
+						<tr bgcolor="lightGrey" style="color: white"><!-- 여기 수정 -->
 							<th style="width: 10%;">번호</th>
 							<th style="width: 20%;">아이디</th>
 							<th style="width: 40%;">제목</th>

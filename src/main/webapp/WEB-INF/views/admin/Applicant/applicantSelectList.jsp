@@ -9,8 +9,11 @@
             <div class="blog-page-inner clear">
                 <div class="row">
                 <div class="col-md-4">
-                    <div class="title inner-page-title">
+                    <%-- <div class="title inner-page-title">
 				       <h3 class="appImage" style="font-size: 20px"><img alt="appImage" src="${pageContext.request.contextPath}/resources/images/appImage.png";>멘토신청자 명단</h3>
+				    </div> --%>
+				    <div class="title inner-page-title">
+				       <h3 style="font-size: 20px">Member</h3>
 				    </div>                    
                 </div>
                     <div class="col-md-8">

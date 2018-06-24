@@ -47,7 +47,7 @@ public class MemberController {
 	@RequestMapping("/join/Mento")
 	public String insertMento(MenteeDTO menteeDTO, ApplicantDTO applicantDTO, MultipartFile file, HttpSession session) {
 		
-		String path = session.getServletContext().getRealPath("/WEB-INF/save/");
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 		
 		String fileName = file.getOriginalFilename();
 		//System.out.println("fileName  : "+fileName);

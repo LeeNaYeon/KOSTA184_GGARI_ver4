@@ -108,7 +108,7 @@ $(function(){
     
     <div style="margin: 50px 0 0 0;text-align: center; width: 100%;">
 	    <div style="margin: 0px auto; width:140px">
-		    <div class="title sec-title" style=" text-align:right; ">
+		    <div class="title sec-title">
 				<h2>스터디</h2>
 			</div>
 		</div>
@@ -318,7 +318,8 @@ $(function(){
 			                               		<img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/2.jpg " alt="image" />
 			                            	</c:when>
 			                            	<c:otherwise>
-			                            		<img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
+			                            		<%-- <img class="img-responsive " src="${pageContext.request.contextPath}/save/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
+			                            		 --%><img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
 			                            	</c:otherwise>
 			                            	<%-- ${courseDTO.courseBackpic}/${courseDTO.menteeDTO.userPhoto} --%>
 		                            	</c:choose>
@@ -350,7 +351,7 @@ $(function(){
 													<img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
 												</c:when>
 												<c:otherwise>
-													<img src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.menteeDTO.userPhoto}" class="img-responsive" alt="image">		                               
+													<img src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.menteeDTO.userPhoto}" class="img-responsive" alt="image">		                               
 												</c:otherwise>
 											</c:choose>
 

@@ -46,13 +46,13 @@
         <div class="container">
             <div class="blog-page-inner clear">
                 <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" style="flex:23%; max-width:23%">
                     <div class="title inner-page-title">
 				       <h3 class="appImage" style="font-size: 20px"><img alt="appImage" src="${pageContext.request.contextPath}/resources/images/admin/appImage.png">멘토신청자 명단</h3>
-				    </div>                    
+				    </div>                  
                 </div>
                 
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="flex:77%; max-width:77%">
                     
                         	<!-- 관리자 멘토신청자 명단 리스트 화면 -->
                         	
@@ -60,7 +60,7 @@
 				            <div class="table-responsive" style="text-align: center;">
 				                <table class="table">
 				                    <tbody>
-				                        <tr bgcolor="gray"; style="color: white;">
+				                        <tr bgcolor="LightGrey" style="color: white">
 				                        	
 				                            <th style="width: 100px; height: 10px">이름</th>
 				                            <th style="width: 100px; height: 10px">아이디</th>
@@ -94,7 +94,7 @@
 					                            	
 					                            </td>
 					                            <td>
-					                            	<button type="submit" class="btn" id="changeStatus" style="background-color: gray">확인</button>
+					                            	<button type="submit" class="btn" id="changeStatus" >확인</button>
 					                            </td>
 					                            
 					                            <!-- <input type="hidden" name="selectBoxStatus" value=""> -->

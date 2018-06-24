@@ -138,19 +138,28 @@
 				                            <th>회원 삭제</th>
 				                        </tr>
 				                        
-				                        <c:forEach items="${list}" var="mentee" varStatus="status">
-				                         <tr>
-				                    		<td>${status.count}</td>
-				                            <td>${mentee.userName}</td>
-				                            <td>${mentee.userId}</td>
-				                            <td>${mentee.userPhone}</td>
-				                            <td>${mentee.userEmail}</td>
-				                            <td>
-				                            	<div class="blog-btn" id="delete">
-                               						<a href="${pageContext.request.contextPath}/admin/menteeDelete?userId=${mentee.userId}" class="btn btn-primary">삭제</a>
-                            					</div>
-				                            </td>
-				                        </tr>
+				                        <c:forEach items="${list}" var="mentee" varStatus="status">					                       
+					                        <c:choose>
+					                        	<c:when test="${'admin' eq mentee.userId}">
+					                        		<tr>
+					                        			<td colspan="6">dd</td>
+					                        		</tr>
+					                        	</c:when>
+						                        <c:otherwise>
+						                         <tr>
+						                    		<td>${status.count}</td>
+						                            <td>${mentee.userName}</td>
+						                            <td>${mentee.userId}${mentee.userId}</td>
+						                            <td>${mentee.userPhone}</td>
+						                            <td>${mentee.userEmail}</td>
+						                            <td>
+						                            	<div class="blog-btn" id="delete">
+		                               						<a href="${pageContext.request.contextPath}/admin/menteeDelete?userId=${mentee.userId}" class="btn btn-primary">삭제</a>
+		                            					</div>
+						                            </td>
+						                        </tr>				                        
+						                        </c:otherwise>
+					                        </c:choose>
 				                        </c:forEach>
 				                       
 				                    

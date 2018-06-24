@@ -503,7 +503,7 @@ IMP.init("imp99503400");
 						<%-- <img style="width: 696px; height: 360px"
 						src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic}"> --%>
 						<img class="img-responsive "
-							src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.courseBackpic} "
+							src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.courseBackpic} "
 							style="width: 696px; height: 360px"/>
 					</c:otherwise>
 					<%-- ${courseDTO.courseBackpic}/${courseDTO.menteeDTO.userPhoto} --%>
@@ -681,7 +681,7 @@ IMP.init("imp99503400");
 									class="leader-profile-image">
 							</c:when>
 							<c:otherwise>
-								<img src="${pageContext.request.contextPath}/resources/images/test/${courseDTO.mentoDTO.menteeDTO.userPhoto}"
+								<img src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.mentoDTO.menteeDTO.userPhoto}"
 									class="leader-profile-image">
 							</c:otherwise>
 						</c:choose>
@@ -718,7 +718,7 @@ IMP.init("imp99503400");
 												</c:when>
 												<c:otherwise>
 													<div class="writer-photo"
-														style="display: inline-block; background-image: url(${pageContext.request.contextPath}/resources/images/test/${mentee.userPhoto}); background-size: cover; background-position: 50% 50%; float: left;">
+														style="display: inline-block; background-image: url(${pageContext.request.contextPath}/resources/images/save/${mentee.userPhoto}); background-size: cover; background-position: 50% 50%; float: left;">
 													</div>
 												</c:otherwise>
 											</c:choose>

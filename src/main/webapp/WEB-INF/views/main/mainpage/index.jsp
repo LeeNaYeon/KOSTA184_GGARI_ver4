@@ -281,13 +281,13 @@ a.scroll-top {
 							String mTime = formatter.format(currentTime);								
 							Date c1 = formatter.parse(mTime);
 							
-							long difference1 = d1.getTime() - c1.getTime();
+							long difference1 = d2.getTime() - c1.getTime();
 							long differenceDay1 = difference1 / (1000 * 60 * 60 * 24 * 7 );		
 							int result1 = (int) Math.ceil(differenceDay1);
 							
 							String cut="";	
 							String reClass="";
-							if(result1<=2){
+							if(result1<2){
 								cut = "마감임박";
 								reClass = "recruiting-status-end";
 							}else{
@@ -384,7 +384,16 @@ a.scroll-top {
 						                <div class="course-carousel owl-carousel owl-theme">
 						                    <div class="course-item">
 						                        <div class="course-img "> -->
-		                                <img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/2.jpg " alt="image" />
+		                            	<c:choose>
+			                            	<c:when test="${empty courseDTO.courseBackpic}">
+			                               		<img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/course/2.jpg " alt="image" />
+			                            	</c:when>
+			                            	<c:otherwise>
+			                            		<%-- <img class="img-responsive " src="${pageContext.request.contextPath}/save/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
+			                            		 --%><img class="img-responsive " src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.courseBackpic} " style="width:100%; height:230px" alt="image" />
+			                            	</c:otherwise>
+			                            	<%-- ${courseDTO.courseBackpic}/${courseDTO.menteeDTO.userPhoto} --%>
+		                            	</c:choose>
 		                            	<!-- ${courseDTO.courseBackpic} -->
 		                            	<div class="<%=reClass%>">
 			                        		<%=cut %>                       	
@@ -408,7 +417,17 @@ a.scroll-top {
 		                               </div>
 
 		                                <div class="course-icon">
-		                                    <img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
+		                                    <%-- <img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
+		                               		 --%><!-- 멘토 프로필사진 -->
+											<c:choose>
+												<c:when test="${empty courseDTO.menteeDTO.userPhoto}">
+													<img src="${pageContext.request.contextPath}/resources/images/users/2.jpg" class="img-responsive" alt="image">
+												</c:when>
+												<c:otherwise>
+													<img src="${pageContext.request.contextPath}/resources/images/save/${courseDTO.menteeDTO.userPhoto}" class="img-responsive" alt="image">		                               
+												</c:otherwise>
+											</c:choose>
+		                               
 		                                </div>
 		                                <div class="course-bottom">
 		                                  <!--   <span><i class="fa fa-users"></i>365</span>

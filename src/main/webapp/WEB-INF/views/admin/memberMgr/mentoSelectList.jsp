@@ -9,7 +9,9 @@
                 <div class="col-md-4" style="flex:23%; max-width:23%">
                   <div class="sidebar">
                    <div class="sidebar-widget category-widget">
-                 
+                 	<div class="title inner-page-title">
+				       <h3 style="font-size: 20px">Member</h3>
+				    </div>
 				    <ul>
 
                       <li>
