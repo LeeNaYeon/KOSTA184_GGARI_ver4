@@ -789,9 +789,11 @@ IMP.init("imp99503400");
 	<aside id="advertise" class="" style="float: left; margin: 0 0 0 10px;">
 		<div class="order-action-wrap"
 			style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.10);">
-			<img style="width: 248px; height: 500px;"
-				src="${pageContext.request.contextPath }/resources/images/men.png"
+			<a href="${requestScope.adsUrl}" target="_blank">
+				<img style="width: 248px; height: 500px;"
+				src="${pageContext.request.contextPath}/resources/images/save/${requestScope.adsImg}"
 				class="img-responsive img-circle">
+			</a>
 		</div>
 	</aside>
 
