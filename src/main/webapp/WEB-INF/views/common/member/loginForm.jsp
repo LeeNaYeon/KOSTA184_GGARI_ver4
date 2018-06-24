@@ -11,6 +11,7 @@
 	input[type="text"]{
        text-transform:none;
     }
+    
 </style>
 
 <body>

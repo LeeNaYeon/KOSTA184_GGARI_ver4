@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.service;
 
+import java.util.List;
+
 import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.InterestedDTO;
@@ -58,4 +60,57 @@ public interface MemberService {
 	 * 암호화된 비밀번호 수정
 	 */
 	int updateUserPwd(String userId, String userPwd);
+	
+	/**
+	 * main 리뷰
+	 * */
+	MentoReputationDTO selectReputation(MentoReputationDTO mentoReputationDTO);
+	
+	/**
+	 * 멘티멘토확인
+	 * */
+	String isMenteeMentoCheck(String userid);
+	
+	/**
+	 * 지원자조회
+	 * */
+	List<ApplicantDTO> selectApplicant();
+	
+	/**
+	 * 지원자 상태 update 
+	 * */
+	int applicantStatusUpdate(String userId, String selectBoxStatus);
+	
+	/**
+	 * 지원자 상태 delete
+	 * */
+	int applicantStatusDelete(String userId);
+	
+	/**
+	 * 지원자 상태 insert
+	 * */
+	int menteeRoleUpdate(String userId);
+	
+	/**
+	 * notification 승인 insert
+	 * */
+	int notificationInsert(String userId);
+	
+	/**
+	 * notification 거절 insert
+	 * */
+	int notificationInsertDeny(String userId);
+	
+	/**
+	 * mento 승인 전 applicant 정보 select
+	 * */
+	ApplicantDTO beforeApplicantSelect(String userId);
+	
+	/**
+	 * mento 승인 후 mento 정보 insert
+	 * */
+	int afterApplicantInsert(MentoDTO mentoDTO);
+	
+	
+	
 }

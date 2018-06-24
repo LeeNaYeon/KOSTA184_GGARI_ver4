@@ -87,8 +87,13 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return session.selectList("memberMapper.selectReputation");
 	}
-	
 
+	@Override
+	public List<CourseDTO> mainCourseSearch(String search) {
+				
+		return session.selectList("courseMapper.mainCourseSearch", search);
+	}
+	
 	@Override
 	public List<CourseDTO> courseListSelect() {
 		
@@ -115,6 +120,13 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return session.selectList("courseMapper.courseSeach",map);
 	}
+
+	@Override
+	public List<CourseDTO> selectCourseRecommend() {
+		
+		return session.selectList("courseMapper.selectCourseRecommend");
+	}
+
 	
 	
 	

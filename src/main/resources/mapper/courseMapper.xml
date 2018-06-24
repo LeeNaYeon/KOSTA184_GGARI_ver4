@@ -147,6 +147,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where c.course_code=#{_parameter}	
 	</select>
 	
+	<!-- 강좌검색하기  or course_title=#{_parameter} -->
+	<select id="mainCourseSearch" parameterType="string" resultMap="CourseDetailAssociationMap">	
+	
+		select course_code, c.user_id,course_title,course_top_group,course_sub_group,course_detail,course_level,
+		course_recruit_max,course_recruit_current,course_recruit_period,course_start_date,course_end_date,
+		course_frequency,course_start_time,course_end_time,course_loc,course_price,course_url,course_backpic,
+		m.mento_desc, me.user_photo
+		from course c join mento m 
+		on c.user_id = m.user_id
+		join mentee me 
+		on m.user_id = me.user_id
+		where me.user_name=#{_parameter} or course_title like '%'||#{_parameter}||'%' 
+		
+	</select>
+	
 	<!-- 스터디리스트 전체조회 -->
 	<select id="courseListSelect" resultMap="CourseListAssociationMap">
 		select course_code,c.user_id,course_title,course_top_group,course_sub_group,
@@ -191,6 +206,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         ORDER BY course_recruit_current DESC
 	</select>
+	
+	<!-- 추천강좌 -->
+	<select id="selectCourseRecommend" resultMap="CourseListAssociationMap">
+		
+		select course_code,user_id,course_title,course_top_group,course_sub_group,course_detail,course_level,course_recruit_max,
+		course_recruit_current,course_recruit_period,course_start_date,course_end_date,course_frequency,course_start_time,course_end_time,
+		course_loc,course_price,course_url,course_backpic
+		from course
+		where user_id in (select user_id 
+		from (select user_id, crc, rank() over(order by crc desc) rk
+		from(select user_id, sum(course_recruit_current) crc
+		from course
+		group by user_id))
+		 where rk &lt;= 4)
+		and rownum &lt;=3 
+		
+	</select>
+	
+	
 
    
 </mapper> 

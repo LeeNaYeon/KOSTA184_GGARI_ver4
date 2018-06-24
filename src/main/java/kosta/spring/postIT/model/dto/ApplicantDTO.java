@@ -3,11 +3,13 @@ package kosta.spring.postIT.model.dto;
 public class ApplicantDTO {
 
 	private String userId;
+	private String userName;
 	private String applicantResume;
-	private String applicantMajor1;
+	private String applicantMajor;
 	private String applicantMajor2;
 	private String applicantMajor3;
 	private String applicantStatus;
+	private MenteeDTO menteeDTO;
 	
 	public ApplicantDTO() {}
 	
@@ -16,12 +18,29 @@ public class ApplicantDTO {
 		super();
 		this.userId = userId;
 		this.applicantResume = applicantResume;
-		this.applicantMajor1 = applicantMajor1;
+		this.applicantMajor = applicantMajor;
 		this.applicantMajor2 = applicantMajor2;
 		this.applicantMajor3 = applicantMajor3;
 		this.applicantStatus = applicantStatus;
 	}
 	
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public MenteeDTO getMenteeDTO() {
+		return menteeDTO;
+	}
+
+	public void setMenteeDTO(MenteeDTO menteeDTO) {
+		this.menteeDTO = menteeDTO;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -34,11 +53,11 @@ public class ApplicantDTO {
 	public void setApplicantResume(String applicantResume) {
 		this.applicantResume = applicantResume;
 	}
-	public String getApplicantMajor1() {
-		return applicantMajor1;
+	public String getApplicantMajor() {
+		return applicantMajor;
 	}
-	public void setApplicantMajor1(String applicantMajor1) {
-		this.applicantMajor1 = applicantMajor1;
+	public void setApplicantMajor(String applicantMajor) {
+		this.applicantMajor = applicantMajor;
 	}
 	public String getApplicantMajor2() {
 		return applicantMajor2;

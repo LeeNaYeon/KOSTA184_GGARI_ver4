@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.CourseDAO;
 import kosta.spring.postIT.model.dto.CourseDTO;
-import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.dto.CourseDateDTO;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -67,6 +67,11 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	public List<CourseDTO> mainCourseSearch(String search) {
+		return courseDAO.mainCourseSearch(search);
+	}
+	
+	@Override
 	public List<CourseDTO> courseListSelect() {
 		
 		return courseDAO.courseListSelect();
@@ -77,10 +82,13 @@ public class CourseServiceImpl implements CourseService {
 	
 		return courseDAO.courseSearch(courseDTO,courseDateDTO);
 	}
-	
-	
 
-	
+	@Override
+	public List<CourseDTO> selectCourseRecommend() {
+		
+		return courseDAO.selectCourseRecommend();
+	}
+
 	
 	
 	

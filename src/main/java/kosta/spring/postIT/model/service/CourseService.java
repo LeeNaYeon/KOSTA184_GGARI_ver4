@@ -54,6 +54,11 @@ public interface CourseService {
 	 * */
 	List<MentoReputationDTO> selectReputation(); 
 	
+	/**
+	 * main강좌검색
+	 * */
+	List<CourseDTO> mainCourseSearch(String search);
+	
 	
 	/**
 	 * 스터디 전체조회
@@ -64,5 +69,12 @@ public interface CourseService {
 	 * 스터디 검색
 	 */
 	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
+	
+	/**
+	 * 추천강좌
+	 * */
+	List<CourseDTO> selectCourseRecommend();
+	
+	
 	
 }
