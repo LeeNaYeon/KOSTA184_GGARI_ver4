@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -73,69 +72,16 @@
 </style>
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript">
-	var sel_file;
-	$(document).ready(function() {
-		$("#input_img").on("change", handleImgFileSelect);
-	});
-	function handleImgFileSelect(e) {
-		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
 
-		filesArr.forEach(function(f) {
-			if (!f.type.match("image.*")) {
-				alert("확장자는 이미지 확장자만 가능합니다.");
-				return;
-			}
-
-			sel_file = f;
-
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				$("#img").attr("src", e.target.result);
-			}
-			reader.readAsDataURL(f);
-		});
-
-	}
-</script>
 </head>
 <body>
 
-	
-	<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
-			<div class="course-filter">
-				<div class="gallery-nav">
-					<sec:authorize access="hasRole('ROLE_MENTO')">
-						<input type="hidden" name="isMento" value="mento" />
-					</sec:authorize>
-					<c:set var="userId">
-						<sec:authentication property="principal.userId" />
-					</c:set>
 
-					<ul>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
-								수정</a></li>
-						<sec:authorize access="hasRole('ROLE_MENTO')">
-							<li class="filter"><a
-								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
-									만들기</a></li>
-						</sec:authorize>
-					</ul>
-
-				</div>
-			</div>
-			</section>
+	<section id="gallery">
+	<div class="container">
+		<div class="col-md-12">
+			<div class="row">
+				
 				<!--/ End gallery Nav -->
 
 				<div class="login-form">
@@ -146,20 +92,20 @@
 								src="${pageContext.request.contextPath}/resources/images/logo.png"
 								class="img-responsive" alt="">
 						</div>
-						<label><h3>회원정보수정</h3></label>
+						<label><h3>earn your career as Mento with us</h3></label>
 					</div>
 
 
 
 					<form name="writeForm" method="post"
-						action="${pageContext.request.contextPath}/myPage/userUpdateResult?${_csrf.parameterName}=${_csrf.token}"
+						action="${pageContext.request.contextPath}/myPage/insertApplicant?${_csrf.parameterName}=${_csrf.token}"
 						onSubmit='return checkValid()' enctype="multipart/form-data">
 
 
 						<div class="form-group">
 							<div>
 								<p class="title">
-									프로필 이미지 사진 업로드/p> <input type="file" id="input_img" name="file" />
+									upload YOUR Resume <input type="file" id="input_img" name="file" />
 							</div>
 
 							<div>
@@ -169,27 +115,14 @@
 							</div>
 						</div>
 						<div class="form-group">
-							이름<br> <input type="text" disabled="disabled"
-								value="${memberInfo.userName}"> <input type="hidden"
-								value="${memberInfo.userName}" name="userName">
-						</div>
-						<div class="form-group">
 							아이디<br> <input type="text" disabled="disabled"
-								value="${memberInfo.userId}"> <input type="hidden"
-								value="${memberInfo.userId}" name="userId">
+								value="${menteeDTO.userId}">
+								<input type="hidden" value="${menteeDTO.userId}" name="userId">
 						</div>
-						<div class="form-group">
-							(*)연락처<br> <input type="text"
-								value="${memberInfo.userPhone}" name="userPhone">
-						</div>
-						<div class="form-group">
-							(*)이메일<br> <input type="text"
-								value="${memberInfo.userEmail}" name="userEmail">
-						</div>
-
+					
 						<div class="form-join">
 							<div style="font-size: 1.2em;">
-								<strong>관심분야</strong>
+								<strong>(*)your major</strong>
 							</div>
 
 							<div class="form-fav" style="float: left">
@@ -291,22 +224,17 @@
 
 							</div>
 
-
 						</div>
-						<sec:authorize access="hasRole('ROLE_MENTO')">
-							<div class="form-group">
-								introduce yourself<br>
-								<textarea rows="100" name="description" cols="50"
-									style="height: 300px" placeholder="${mentoDTO.mentoDesc}"></textarea>
-							</div>
-						</sec:authorize>
 						<div>&nbsp</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<button type="submit" class="login-btn btn">Register now</button>
 						</div>
 					</form>
 				</div>
-
+			</div>
+		</div>
+	</div>
+	</section>
 
 
 	<!--Footer Bottom-->

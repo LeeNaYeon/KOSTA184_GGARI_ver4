@@ -1,5 +1,7 @@
 package kosta.spring.postIT.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ApplicantDTO {
 
 	private String userId;
@@ -9,11 +11,20 @@ public class ApplicantDTO {
 	private String applicantMajor2;
 	private String applicantMajor3;
 	private String applicantStatus;
+	private MultipartFile file;
 	private MenteeDTO menteeDTO;
 	
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
 	public ApplicantDTO() {}
 	
-	public ApplicantDTO(String userId, String applicantResume, String applicantMajor1, String applicantMajor2,
+	public ApplicantDTO(String userId, String applicantResume, String applicantMajor, String applicantMajor2,
 			String applicantMajor3, String applicantStatus) {
 		super();
 		this.userId = userId;

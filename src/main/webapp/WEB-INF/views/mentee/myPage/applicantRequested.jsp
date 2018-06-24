@@ -18,8 +18,11 @@
 				<div class="teacher-details">
 					
 						<div class="course-tab-desc">
-
-							강좌 개설에 성공하였습니다 !! 
+							${applicant.userId}님,<br>
+							you have successfully requested as Mento.</p>
+							we will inform your resume carefully and shortly
+							so, keep in touch with us within postIT !! 
+							thanks. 
 
 						</div>
 						<a href="${pageContext.request.contextPath}/">메인으로 가기</a>

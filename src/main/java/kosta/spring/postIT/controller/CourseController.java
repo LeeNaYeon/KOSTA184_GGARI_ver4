@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kosta.spring.postIT.model.dto.AdsBannerDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.MenteeDTO;
 import kosta.spring.postIT.model.dto.MentoReputationDTO;
+import kosta.spring.postIT.model.service.AdsBannerService;
 import kosta.spring.postIT.model.service.CourseService;
 
 @Controller
@@ -22,6 +24,9 @@ public class CourseController {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	AdsBannerService adsBannerService;
 
 	@RequestMapping("/course/detail")
 	public ModelAndView courseDetail(String courseCode) {
@@ -66,7 +71,16 @@ public class CourseController {
 		List<MentoReputationDTO> courseReviewList = courseService.courseReview(courseCode);
 
 		mv.addObject("courseReviewList", courseReviewList);
-			
+		
+		//광고사진 등록
+		
+		AdsBannerDTO adsBannerDTO = adsBannerService.selectAds();
+		System.out.println("파일이름 :"+adsBannerDTO.getAdsFileName());
+		if(adsBannerDTO!=null) {
+			mv.addObject("adsImg", adsBannerDTO.getAdsFileName());
+			mv.addObject("adsUrl", adsBannerDTO.getAdsLink());
+		}
+		
 		mv.setViewName("common/courese/courseDetail"); // WEB-INF/views/common/course/courseDetail.jsp이동
 		return mv;
 		
@@ -134,12 +148,6 @@ public class CourseController {
 		return mv;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

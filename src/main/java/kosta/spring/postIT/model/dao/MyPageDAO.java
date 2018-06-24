@@ -3,6 +3,7 @@ package kosta.spring.postIT.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -83,6 +84,27 @@ public interface MyPageDAO {
 	 * @return
 	 */
 	public MentoDTO getMentoMajor(String userId);
+	
+	/**
+	 * insert values of applicant's from service into database table 
+	 * @param applicantDTO
+	 * @return
+	 */
+	public int insertApplicant(ApplicantDTO applicantDTO);
+	
+	/**
+	 * 
+	 * @param mentoDTO
+	 * @return
+	 */
+	public int mentoDescUpdate(MentoDTO mentoDTO);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public String getMentoDesc(String userId);
 	//////////////////////////////////////////////////////////////////////////////////
 	
 	

@@ -26,13 +26,6 @@
 
 <body>
 	
-	<section class="breadcrumb" style="background-image: url(images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1><a href="${pageContext.request.contextPath}/course/levelTest/choice">Level Test</a></h1>
-            <span><a href="${pageContext.request.contextPath}/course/levelTest/choice">Level Test</a></span><span><i class="fa fa-angle-right"></i>subject decision</span>
-        </div>
-    </section>
 
     <!--login-page-->
     <div class="inner-page login-page">

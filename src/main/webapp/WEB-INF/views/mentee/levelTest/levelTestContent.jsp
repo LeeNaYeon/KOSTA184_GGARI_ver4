@@ -30,18 +30,7 @@
 </head>
 
 <body>
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="#">Course</a>
-		</h1>
-		<span><a href="#">course</a></span><span><i
-			class="fa fa-angle-right"></i>Level Test</span>
-	</div>
-	</section>
-
+	
 	<section class="teacher-details-page inner-page">
 	<div class="container">
 		<div class="row">

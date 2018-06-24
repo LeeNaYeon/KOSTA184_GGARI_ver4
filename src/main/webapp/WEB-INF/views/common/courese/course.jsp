@@ -114,6 +114,8 @@ $(function(){
 		</div>
     </div>
     
+  
+  
 
    <div class="popular-course course-page">
         <div class="container">           

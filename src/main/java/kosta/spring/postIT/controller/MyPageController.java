@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kosta.spring.postIT.model.dto.CourseApplyDTO;
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -37,7 +37,7 @@ public class MyPageController {
 	private final String savePath = "C:\\edu_j\\springworkspace\\springUserBoardTilesSaveFolder";
 
 	@RequestMapping("/myPage/studyInsert/insertForm")
-	public String studyInsertForm(Model model) throws Exception{
+	public String studyInsertForm(Model model) throws Exception {
 
 		/**
 		 * 여기서 아이디 값을 받아서 다오 가서 아이디 값 받아서 넘어온다. 아이디에 해당하는 정보들도 DTO에 넣어서 뷰로 뿌려준다. 정보는
@@ -52,12 +52,22 @@ public class MyPageController {
 			userId = pvo.getUserId();
 		}
 
-		
 		MenteeDTO menteeDTO = myPageService.selectMember(userId);
 		MentoDTO mentoDTO = myPageService.getMentoMajor(userId);
-
 		
-		model.addAttribute("majorList", mentoDTO);
+		List<String> list = new ArrayList<String>();
+		if(mentoDTO.getMentoMajor()!=null) {
+			list.add(mentoDTO.getMentoMajor());
+			if(mentoDTO.getMentoMajor2()!=null) {
+				list.add(mentoDTO.getMentoMajor2());
+				if(mentoDTO.getMentoMajor3()!=null) {
+					list.add(mentoDTO.getMentoMajor3());
+				}
+			}
+		}
+		
+		
+		model.addAttribute("majorList", list);
 		model.addAttribute("memberInfo", menteeDTO);
 
 		return "mento/myPage/courseAdditionForm";
@@ -69,8 +79,9 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/profile/updateForm")
-	public String infoUpdateForm(Model model) {
+	public String infoUpdateForm(Model model,HttpServletRequest request) {
 		String userId = null;
+
 
 		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -79,7 +90,17 @@ public class MyPageController {
 			userId = pvo.getUserId();
 		}
 		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+	
+		String validation = request.getParameter("validation");
 
+		
+		if(validation !=null && validation.equals("Mento")) {
+			String mentoDesc = myPageService.getMentoDesc(userId);
+			MentoDTO mentoDTO = new MentoDTO();
+			mentoDTO.setMentoDesc(mentoDesc);
+			model.addAttribute("mentoDTO",mentoDTO);
+		}
+		
 		model.addAttribute("memberInfo", menteeDTO);
 
 		return "mentee/myPage/infoModification";
@@ -121,8 +142,7 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/courseInsertConfirm")
-	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO)
-			throws Exception {
+	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO) throws Exception {
 		MultipartFile file = courseDTO.getFile();
 		if (courseDTO.getFile().getSize() > 0) {
 			courseDTO.setCourseBackpic(file.getOriginalFilename());
@@ -130,7 +150,7 @@ public class MyPageController {
 			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
 
 		}
-		String userId=null;
+		String userId = null;
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (obj instanceof MenteeDTO) {
 			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -152,7 +172,7 @@ public class MyPageController {
 
 		return "mento/myPage/courseAdditionConfirm";
 	}
-	
+
 	@RequestMapping("myPage/userUpdateResult")
 	public String userUpdateResult(HttpServletRequest request, Model model, MenteeDTO menteeDTO) throws Exception {
 
@@ -165,7 +185,7 @@ public class MyPageController {
 		 * request.getParameter("email");
 		 */
 
-		InterestedDTO interestedDTO = null;
+		InterestedDTO interestedDTO = new InterestedDTO();
 		System.out.println(menteeDTO.toString());
 
 		if (menteeDTO.getFile().getSize() > 0) {
@@ -175,20 +195,30 @@ public class MyPageController {
 
 		}
 
+		interestedDTO.setUserId(menteeDTO.getUserId());
+		
 		String[] classes = request.getParameterValues("classification");
-		if (classes[0] != null) {
-			String inter1 = classes[0];
-			interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1);
-			if (classes[1] != null) {
-				String inter2 = classes[1];
-				interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1, inter2);
-				if (classes[2] != null) {
-					String inter3 = classes[2];
-					interestedDTO = new InterestedDTO(menteeDTO.getUserId(), inter1, inter2, inter3);
+		if (classes.length >= 1) {
+			interestedDTO.setInterField1(classes[0]);
+			if (classes.length >= 2) {
+				interestedDTO.setInterField2(classes[1]);
+				if (classes.length >= 3) {
+					interestedDTO.setInterField3(classes[2]);
 				}
 			}
 		}
 
+		if (request.getParameter("description") != null) {
+			String userId = menteeDTO.getUserId();
+			String mentoDesc = request.getParameter("description");
+
+			MentoDTO mentoDTO = new MentoDTO();
+			mentoDTO.setMentoDesc(mentoDesc);
+			mentoDTO.setUserId(userId);
+			
+			myPageService.mentoDescUpdate(mentoDTO);
+			
+		}
 		myPageService.updateMenteeUserInfo(menteeDTO);
 
 		myPageService.updateInterested(interestedDTO);
@@ -223,19 +253,20 @@ public class MyPageController {
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-	/////////studySelect
-	
+	///////// studySelect
+
 	@RequestMapping("/myPage/study/select")
 	public ModelAndView studySelect(String userId) {
 
 		ModelAndView mv = new ModelAndView();
 
 		List<CourseDTO> mentoList = myPageService.selectMentoStudy(userId);
-		
+
 		List<CourseRegistDTO> menteeList = myPageService.selectMentee(userId);
 
 		// System.out.println(menteeList.get(0));
 
+		mv.addObject("userId", userId);
 		mv.addObject("mentoList", mentoList);
 		mv.addObject("menteeList", menteeList);
 
@@ -243,7 +274,7 @@ public class MyPageController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/myPage/study/delete")
 	public String menteeStudyDelete(String userId, String courseCode) {
 
@@ -254,21 +285,23 @@ public class MyPageController {
 		return "forward:/myPage/study/select";
 
 	}
-	
+
 	@RequestMapping("/myPage/favStudy/select")
 	public ModelAndView favStudySelect(String userId) {
 
 		ModelAndView mv = new ModelAndView();
 
 		List<CourseFavDTO> favList = myPageService.favStudySelect(userId);
-
-		mv.addObject("favList", favList);
+		MenteeDTO menteeDTO = myPageService.selectMember(userId);
 		
+		mv.addObject("menteeDTO",menteeDTO);
+		mv.addObject("favList", favList);
+		mv.addObject("userId", userId);
 		mv.setViewName("mentee/myPage/selectFav");
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/myPage/favStudy/delete")
 	public String favStudyDelete(String userId, String courseCode) {
 
@@ -277,46 +310,50 @@ public class MyPageController {
 		return "forward:/myPage/favStudy/select";
 
 	}
-	
-	@RequestMapping("/myPage/exStudy/select") //강사님 설명 부분
-	public ModelAndView exStudySelect(String userId  ) {
+
+	@RequestMapping("/myPage/exStudy/select")
+	public ModelAndView exStudySelect(String userId) {
 
 		ModelAndView mv = new ModelAndView();
 
 		List<CourseDTO> mentoExList = myPageService.selectMentoEx(userId);
 
 		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(userId);
-		
-		mv.addObject("mentoExList", mentoExList);//강좌정보
-		mv.addObject("menteeExList", menteeExList);//my수강
-		
+
+		// System.out.println(menteeList.get(0));
+
+		mv.addObject("userId", userId);
+		mv.addObject("mentoExList", mentoExList);
+		mv.addObject("menteeExList", menteeExList);
+
 		mv.setViewName("mentee/myPage/selectEx");
 
 		return mv;
 	}
-		
+
 	@RequestMapping("/myPage/exStudy/reviewInsertForm")
 	public ModelAndView exStudyReviewInsertForm(String userId, String courseCode) {
 
 		ModelAndView mv = new ModelAndView();
 
 		CourseRegistDTO courseRegistDTO = myPageService.selectMenteeExByCourseCode(userId, courseCode);
-			
+
 		mv.addObject("courseRegistDTO", courseRegistDTO);
 		mv.setViewName("mentee/myPage/reviewInsertForm");
 
 		return mv;
 	}
-	
-	@RequestMapping("/myPage/exStudy/reviewInsert") //똑같음
-	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)//userId
+
+	@RequestMapping("/myPage/exStudy/reviewInsert")
+	public ModelAndView exStudyReviewInsert(MentoReputationDTO mentoReputationDTO)// userId
 	{
 		ModelAndView mv = new ModelAndView();
-		
+
 		int re = myPageService.insertReview(mentoReputationDTO);
-		
-		//MentoReputationDTO mentoReputationDTODB = service.selectReview(mentoReputationDTO);
-		
+
+		// MentoReputationDTO mentoReputationDTODB =
+		// service.selectReview(mentoReputationDTO);
+
 		List<CourseDTO> mentoExList = myPageService.selectMentoEx(mentoReputationDTO.getRepWriter());
 
 		List<CourseRegistDTO> menteeExList = myPageService.selectMenteeEx(mentoReputationDTO.getRepWriter());
@@ -324,14 +361,62 @@ public class MyPageController {
 		mv.addObject("userId", mentoReputationDTO.getRepWriter());
 		mv.addObject("mentoExList", mentoExList);
 		mv.addObject("menteeExList", menteeExList);
-		
+
 		mv.setViewName("mentee/myPage/selectEx");
-		
+
 		return mv;
-	
+
 	}
-	
-	
-	
-	
+
+	@RequestMapping("myPage/insertApplicantForm")
+	public String insertApplicantForm(Model model) {
+
+		String userId = null;
+
+		// 회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (obj instanceof MenteeDTO) {
+			MenteeDTO pvo = (MenteeDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userId = pvo.getUserId();
+		}
+		MenteeDTO menteeDTO = myPageService.selectMember(userId);
+		model.addAttribute("menteeDTO", menteeDTO);
+
+		return "mentee/myPage/applicantForm";
+	}
+
+	@RequestMapping("myPage/insertApplicant")
+	public String insertApplicant(ApplicantDTO applicantDTO, HttpServletRequest request, Model model) throws Exception {
+
+		MultipartFile file = applicantDTO.getFile();
+
+		if (applicantDTO.getFile().getSize() > 0) {
+			applicantDTO.setApplicantResume(file.getOriginalFilename());
+
+			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+
+		}
+
+		String[] classes = request.getParameterValues("classification");
+		System.out.println(classes.length);
+		if (classes.length>=1) {
+			System.out.println(classes[0]);
+			applicantDTO.setApplicantMajor(classes[0]);
+			if (classes.length>=2) {
+				System.out.println(classes[1]);
+				applicantDTO.setApplicantMajor2(classes[1]);
+				if (classes.length>=3) {
+					System.out.println(classes[2]);
+					applicantDTO.setApplicantMajor3(classes[2]);
+				}
+			}
+		}
+
+		myPageService.insertApplicant(applicantDTO);
+
+		model.addAttribute("applicant", applicantDTO);
+
+		return "mentee/myPage/applicantRequested";
+	}
+
 }

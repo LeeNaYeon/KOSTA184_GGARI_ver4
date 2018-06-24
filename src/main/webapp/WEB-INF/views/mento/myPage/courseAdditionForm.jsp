@@ -53,6 +53,7 @@
 		});
 	}
 
+	//유효성체크
 	function checkValid() {
 		var f = window.document.courseAddForm;
 
@@ -61,37 +62,14 @@
 			f.courseTitle.focus();
 			return false;
 		}
+
 		var text = $('#courseTitle').val();
-        // 입력값 길이 저장
-        var textlength = text.length;
-        if(textlength > 10)
-        {
-                $('#courseTitle').html('글내용을 '+limit+
-                '자 이상 쓸수 없습니다!');
-                // 제한 글자 길이만큼 값 재 저장
-                $('#courseTitle').val(text.substr(0,limit));
-                return false;
-        }
-		var major1 = $('#major1').val();
-		var major2 = $('#major2').val();
-		var major3 = $('#major3').val();
-		
-		alert(major1+major2+major3);
-		
-		if (f.classification.value == "") {
-			alert("맞는 분야를 선택해 주십시오.");
-			f.classification.focus();
+		var textlength = text.length;
+		var limit = 10;
+		if (textlength > 10) {
+			alert("제목은 10자를 초과할 수 없습니다.");
+			f.courseTitle.focus();
 			return false;
-		}else{
-			if (f.classification.value != major1) {
-				if (f.classification.value != major2) {
-					if (f.classification.value != major3) {
-						alert("본인과 맞는 분야를 선택해주십시오.");
-						f.classification.focus();
-						return false;
-					}
-				}
-			}
 		}
 
 		if (f.courseLevel.value == "") {
@@ -156,18 +134,6 @@
 
 <body>
 
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="signin.html">강좌개설</a>
-		</h1>
-		<span><a href="index.html">마이페이지</a></span><span><i
-			class="fa fa-angle-right"></i>강좌개설</span>
-	</div>
-	</section>
-
 	<section id="gallery">
 	<div class="container">
 		<div class="col-md-12">
@@ -197,17 +163,10 @@
 								class="img-responsive" alt="">
 						</div>
 					</div>
-					<input type="hidden" id="major1" value="${majorList.mentoMajor}"/>
-					<c:if test="${majorList.mentoMajor2 ne null}">
-						<input type="hidden" id="major2" value="${majorList.mentoMajor2}"/>
-					</c:if>
-					<c:if test="${majorList.mentoMajor3 ne null}">
-						<input type="hidden" id="major3" value="${majorList.mentoMajor3}"/>
-					</c:if>
-					
-					
-					<form name="courseAddForm" method="post" 
-					action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
+
+
+					<form name="courseAddForm" method="post"
+						action="${pageContext.request.contextPath}/myPage/courseInsertConfirm?${_csrf.parameterName}=${_csrf.token}"
 						onSubmit='return checkValid()' enctype="multipart/form-data">
 
 						<div class="form-group">
@@ -217,25 +176,79 @@
 						<div class="form-group">
 							강좌종류<br> <select name="courseSubGroup">
 								<optgroup label="스킬업단과">
-									<option value="U001">JAVA</option>
-									<option value="U002">C</option>
-									<option value="U003">알고리즘</option>
-									<option value="U004">DBMS</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U001'}">
+										<option value="U001">JAVA</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U002'}">
+										<option value="U002">C</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U003'}">
+										<option value="U003">알고리즘</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'U004'}">
+										<option value="U004">DBMS</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="Web Developer">
-									<option value="W001">Back-End</option>
-									<option value="W002">Front-End</option>
-									<option value="W003">Android Application</option>
-									<option value="W004">iOS Application</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W001'}">
+										<option value="W001">Back-End</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W002'}">
+										<option value="W002">Front-End</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W003'}">
+										<option value="W003">Android Application</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'W004'}">
+										<option value="W004">iOS Application</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="보안">
-									<option value="H001">사이버보안</option>
-									<option value="H002">웹 보안</option>
-									<option value="H003">시스템보안</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H001'}">
+										<option value="H001">사이버보안</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H002'}">
+										<option value="H002">웹 보안</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'H003'}">
+										<option value="H003">시스템보안</option>
+									</c:if>
+								</c:forEach>
 								</optgroup>
 								<optgroup label="server/networking">
-									<option value="S001">Linux</option>
-									<option value="S002">Network</option>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'S001'}">
+										<option value="S001">Linux</option>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="major" items="${majorList}">
+									<c:if test="${major == 'S002'}">
+										<option value="S002">Network</option>
+									</c:if>
+								</c:forEach>
+									
+									
 								</optgroup>
 							</select>
 						</div>
@@ -251,9 +264,6 @@
 						<div class="form-group">
 							모집인원<br> <input type="number" placeholder="모집인원"
 								name="courseRecruitMax">
-						</div>
-						<div class="form-group">
-							모집마감 날짜<input type="date" name="courseRecruitPerid">
 						</div>
 						<div class="form-group">
 							강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
@@ -297,25 +307,25 @@
 							강좌시작시간<br> <select name="courseStartTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
-									<option value="030">0:30am</option>
-									<option value="100">1:00am</option>
-									<option value="130">1:30am</option>
-									<option value="200">2:00am</option>
-									<option value="230">2:30am</option>
-									<option value="300">3:00am</option>
-									<option value="330">3:30am</option>
-									<option value="400">4:00am</option>
-									<option value="430">4:30am</option>
-									<option value="500">5:00am</option>
-									<option value="530">5:30am</option>
-									<option value="600">6:00am</option>
-									<option value="630">6:30am</option>
-									<option value="700">7:00am</option>
-									<option value="730">7:30am</option>
-									<option value="800">8:00am</option>
-									<option value="830">8:30am</option>
-									<option value="900">9:00am</option>
-									<option value="930">9:30am</option>
+									<option value="0030">0:30am</option>
+									<option value="0100">1:00am</option>
+									<option value="0130">1:30am</option>
+									<option value="0200">2:00am</option>
+									<option value="0230">2:30am</option>
+									<option value="0300">3:00am</option>
+									<option value="0330">3:30am</option>
+									<option value="0400">4:00am</option>
+									<option value="0430">4:30am</option>
+									<option value="0500">5:00am</option>
+									<option value="0530">5:30am</option>
+									<option value="0600">6:00am</option>
+									<option value="0630">6:30am</option>
+									<option value="0700">7:00am</option>
+									<option value="0730">7:30am</option>
+									<option value="0800">8:00am</option>
+									<option value="0830">8:30am</option>
+									<option value="0900">9:00am</option>
+									<option value="0930">9:30am</option>
 									<option value="1000">10:00am</option>
 									<option value="1030">10:30am</option>
 									<option value="1100">11:00am</option>
@@ -354,25 +364,25 @@
 							강좌종료시간<br> <select name="courseEndTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
-									<option value="030">0:30am</option>
-									<option value="100">1:00am</option>
-									<option value="130">1:30am</option>
-									<option value="200">2:00am</option>
-									<option value="230">2:30am</option>
-									<option value="300">3:00am</option>
-									<option value="330">3:30am</option>
-									<option value="400">4:00am</option>
-									<option value="430">4:30am</option>
-									<option value="500">5:00am</option>
-									<option value="530">5:30am</option>
-									<option value="600">6:00am</option>
-									<option value="630">6:30am</option>
-									<option value="700">7:00am</option>
-									<option value="730">7:30am</option>
-									<option value="800">8:00am</option>
-									<option value="830">8:30am</option>
-									<option value="900">9:00am</option>
-									<option value="930">9:30am</option>
+									<option value="0030">0:30am</option>
+									<option value="0100">1:00am</option>
+									<option value="0130">1:30am</option>
+									<option value="0200">2:00am</option>
+									<option value="0230">2:30am</option>
+									<option value="0300">3:00am</option>
+									<option value="0330">3:30am</option>
+									<option value="0400">4:00am</option>
+									<option value="0430">4:30am</option>
+									<option value="0500">5:00am</option>
+									<option value="0530">5:30am</option>
+									<option value="0600">6:00am</option>
+									<option value="0630">6:30am</option>
+									<option value="0700">7:00am</option>
+									<option value="0730">7:30am</option>
+									<option value="0800">8:00am</option>
+									<option value="0830">8:30am</option>
+									<option value="0900">9:00am</option>
+									<option value="0930">9:30am</option>
 									<option value="1000">10:00am</option>
 									<option value="1030">10:30am</option>
 									<option value="1100">11:00am</option>

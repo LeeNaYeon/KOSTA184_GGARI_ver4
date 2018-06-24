@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseDateDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
@@ -168,6 +169,24 @@ public class MyPageDAOImpl implements MyPageDAO {
 		List<MentoDTO> mentoDTO = session.selectList("myPageMapper.getMajorMento",userId);
 
 		return mentoDTO.get(0);
+	}
+
+	@Override
+	public int insertApplicant(ApplicantDTO applicantDTO) {
+		// TODO Auto-generated method stub
+		return session.insert("myPageMapper.insertApplicant", applicantDTO);
+	}
+
+	@Override
+	public int mentoDescUpdate(MentoDTO mentoDTO) {
+		// TODO Auto-generated method stub
+		return session.update("myPageMapper.description", mentoDTO);
+	}
+
+	@Override
+	public String getMentoDesc(String userId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("myPageMapper.getMentoDesc", userId);
 	}
 	
 	

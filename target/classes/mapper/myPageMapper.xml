@@ -75,7 +75,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</association>
 
 		</association>
-
 	</resultMap>
 
 	<resultMap id="selectFavStudyMap" type="courseFavDTO">
@@ -136,13 +135,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="user_phone" property="userPhone" />
 		<result column="user_email" property="userEmail" />
 		<result column="user_photo" property="userPhoto" />
-		<collection property="mento" javaType="mentoDTO">
-			<id column="user_id" property="userId" />
-			<result column="mento_desc" property="mentoDesc" />
-			<result column="mento_major" property="mentoMajor" />
-			<result column="mento_major2" property="mentoMajor2" />
-			<result column="mento_major3" property="mentoMajor3" />
-		</collection>
 	</resultMap>
 
 	<resultMap type="mentoDTO" id="getMentoMajor">
@@ -172,7 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="courseInsert" parameterType="courseDTO">
 		insert into course values
-		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},sysdate,#{courseSubGroup},
+		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},'스킬업단과',#{courseSubGroup},
 		#{courseDetail},#{courseLevel},#{courseRecruitMax},#{courseRecruitCurrent},#{courseRecruitPerid},#{courseStartDate},#{courseEndDate},
 		#{courseFrequency},#{courseStartTime},#{courseEndTime},#{courseLoc},#{coursePrice}
 		<if test="courseUrl!=null">
@@ -197,15 +189,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 
-	<select id="memberInfoCollect" parameterType="string" resultMap="userInfoSelection">
-		select t.user_id, user_name,
-		user_phone,user_email,user_photo,
-		mento_major,mento_major2,mento_major3,mento_desc
-		from mentee t join
-		mento m
-		on t.user_id = m.user_id
-		where t.user_id = #{_parameter}
+	<select id="memberInfoCollect" parameterType="string" resultType="menteeDTO">
+		select user_id as userId, user_name as userName,
+		user_phone as userPhone ,user_email as userEmail,user_photo as userPhoto
+		from mentee
+		where user_id = #{_parameter}
 	</select>
+	
+	<update id="description" parameterType="mentoDTO">
+		update mento
+		set mento_desc=#{mentoDesc}
+		where user_id=#{userId}
+	</update>
+	
 
 	<insert id="paymentInsert" parameterType="paymentDTO">
 		insert into payment
@@ -236,12 +232,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="userInterUpdate" parameterType="interestedDTO">
 		update interested
 		set inter_field=#{interField1}
-		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>
-		<if test="#{interField2}==null">,null</if>
+		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>		
 		<if test="#{interField3}!=null">,inter_field3=#{interField3}</if>
-		<if test="#{interField3}==null">,null</if>
 		where user_id=#{userId}
 	</update>
+	
+	<select id="getMentoDesc" parameterType="string" resultType="string">
+		select mento_desc from mento where user_id=#{_parameter}
+	</select>
 
 
 	<select id="selectMento" parameterType="string" resultMap="selectMentoMap">
@@ -390,7 +388,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where course_code=#{courseCode} and rep_writer=#{repWriter}
 	</select>
 
-
+	<select id="getMajorMento" parameterType="string" resultMap="getMentoMajor">
+		select user_id, mento_major, mento_major2, mento_major3 
+		from mento
+		where user_id=#{_parameter} 
+	</select>
+	
+	<insert id="insertApplicant" parameterType="applicantDTO">
+		insert into
+		applicant 
+		values(#{userId}, #{applicantResume}, #{applicantMajor}, #{applicantMajor2}, #{applicantMajor3},0)
+	</insert>
 
 
 </mapper>

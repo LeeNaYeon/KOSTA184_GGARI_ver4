@@ -3,12 +3,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script>
 $(function(){
 		
@@ -23,16 +25,7 @@ $(function(){
 		
 	%>
 	<%-- <%= userId %> --%>
-	<section class="breadcrumb"
-		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-	<div class="breadcrumb-overlay"></div>
-	<div class="container">
-		<h1>
-			<a href="courses.html">MyPage</a>
-		</h1>
-		<span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>MyPage</span>
-	</div>
-	</section>
+
 
 	<div class="popular-course course-page inner-page"
 		style="margin-top: 20px">
@@ -41,35 +34,52 @@ $(function(){
 			<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
 			<div class="course-filter">
 				<div class="gallery-nav">
-				
-					<c:set var="userId"><sec:authentication property="principal.userId"/></c:set>
-					
+					<sec:authorize access="hasRole('ROLE_MENTO')">
+						<input type="hidden" name="isMento" value="mento" />
+					</sec:authorize>
+					<c:set var="userId">
+						<sec:authentication property="principal.userId" />
+					</c:set>
+
 					<ul>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">프로필 수정</a></li>
-						<li class="filter" data-filter="all"><a href="#">스터디 만들기</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
+								수정</a></li>
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<li class="filter"><a
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+									만들기</a></li>
+						</sec:authorize>
 					</ul>
+
 				</div>
 			</div>
 			</section>
 
 			<div class="pupular-course-inner clear">
-			<c:choose>
-				<c:when test="${mentoExList[0] eq null}">
-				</c:when>
-				<c:otherwise>
-					<h1>완료된 멘토 스터디</h1>
-				</c:otherwise>
-			</c:choose>
+				<c:choose>
+					<c:when test="${mentoExList[0] eq null}">
+					</c:when>
+					<c:otherwise>
+						<h1>완료된 멘토 스터디</h1>
+					</c:otherwise>
+				</c:choose>
 				<div class="row">
 					<c:choose>
 						<c:when test="${mentoExList[0] eq null}">
 						</c:when>
-						<c:otherwise>						
-																		
-							<c:forEach items="${mentoExList}" var="mentoEx">							
+						<c:otherwise>
+
+							<c:forEach items="${mentoExList}" var="mentoEx">
 								<div class=" col-md-4 col-lg-4">
 									<div class="course-content">
 										<div class="course-img">
@@ -131,7 +141,7 @@ $(function(){
 												<span><%=result%>주</span> <span class="pull-right">${mentoEx.coursePrice}</span>
 											</div>
 										</div>
-					
+
 									</div>
 								</div>
 							</c:forEach>
@@ -139,21 +149,21 @@ $(function(){
 					</c:choose>
 
 				</div>
-				
+
 				<c:choose>
-				<c:when test="${menteeExList[0] eq null}">
-				</c:when>
-				<c:otherwise>
-					
-					<h1>완료된 멘티 스터디</h1>
-				</c:otherwise>
+					<c:when test="${menteeExList[0] eq null}">
+					</c:when>
+					<c:otherwise>
+
+						<h1>완료된 멘티 스터디</h1>
+					</c:otherwise>
 				</c:choose>
-				<div class="row">			
+				<div class="row">
 					<c:choose>
-						<c:when test="${menteeExList[0] eq null}">						
+						<c:when test="${menteeExList[0] eq null}">
 						</c:when>
 						<c:otherwise>
-					
+
 							<c:forEach items="${menteeExList}" var="menteeEx">
 								<div class=" col-md-4 col-lg-4">
 									<div class="course-content">
@@ -177,7 +187,8 @@ $(function(){
 											<div class="course-date">
 												<p>
 													<%=updateStartDate%>
-													${menteeEx.courseDTO.courseStartTime}~${menteeEx.courseDTO.courseEndTime} 첫시작
+													${menteeEx.courseDTO.courseStartTime}~${menteeEx.courseDTO.courseEndTime}
+													첫시작
 												</p>
 											</div>
 
@@ -219,10 +230,12 @@ $(function(){
 												<span><%=result%>주</span> <span class="pull-right">${menteeEx.courseDTO.coursePrice}</span>
 											</div>
 										</div>
-																		
-											<a id="${menteeEx.state}" style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/myPage/exStudy/reviewInsertForm?userId=${menteeEx.userId}&courseCode=${menteeEx.courseCode}">${menteeEx.state}</a>																	
-										
-										</div>
+
+										<a id="${menteeEx.state}" style="width: 100%;"
+											class="btn btn-primary"
+											href="${pageContext.request.contextPath}/myPage/exStudy/reviewInsertForm?userId=${menteeEx.userId}&courseCode=${menteeEx.courseCode}">${menteeEx.state}</a>
+
+									</div>
 								</div>
 							</c:forEach>
 						</c:otherwise>
