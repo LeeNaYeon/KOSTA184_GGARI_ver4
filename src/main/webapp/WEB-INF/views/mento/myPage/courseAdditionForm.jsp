@@ -266,9 +266,6 @@
 								name="courseRecruitMax">
 						</div>
 						<div class="form-group">
-							모집마감 날짜<input type="date" name="courseRecruitPerid">
-						</div>
-						<div class="form-group">
 							강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
 							종료 날짜<input type="date" name="courseEndDate">
 						</div>

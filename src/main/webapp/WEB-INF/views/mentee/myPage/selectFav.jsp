@@ -14,64 +14,72 @@
 	src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <script type="text/javascript">
-var IMP = window.IMP; // 생략가능
-IMP.init("imp99503400");
+	var IMP = window.IMP; // 생략가능
+	IMP.init("imp99503400");
+	$(function() {
+		$("#purchase-action-button")
+				.on("click",function() {
+							var courseCode = $("#courseCode").val();
+							var courseAmount = $('#coursePrice').val();
+							var userMail = $('#userMail').val();
+							var userPhone = $('#userPhone').val();
+							var userName = $('#userId').val();
+							IMP.request_pay(
+											{
+												pg : 'nice', // version 1.1.0부터 지원.
+												pay_method : 'card',
+												merchant_uid : 'merchant_'+ new Date().getTime(),
+												name : '주문명:postIT 수강결제',
+												amount : courseAmount,
+												buyer_email : userMail,
+												buyer_name : userName,
+												buyer_tel : userPhone,
+												buyer_addr : '경기도 성남시 분당구 대왕판교로',
+												buyer_postcode : '123-456',
+												m_redirect_url : 'localhost:8000/postIT/main/mainpage/index'
+											},
+											function(rsp) {
+												if (rsp.success) {
+													var msg = '결제가 완료되었습니다.';
+													msg += '고유ID : '
+															+ rsp.imp_uid;
+													msg += '상점 거래ID : '
+															+ rsp.merchant_uid;
+													msg += '결제 금액 : '
+															+ rsp.paid_amount;
+													msg += '카드 승인번호 : '
+															+ rsp.apply_num;
 
-$("#purchase-action-button").on("click",function(){
-  	var mentoUserId = $("#mentoUserId").val();
- 	
-	if(userVal==mentoUserId){
-		alert("멘토입니다.");  
-		return false; 
-	}	    
-	if(userVal.length==0){
-		alert("로그인을 해주세요");  
-		return false; 
-	}   
-	var courseCode = $("#courseCode").val();
-	var courseAmount = $('#coursePrice').val();
-	var userMail = $('#userMail').val();
-	var userPhone = $('#userPhone').val();
-	var userName = $('#userName').val();
-	IMP.request_pay({
-		pg : 'nice', // version 1.1.0부터 지원.
-		pay_method : 'card',
-		merchant_uid : 'merchant_' + new Date().getTime(),
-		name : '주문명:postIT 수강결제',
-		amount : 1000,
-		buyer_email : userMail,
-		buyer_name : userName,
-		buyer_tel : userPhone,
-		buyer_addr : '경기도 성남시 분당구 대왕판교로',
-		buyer_postcode : '123-456',
-		m_redirect_url : 'localhost:8000/postIT/main/mainpage/index'
-	}, function(rsp) {
-		if (rsp.success) {
-			var msg = '결제가 완료되었습니다.';
-			msg += '고유ID : ' + rsp.imp_uid;
-			msg += '상점 거래ID : ' + rsp.merchant_uid;
-			msg += '결제 금액 : ' + rsp.paid_amount;
-			msg += '카드 승인번호 : ' + rsp.apply_num;
-			
-			 $.ajax({
-                 type:"POST",
-                 url:"${pageContext.request.contextPath}/course/payConfirm",            
-                 data:"${_csrf.parameterName}=${_csrf.token}&&id="+userVal+"&&courseCode="+courseCode+"&&paidAmount="+rsp.paid_amount+"&&paidMethod="+rsp.pay_method,	
-                 success:function(data){                  
-                    msg += '+등록이 성공되었습니다.'                          
-                 }//callback         
-              });
-			 
-			course/payConfirm
-			
-		} else {
-			var msg = '결제에 실패하였습니다.';
-			msg += '에러내용 : ' + rsp.error_msg;
-		}
-		alert(msg);
-	});
-	return false;
-});
+													$
+															.ajax({
+																type : "POST",
+																url : "${pageContext.request.contextPath}/course/payConfirm",
+																data : "${_csrf.parameterName}=${_csrf.token}&&id="
+																		+ userVal
+																		+ "&&courseCode="
+																		+ courseCode
+																		+ "&&paidAmount="
+																		+ rsp.paid_amount
+																		+ "&&paidMethod="
+																		+ rsp.pay_method,
+																success : function(
+																		data) {
+																	msg += '+등록이 성공되었습니다.'
+																}//callback         
+															});
+
+													course / payConfirm
+
+												} else {
+													var msg = '결제에 실패하였습니다.';
+													msg += '에러내용 : '
+															+ rsp.error_msg;
+												}
+												alert(msg);
+											});
+							return false;
+						});
+	})
 </script>
 <body>
 
@@ -100,7 +108,9 @@ $("#purchase-action-button").on("click",function(){
 					<c:set var="userId">
 						<sec:authentication property="principal.userId" />
 					</c:set>
-
+					<input type="hidden" value="${userId}" id="userId" /> <input
+						type="hidden" value="${menteeDTO.userEmail}" id="userMail" /> <input
+						type="hidden" value="${menteeDTO.userPhone}" id="userPhone" />
 					<ul>
 						<li class="filter" data-filter="all"><a
 							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
@@ -200,10 +210,14 @@ $("#purchase-action-button").on("click",function(){
 
 										<div style="width: 100%; margin: 0 auto;">
 											<div style="width: 50%; float: left">
-												<a style="width: 100%;" class="btn btn-primary"
-													href="${pageContext.request.contextPath}/" id="purchase-action-button">결제하기</a>
+												<input type="submit" id="purchase-action-button"
+													class="btn btn-primary" style="width: 100%;" value="결제하기">
 											</div>
-											<input type="hidden" id="coursePrice" value="${favStudy.courseDTO.coursePrice}"/>
+
+											<input type="hidden" id="coursePrice"
+												value="${favStudy.courseDTO.coursePrice}" /> <input
+												type="hidden" id="courseCode"
+												value="${favStudy.courseDTO.courseCode}" />
 											<div style="width: 50%; float: right">
 												<a style="width: 100%;" class="btn btn-primary"
 													href="${pageContext.request.contextPath}/myPage/favStudy/delete?userId=${favStudy.userId}&courseCode=${favStudy.courseCode}">찜하기
