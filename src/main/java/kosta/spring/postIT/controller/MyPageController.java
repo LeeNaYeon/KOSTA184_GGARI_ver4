@@ -1,7 +1,6 @@
 package kosta.spring.postIT.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kosta.spring.postIT.model.dto.CourseApplyDTO;
+import kosta.spring.postIT.model.dto.ApplicantDTO;
 import kosta.spring.postIT.model.dto.CourseDTO;
 import kosta.spring.postIT.model.dto.CourseFavDTO;
 import kosta.spring.postIT.model.dto.CourseRegistDTO;
@@ -377,7 +376,7 @@ public class MyPageController {
 		System.out.println(classes.length);
 		if (classes.length>=1) {
 			System.out.println(classes[0]);
-			applicantDTO.setApplicantMajor1(classes[0]);
+			applicantDTO.setApplicantMajor(classes[0]);
 			if (classes.length>=2) {
 				System.out.println(classes[1]);
 				applicantDTO.setApplicantMajor2(classes[1]);

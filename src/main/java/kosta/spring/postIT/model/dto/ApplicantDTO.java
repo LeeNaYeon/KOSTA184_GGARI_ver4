@@ -14,9 +14,17 @@ public class ApplicantDTO {
 	private MultipartFile file;
 	private MenteeDTO menteeDTO;
 	
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
 	public ApplicantDTO() {}
 	
-	public ApplicantDTO(String userId, String applicantResume, String applicantMajor1, String applicantMajor2,
+	public ApplicantDTO(String userId, String applicantResume, String applicantMajor, String applicantMajor2,
 			String applicantMajor3, String applicantStatus) {
 		super();
 		this.userId = userId;

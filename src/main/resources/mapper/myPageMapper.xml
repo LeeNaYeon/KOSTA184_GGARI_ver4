@@ -395,7 +395,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertApplicant" parameterType="applicantDTO">
 		insert into
 		applicant 
-		values(#{userId}, #{applicantResume}, #{applicantMajor1}, #{applicantMajor2}, #{applicantMajor3},0)
+		values(#{userId}, #{applicantResume}, #{applicantMajor}, #{applicantMajor2}, #{applicantMajor3},0)
 	</insert>
 
 
