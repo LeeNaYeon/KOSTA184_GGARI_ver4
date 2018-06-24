@@ -60,6 +60,9 @@ public class MentoDTO {
 	public void setMentoMajor3(String mentoMajor3) {
 		this.mentoMajor3 = mentoMajor3;
 	}
+	
+	
+	
 	public MenteeDTO getMenteeDTO() {
 		return menteeDTO;
 	}
@@ -67,8 +70,5 @@ public class MentoDTO {
 		this.menteeDTO = menteeDTO;
 	}
 	
-	
-	
-	
-	
+
 }

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kosta.spring.postIT.model.dao.MyPageDAO;
@@ -24,6 +27,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Autowired
 	MyPageDAO myPageDAO;
+	
+
 	
 	@Override
 	public List<TestProblemSolutionDTO> selectProblem(String codeNum) {
@@ -68,7 +73,13 @@ public class MyPageServiceImpl implements MyPageService {
 	
 	@Override
 	public List<CourseDTO> selectMentoStudy(String userId) {
+		MenteeDTO pvo=(MenteeDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			
+		if(!pvo.getUserId().equals(userId)) {//첫번째 인수는 평문, 두번째인수 암호화
 
+			throw new RuntimeException("인증된 사용자를 다시 확인해주세요.");
+		}
+		
 		return myPageDAO.selectMentoStudy(userId);
 
 	}

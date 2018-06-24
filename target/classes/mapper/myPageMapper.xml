@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="regist_course_code" property="courseCode" />
 		<result column="pay_code" property="payCode" />
 		<result column="regist_user_id" property="userId" />
-
+		<result column="state" property="state" />
 
 		<association property="courseDTO" javaType="courseDTO">
 			<id column="course_code" property="courseCode" />
@@ -262,53 +262,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		course_detail, course_level, course_recruit_max,
 		course_recruit_current, course_recruit_period, course_start_date,
 		course_end_date, course_frequency, course_start_time,
-		course_end_time,
-		course_loc, course_price, course_url, course_backpic,
-		mentee.user_id as
-		mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		course_end_time, course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
 		from course_regist,course,mentee
-		where
-		course_regist.course_code=course.course_code and
+		where course_regist.course_code=course.course_code and
 		course.user_id=mentee.user_id and
 		course.course_end_date>sysdate and
 		course_regist.user_id=#{value}
+		order by course_start_date asc
 	</select>
 
+
 	<delete id="menteeStudyDelete" parameterType="map">
-		delete from
-		course_regist
+		delete from course_regist
 		where user_id=#{userId} and course_code=#{courseCode}
 	</delete>
 
 	<update id="menteeStudyCurrentUpdate" parameterType="string">
-		update
-		course
+		update course
 		set course_recruit_current=course_recruit_current-1
-		where
-		course_code=#{courseCode}
+		where course_code=#{courseCode}
 	</update>
 
 	<select id="favStudySelect" parameterType="string" resultMap="selectFavStudyMap">
 		select course_fav.course_code as fav_course_code, course_fav.user_id
 		as fav_user_id,
-		course.course_code, course.user_id, course_title,
-		course_top_group, course_sub_group,
-		course_detail, course_level,
-		course_recruit_max,
-		course_recruit_current, course_recruit_period,
-		course_start_date,
-		course_end_date, course_frequency,
-		course_start_time,
-		course_end_time, course_loc, course_price,
-		course_url, course_backpic,
-		mentee.user_id as mentee_id, user_pwd,
-		user_name, user_phone, user_email, user_photo
-		from course_fav, course,
-		mentee
+		course.course_code, course.user_id, course_title, course_top_group, course_sub_group,
+		course_detail, course_level, course_recruit_max,
+		course_recruit_current, course_recruit_period, course_start_date,
+		course_end_date, course_frequency, course_start_time,
+		course_end_time, course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		from course_fav, course, mentee
 		where course_fav.course_code=course.course_code and
 		course.user_id=mentee.user_id and
 		course.course_end_date>sysdate and
 		course_fav.user_id=#{value}
+		order by course_start_date asc
 	</select>
 
 	<delete id="favStudyDelete" parameterType="map">
@@ -321,53 +311,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		course_sub_group, course_detail, course_level, course_recruit_max,
 		course_recruit_current, course_recruit_period, course_start_date,
 		course_end_date, course_frequency, course_start_time,
-		course_end_time,
-		course_loc, course_price, course_url, course_backpic,
-		mentee.user_id as
-		mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		course_end_time, course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
 		from course,mentee
 		where course.user_id=mentee.user_id and
 		sysdate>course.course_end_date and
 		course.user_id=#{value}
+		order by course_start_date asc
 	</select>
 
 	<select id="selectMenteeEx" parameterType="string" resultMap="selectMenteeMap">
+		<!-- select regist_code, course_regist.course_code as regist_course_code, 
+			pay_code, course_regist.user_id as regist_user_id, course.course_code, course.user_id, 
+			course_title, course_top_group, course_sub_group, course_detail, course_level, 
+			course_recruit_max, course_recruit_current, course_recruit_period, course_start_date, 
+			course_end_date, course_frequency, course_start_time, course_end_time, course_loc, 
+			course_price, course_url, course_backpic, mentee.user_id as mentee_id, user_pwd, 
+			user_name, user_phone, user_email, user_photo from course_regist,course,mentee 
+			where course_regist.course_code=course.course_code and course.user_id=mentee.user_id 
+			and sysdate>course.course_end_date and course_regist.user_id=#{value} order 
+			by course_start_date asc -->
+
 		select regist_code, course_regist.course_code as regist_course_code,
 		pay_code, course_regist.user_id as regist_user_id, course.course_code,
 		course.user_id, course_title, course_top_group, course_sub_group,
 		course_detail, course_level, course_recruit_max,
 		course_recruit_current, course_recruit_period, course_start_date,
 		course_end_date, course_frequency, course_start_time,
-		course_end_time,
-		course_loc, course_price, course_url, course_backpic,
-		mentee.user_id as
-		mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		course_end_time, course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email,
+		user_photo,
+		case
+		when course_regist.course_code in (select course_code from
+		MENTO_REPUTATION where rep_writer =#{value} ) then '리뷰 작성 완료'
+		else '리뷰 작성하러 가기'
+		end state
 		from course_regist,course,mentee
-		where
-		course_regist.course_code=course.course_code and
+		where course_regist.course_code=course.course_code and
 		course.user_id=mentee.user_id and
 		sysdate>course.course_end_date and
 		course_regist.user_id=#{value}
+		order by course_start_date asc
 	</select>
 
 	<select id="selectMenteeExByCourseCode" parameterType="map"
 		resultMap="selectMenteeMap">
-		select regist_code, course_regist.course_code as
-		regist_course_code,
-		pay_code, course_regist.user_id as regist_user_id,
-		course.course_code,
-		course.user_id, course_title, course_top_group,
-		course_sub_group,
+		select regist_code, course_regist.course_code as regist_course_code,
+		pay_code, course_regist.user_id as regist_user_id, course.course_code,
+		course.user_id, course_title, course_top_group, course_sub_group,
 		course_detail, course_level, course_recruit_max,
 		course_recruit_current, course_recruit_period, course_start_date,
 		course_end_date, course_frequency, course_start_time,
-		course_end_time,
-		course_loc, course_price, course_url, course_backpic,
-		mentee.user_id as
-		mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
+		course_end_time, course_loc, course_price, course_url, course_backpic,
+		mentee.user_id as mentee_id, user_pwd, user_name, user_phone, user_email, user_photo
 		from course_regist,course,mentee
-		where
-		course_regist.course_code=course.course_code and
+		where course_regist.course_code=course.course_code and
 		course.user_id=mentee.user_id and
 		sysdate>course.course_end_date and
 		course_regist.user_id=#{userId} and
@@ -375,21 +373,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<insert id="insertReview" parameterType="mentoReputationDTO">
-		insert into
-		mento_reputation values('rep'||lpad(course_seq.nextval,4,'0'),
+		insert into mento_reputation values('rep'||lpad(course_seq.nextval,4,'0'),
 		#{userId}, #{repWriter}, #{repContent}, sysdate, #{courseCode})
 	</insert>
 
 	<select id="selectReview" parameterType="mentoReputationDTO"
 		resultType="mentoReputationDTO">
-		select rep_code as repCode, user_id as userId, rep_writer
-		as repWriter,
-		rep_content as repContent, rep_date as repDate,
-		course_code as
+		select rep_code as repCode, user_id as userId, rep_writer as repWriter,
+		rep_content as repContent, rep_date as repDate, course_code as
 		courseCode
 		from mento_reputation
-		where
-		course_code=#{courseCode} and rep_writer=#{repWriter}
+		where course_code=#{courseCode} and rep_writer=#{repWriter}
 	</select>
 
 	<select id="getMajorMento" parameterType="string" resultMap="getMentoMajor">

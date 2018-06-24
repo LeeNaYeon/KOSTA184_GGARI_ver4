@@ -57,7 +57,7 @@ public class MemberController {
 			e.printStackTrace();
 		} 
 		
-		applicantDTO = new ApplicantDTO(applicantDTO.getUserId(),fileName,applicantDTO.getApplicantMajor1()
+		applicantDTO = new ApplicantDTO(applicantDTO.getUserId(),fileName,applicantDTO.getApplicantMajor()
 				,applicantDTO.getApplicantMajor2(),applicantDTO.getApplicantMajor3(),"0" );
 		
 		memberService.insertMento(menteeDTO,applicantDTO);

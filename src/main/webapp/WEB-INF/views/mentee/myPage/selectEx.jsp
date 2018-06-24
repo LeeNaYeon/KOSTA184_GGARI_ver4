@@ -3,10 +3,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+		
+	$("a[id='리뷰 작성 완료']").bind('click', false);
+	
+})
+
+</script>
 <body>
 	<%
 	String userId = (String)request.getAttribute("userId");
@@ -18,9 +28,9 @@
 	<div class="breadcrumb-overlay"></div>
 	<div class="container">
 		<h1>
-			<a href="courses.html">Courses</a>
+			<a href="courses.html">MyPage</a>
 		</h1>
-		<span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Courses</span>
+		<span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>MyPage</span>
 	</div>
 	</section>
 
@@ -31,10 +41,13 @@
 			<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
 			<div class="course-filter">
 				<div class="gallery-nav">
+				
+					<c:set var="userId"><sec:authentication property="principal.userId"/></c:set>
+					
 					<ul>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=<%=userId%>">내 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=<%=userId%>">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=<%=userId%>">완료된 스터디</a></li>
+						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내 스터디</a></li>
+						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한 스터디</a></li>
+						<li class="filter" data-filter="all"><a href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된 스터디</a></li>
 						<li class="filter" data-filter="all"><a href="#">프로필 수정</a></li>
 						<li class="filter" data-filter="all"><a href="#">스터디 만들기</a></li>
 					</ul>
@@ -206,8 +219,8 @@
 												<span><%=result%>주</span> <span class="pull-right">${menteeEx.courseDTO.coursePrice}</span>
 											</div>
 										</div>
-										
-											<a style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/myPage/exStudy/reviewInsertForm?userId=${menteeEx.userId}&courseCode=${menteeEx.courseCode}">리뷰 작성하러 가기</a>										
+																		
+											<a id="${menteeEx.state}" style="width: 100%;" class="btn btn-primary" href="${pageContext.request.contextPath}/myPage/exStudy/reviewInsertForm?userId=${menteeEx.userId}&courseCode=${menteeEx.courseCode}">${menteeEx.state}</a>																	
 										
 										</div>
 								</div>

@@ -48,12 +48,17 @@ public interface CourseDAO {
 	 * 강사리뷰
 	 */
 	List<MentoReputationDTO> courseReview(String courseCode);
-
+	
 	/**
 	 * main강사리뷰
 	 * */
 	List<MentoReputationDTO> selectReputation();
-
+	
+	/**
+	 * main강좌검색
+	 * */
+	List<CourseDTO> mainCourseSearch(String search);
+	
 	/**
 	 * 스터디 전체조회
 	 */
@@ -64,5 +69,8 @@ public interface CourseDAO {
 	 */
 	List<CourseDTO> courseSearch(CourseDTO courseDTO, CourseDateDTO courseDateDTO);
 	
-	
+	/**
+	 * 추천 스터디 조회
+	 * */
+	List<CourseDTO> selectCourseRecommend();
 }
