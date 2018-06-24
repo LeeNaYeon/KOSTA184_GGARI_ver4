@@ -97,14 +97,7 @@ $(function(){
 <body>
     
    <!-- 여기부터 수정 -->
-   
-   <section class="breadcrumb" style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
-        <div class="breadcrumb-overlay"></div>
-        <div class="container">
-            <h1><a href="courses.html">스터디</a></h1>
-            <span><a href="index.html">Home</a></span><span><i class="fa fa-angle-right"></i>Courses</span>
-        </div>
-    </section>
+  
 
    <div class="popular-course course-page">
         <div class="container">           
