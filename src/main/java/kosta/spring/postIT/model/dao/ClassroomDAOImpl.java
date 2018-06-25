@@ -46,7 +46,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 	public MenteeDTO selectAsgnList(String courseCode) {
 		System.out.println("courseCode : " + courseCode);
 		MenteeDTO MenteeDTO = session.selectOne("classroomMapper.selectAsgnList", courseCode);
-		System.out.println(MenteeDTO.getUserName());
+		//System.out.println(MenteeDTO.getUserName());
 		return MenteeDTO;
 	}
 

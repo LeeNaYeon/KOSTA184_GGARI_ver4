@@ -83,7 +83,7 @@
 </script>
 <body>
 
-	<section class="breadcrumb"
+<%-- 	<section class="breadcrumb"
 		style="background-image: url(${pageContext.request.contextPath}/resources/images/background/breadcrumb.jpg);">
 	<div class="breadcrumb-overlay"></div>
 	<div class="container">
@@ -93,7 +93,7 @@
 		<span><a href="index.html">Home</a></span> <span><i
 			class="fa fa-angle-right"></i>MyPage</span>
 	</div>
-	</section>
+	</section> --%>
 
 	<div class="popular-course course-page inner-page"
 		style="margin-top: 20px">

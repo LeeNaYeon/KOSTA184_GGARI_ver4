@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,16 +23,59 @@
 <link rel="icon"
 	href="${pageContext.request.contextPath}/resources/images/favicon.png"
 	type="image/x-icon">
+	
+<!-- datepicker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- stylesheet start -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<%-- <script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> --%>
 <script type="text/javascript">
 	var sel_file;
 	$(document).ready(function() {
 		$("#input_img").on("change", handleImgFileSelect);
+		
+		//datepicker 한국어로 사용하기 위한 언어설정
+        $.datepicker.setDefaults($.datepicker.regional['ko']); 
+        
+        // 시작일(fromDate)은 종료일(toDate) 이후 날짜 선택 불가
+        // 종료일(toDate)은 시작일(fromDate) 이전 날짜 선택 불가
+
+        //시작일.
+        $('#datepickerStart').datepicker({
+            //showOn: "both",                     // 달력을 표시할 타이밍 (both: focus or button)
+           // buttonImage: "images/calendar.gif", // 버튼 이미지
+          //  buttonImageOnly : true,             // 버튼 이미지만 표시할지 여부
+           // buttonText: "날짜선택",             // 버튼의 대체 텍스트
+            dateFormat: "y/mm/dd",             // 날짜의 형식
+            changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
+            //minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
+            onClose: function( selectedDate ) {    
+                // 시작일(fromDate) datepicker가 닫힐때
+                // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+                $("#datepickerEnd").datepicker( "option", "minDate", selectedDate );
+            }       
+       
+        });
+
+        //종료일
+        $('#datepickerEnd').datepicker({
+          //  showOn: "both", 
+          //  buttonImage: "images/calendar.gif", 
+          //  buttonImageOnly : true,
+          //  buttonText: "날짜선택",
+            dateFormat: "y/mm/dd",
+            changeMonth: true,
+            //minDate: 0, // 오늘 이전 날짜 선택 불가
+            onClose: function( selectedDate ) {
+                // 종료일(toDate) datepicker가 닫힐때
+                // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+                $("#datepickerStart").datepicker( "option", "maxDate", selectedDate );
+            }                
+        });
 	});
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
@@ -73,7 +117,7 @@
 		}
 
 		if (f.courseLevel.value == "") {
-			alert("강좌 레벨을 선택해 주십시오.");
+			alert("스터디 레벨을 선택해 주십시오.");
 			f.courseLevel.focus();
 			return false;
 		}
@@ -128,6 +172,8 @@
 			return false;
 		}
 		return true;
+		
+		
 	}
 </script>
 </head>
@@ -139,30 +185,48 @@
 		<div class="col-md-12">
 			<div class="row">
 				<!-- gallery Nav -->
-				<div class="gallery-nav">
-					<ul>
-						<li class="filter" data-filter="all"><a href="#">내 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">찜한 스터디</a></li>
-						<li class="filter" data-filter="all"><a href="#">완료된 스터디</a></li>
+
+				<div class="course-filter" >
+					<div class="gallery-nav">
+						<ul>
+							<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+								스터디</a></li>
+						<li class="filter" data-filter="all"><a
+							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+								스터디</a></li>
 						<li class="filter" data-filter="all"><a
 							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
 								수정</a></li>
-						<li class="filter"><a
-							href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
-								만들기</a></li>
-					</ul>
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<li class="filter"><a
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
+						</sec:authorize>
+						</ul>
+					</div>
 				</div>
 				<!--/ End gallery Nav -->
 
-				<div class="login-form">
+				<div class="login-form" style="margin-bottom: 60px; margin-top: 30px">
 
-					<div class="col-md-12 col-sm-12 col-xs-12">
+					<%-- <div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="navbar-brand">
 							<img
 								src="${pageContext.request.contextPath}/resources/images/logo.png"
 								class="img-responsive" alt="">
 						</div>
-					</div>
+					</div> --%>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="navbar-brand"  style="margin-bottom: 10px">
+                            <!-- <img src="images/logo.png" class="img-responsive" alt=""> -->
+					        <div class="title sec-title" style="text-align: left; margin: 20px 0 0 0" >
+								<h2>스터디 등록하기</h2>
+							</div>	                        
+                        </div>
+                    </div>
 
 
 					<form name="courseAddForm" method="post"
@@ -170,11 +234,11 @@
 						onSubmit='return checkValid()' enctype="multipart/form-data">
 
 						<div class="form-group">
-							강좌제목<br> <input type="text" placeholder="class title"
+							스터디제목<br> <input type="text" placeholder="class title"
 								name="courseTitle" id="courseTitle">
 						</div>
 						<div class="form-group">
-							강좌종류<br> <select name="courseSubGroup">
+							스터디종류<br> <select name="courseSubGroup">
 								<optgroup label="스킬업단과">
 								<c:forEach var="major" items="${majorList}">
 									<c:if test="${major == 'U001'}">
@@ -253,8 +317,8 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌레벨<br> <select name="courseLevel">
-								<optgroup label="강좌레벨">
+							스터디레벨<br> <select name="courseLevel">
+								<optgroup label="스터디레벨">
 									<option value="초급">초급</option>
 									<option value="중급">중급</option>
 									<option value="고급">고급</option>
@@ -266,22 +330,35 @@
 								name="courseRecruitMax">
 						</div>
 						<div class="form-group">
-							강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
-							종료 날짜<input type="date" name="courseEndDate">
+							<!-- 강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
+							종료 날짜<input type="date" name="courseEndDate"> -->
+							스터디 시작 날짜
+							<div style="width: 100%; border-radius: 10px;">
+								<input type="text" name="adsEndDate" id="datepickerEnd"
+									style="border-radius: 8px;" placeholder="스터디 시작 날짜 선택하기">
+							</div>
+							
+							스터디 종료 날짜
+							<div style="width: 100%; margin-left: 5px; ">
+								<input type="text" name="adsStartDate" id="datepickerStart"
+									style="border-radius: 8px;" placeholder="스터디 종료 날짜 선택하기">
+							</div>
 						</div>
-
+						
 						<div class="form-group">
-							강좌가능요일선택<br> <input type="checkbox" name="classDay"
-								value="월">월 <input type="checkbox" name="classDay"
-								value="화">화 <input type="checkbox" name="classDay"
-								value="수">수 <input type="checkbox" name="classDay"
-								value="목">목 <input type="checkbox" name="classDay"
-								value="금">금 <input type="checkbox" name="classDay"
-								value="토">토 <input type="checkbox" name="classDay"
-								value="일">일
+							스터디가능요일선택<br> 
+							<div style="width: 100%; text-align: center;">
+							<input type="checkbox" name="classDay" value="월">월 
+								<input type="checkbox" name="classDay" value="화">화 
+								<input type="checkbox" name="classDay" value="수">수 
+								<input type="checkbox" name="classDay" value="목">목 
+								<input type="checkbox" name="classDay" value="금">금 
+								<input type="checkbox" name="classDay" value="토">토 
+								<input type="checkbox" name="classDay" value="일">일
+							</div>
 						</div>
 						<div class="form-group">
-							강좌가능지역<br> <select name="courseLoc">
+							스터디가능지역<br> <select name="courseLoc">
 								<optgroup label="서울">
 									<option value="건대">건대</option>
 									<option value="홍대">홍대</option>
@@ -304,7 +381,7 @@
 						</div>
 
 						<div class="form-group">
-							강좌시작시간<br> <select name="courseStartTime" size="5"
+							스터디시작시간<br> <select name="courseStartTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="0030">0:30am</option>
@@ -361,7 +438,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							강좌종료시간<br> <select name="courseEndTime" size="5"
+							스터디종료시간<br> <select name="courseEndTime" size="5"
 								style="height: 100px">
 								<optgroup label="오전">
 									<option value="0030">0:30am</option>
@@ -422,23 +499,30 @@
 								name="coursePrice">
 						</div>
 						<div class="form-group">
-							강좌 오픈 카톡방 URL<br> <input type="url"
-								placeholder="강좌 오픈 카톡방 URL" name="courseUrl">
+							스터디 오픈 카톡방 URL<br> <input type="url"
+								placeholder="스터디 오픈 카톡방 URL" name="courseUrl">
 						</div>
 
 
 						<div class="form-group">
-							강좌소개<br>
+							스터디소개<br>
 							<textarea rows="100" name="courseDetail" cols="50"
 								style="height: 300px"
-								placeholder="   강좌소개말을 입력해 주십시오. 수강생들이 보는 강좌에 대한 첫 인상이기 때문에 무엇보다도 중요할 수 있습니다. 그러니 조금이라도 신경을 써 주신다면 감사하겠습니다. 항상, 최선을 다 하는 postIT이 되겠습니다."></textarea>
+								placeholder="   스터디소개말을 입력해 주십시오. 수강생들이 보는 스터디에 대한 첫 인상이기 때문에 무엇보다도 중요할 수 있습니다. 그러니 조금이라도 신경을 써 주신다면 감사하겠습니다. 항상, 최선을 다 하는 postIT이 되겠습니다."></textarea>
 						</div>
 
 						<div class="form-group">
-							<div>
+							<!-- <div>
 								<p class="title">
 									배경화면사진 업로드 <input type="file" id="input_img" name="file" />
-							</div>
+							</div> -->
+							 <label class="btn btn-primary" style="margin-top: 0px;">
+                                    배경화면사진 업로드
+                                    <input type="file" name="file" id="input_img" style="display: none;" onchange="javascript:document.getElementById('file_route').value=this.value">
+                             </label>     
+                            
+							<input type="text" readonly="readonly"  class="form-control" title="File Route" id="file_route" style="height: 40px; margin-top: 15px;">
+							 
 
 						</div>
 
@@ -448,8 +532,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<button type="submit" class="login-btn btn" style="align: center">Register
-								now</button>
+							<button type="submit" class="login-btn btn" style="align: center; width:100%">등록하기</button>
 						</div>
 					</form>
 				</div>
@@ -461,7 +544,7 @@
 	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
 	<!-- srolltop end -->
 
-
+<%-- 
 	<script
 		src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 	<script
@@ -480,7 +563,7 @@
 		src="${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/countdown.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/script.js"></script> --%>
 </body>
 
 </html>

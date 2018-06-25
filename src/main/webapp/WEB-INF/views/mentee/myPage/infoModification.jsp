@@ -77,7 +77,31 @@
 	var sel_file;
 	$(document).ready(function() {
 		$("#input_img").on("change", handleImgFileSelect);
+		
+		$("#InfoButton").on("click", function() {
+
+	          if($("input[name=userPhone]").val().trim()==""){
+	              alert("연락처를 등록하세요");            
+	              return false;
+	           }    
+	          if($("input[name=userEmail]").val().trim()==""){
+	              alert("이메일을 입력하세요");            
+	              return false;
+	           }
+	          if($("input[name=userEmail]").val().trim().indexOf('@')<0){
+	              alert("올바른 이메일 형식이 아닙니다.");            
+	              return false;
+	           }
+	          
+	          if ( $("#checkbox :checked").size()<1 ||  $("#checkbox :checked").size()>3 ) {
+	              alert("관심분야는 1~3개까지 가능합니다.");
+	              return false;
+	           
+	           } 
+	          return ;
+	       }); 
 	});
+	
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
@@ -98,12 +122,16 @@
 		});
 
 	}
+	
+	/* $(function() {
+	      
+	}) */
 </script>
 </head>
 <body>
 
 	
-	<section id="gallery" style="padding-top: 0px; padding-bottom: 0px">
+	<section id="gallery" style="padding-top: 30px; padding-bottom: 30px">
 			<div class="course-filter">
 				<div class="gallery-nav">
 					<sec:authorize access="hasRole('ROLE_MENTO')">
@@ -128,8 +156,7 @@
 								수정</a></li>
 						<sec:authorize access="hasRole('ROLE_MENTO')">
 							<li class="filter"><a
-								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
-									만들기</a></li>
+								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
 						</sec:authorize>
 					</ul>
 
@@ -138,8 +165,8 @@
 			</section>
 				<!--/ End gallery Nav -->
 
-				<div class="login-form">
-					<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="login-form" style="margin-bottom:60px">
+					<%-- <div class="col-md-12 col-sm-12 col-xs-12">
 
 						<div class="navbar-brand">
 							<img
@@ -147,7 +174,16 @@
 								class="img-responsive" alt="">
 						</div>
 						<label><h3>회원정보수정</h3></label>
-					</div>
+					</div> --%>
+					
+					<div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="navbar-brand"  style="margin-bottom: 10px">
+                            <!-- <img src="images/logo.png" class="img-responsive" alt=""> -->
+					        <div class="title sec-title" style="text-align: left; margin: 20px 0 0 0" >
+								<h2>회원정보수정</h2>
+							</div>
+                        </div>
+                    </div>
 
 
 
@@ -157,10 +193,17 @@
 
 
 						<div class="form-group">
-							<div>
-								<p class="title">
-									프로필 이미지 사진 업로드/p> <input type="file" id="input_img" name="file" />
-							</div>
+							<!-- <div>
+								<p class="title">프로필 이미지 사진 업로드</p> 
+								<input type="file" id="input_img" name="file" />
+							</div> -->
+							
+							  <label class="btn btn-primary" style="margin-top: 0px;">
+                                    프로필 이미지 사진 업로드
+                                    <input type="file" name="file" id="input_img" style="display: none;" onchange="javascript:document.getElementById('file_route').value=this.value">
+                             </label>     
+                            
+							<input type="text" readonly="readonly"  class="form-control" title="File Route" id="file_route" style="height: 40px; margin-top: 15px;">
 
 							<div>
 								<div class="img_wrap">
@@ -179,15 +222,15 @@
 								value="${memberInfo.userId}" name="userId">
 						</div>
 						<div class="form-group">
-							(*)연락처<br> <input type="text"
+							연락처<br> <input type="text"
 								value="${memberInfo.userPhone}" name="userPhone">
 						</div>
 						<div class="form-group">
-							(*)이메일<br> <input type="text"
+							이메일<br> <input type="text"
 								value="${memberInfo.userEmail}" name="userEmail">
 						</div>
 
-						<div class="form-join">
+						<div class="form-join" id="checkbox">
 							<div style="font-size: 1.2em;">
 								<strong>관심분야</strong>
 							</div>
@@ -302,7 +345,7 @@
 						</sec:authorize>
 						<div>&nbsp</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<button type="submit" class="login-btn btn">Register now</button>
+							<button type="submit" class="login-btn btn" style="width:100%" id="InfoButton">수정하기</button>
 						</div>
 					</form>
 				</div>
@@ -310,7 +353,7 @@
 
 
 	<!--Footer Bottom-->
-	<div class="footer-bottom">
+<!-- 	<div class="footer-bottom">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-sm-6">
@@ -328,13 +371,13 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- scroll top -->
 	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
 	<!-- srolltop end -->
 
-	<script
+	<!-- <script
 		src=${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js></script>
 	<script
 		src=${pageContext.request.contextPath}/resources/js/bootstrap.min.js></script>
@@ -350,8 +393,8 @@
 		src=${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js></script>
 	<script
 		src=${pageContext.request.contextPath}/resources/js/owl.carousel.min.js></script>
-	<!-- <script src=js/countdown.js></script> -->
-	<script src=${pageContext.request.contextPath}/resources/js/script.js></script>
+	<script src=js/countdown.js></script>
+	<script src=${pageContext.request.contextPath}/resources/js/script.js></script> -->
 
 </body>
 </html>

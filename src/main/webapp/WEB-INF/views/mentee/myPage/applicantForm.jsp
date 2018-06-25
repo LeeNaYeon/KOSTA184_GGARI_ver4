@@ -69,10 +69,41 @@
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
-</style>
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
+</style>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+	$(function() {
+	      $("#applicantButton").on("click", function() {
+
+	          if($("input[name=file]").val().trim()==""){
+	              alert("이력서를 등록하세요");            
+	              return false;
+	           }        
+	          
+	          if ( $("#checkbox :checked").size()<1 ||  $("#checkbox :checked").size()>3 ) {
+	              alert("관심분야는 1~3개까지 가능합니다.");
+	              return false;
+	           
+	           }
+	          
+	          return ;
+	          /* else{
+	              $('input[type=checkbox]:checked').each(function(index,item){            
+	                 var indexplus = index+1;
+	                 $('#applicantMajor'+indexplus).attr('value',$(this).val());
+	              });
+	              return ;
+	           }   */  
+
+	       }); 
+	})
+
+
+
+
+</script>
 </head>
 <body>
 
@@ -85,19 +116,26 @@
 				<!--/ End gallery Nav -->
 
 				<div class="login-form">
-					<div class="col-md-12 col-sm-12 col-xs-12">
+					<%--<div class="col-md-12 col-sm-12 col-xs-12">
 
-						<div class="navbar-brand">
+						 <div class="navbar-brand">
 							<img
 								src="${pageContext.request.contextPath}/resources/images/logo.png"
 								class="img-responsive" alt="">
 						</div>
-						<label><h3>earn your career as Mento with us</h3></label>
-					</div>
+						<label><h3>earn your career as Mento with us</h3></label> 
+					</div>--%>
+					
+					<div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="navbar-brand"  style="margin-bottom: 10px">
+                            <!-- <img src="images/logo.png" class="img-responsive" alt=""> -->
+					        <div class="title sec-title" style="text-align: left; margin: 20px 0 0 0" >
+								<h2>멘토 신청하기</h2>
+							</div>	                        
+                        </div>
+                    </div>
 
-
-
-					<form name="writeForm" method="post"
+					<form name="writeForm" method="post" id="writeForm"
 						action="${pageContext.request.contextPath}/myPage/insertApplicant?${_csrf.parameterName}=${_csrf.token}"
 						onSubmit='return checkValid()' enctype="multipart/form-data">
 
@@ -105,7 +143,16 @@
 						<div class="form-group">
 							<div>
 								<p class="title">
-									upload YOUR Resume <input type="file" id="input_img" name="file" />
+									※ 이력서 양식은 공지사항에서 확인해주세요. 
+									 <label class="btn btn-primary" style="margin-top: 0px;">
+		                                    이력서 등록
+		                                    <input type="file" id="input_img" name="file" style="display: none;" onchange="javascript:document.getElementById('file_route').value=this.value">
+		                             </label>     
+		                            
+									<input type="text" readonly="readonly"  class="form-control" title="File Route" id="file_route" style="height: 40px; margin-top: 15px;">
+									<!--  <input type="file" id="input_img" name="file" /> -->
+									
+									
 							</div>
 
 							<div>
@@ -120,9 +167,9 @@
 								<input type="hidden" value="${menteeDTO.userId}" name="userId">
 						</div>
 					
-						<div class="form-join">
+						<div class="form-join" id="checkbox">
 							<div style="font-size: 1.2em;">
-								<strong>(*)your major</strong>
+								<strong>주력분야</strong>
 							</div>
 
 							<div class="form-fav" style="float: left">
@@ -227,7 +274,7 @@
 						</div>
 						<div>&nbsp</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<button type="submit" class="login-btn btn">Register now</button>
+							<button type="submit" class="login-btn btn" id="applicantButton">신청하기</button>
 						</div>
 					</form>
 				</div>
@@ -238,7 +285,7 @@
 
 
 	<!--Footer Bottom-->
-	<div class="footer-bottom">
+<!-- 	<div class="footer-bottom">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-sm-6">
@@ -256,11 +303,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
-	<!-- scroll top -->
-	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
-	<!-- srolltop end -->
+ 	<!-- scroll top -->
+<!--	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
+	srolltop end
 
 	<script
 		src=${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js></script>
@@ -278,8 +325,8 @@
 		src=${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js></script>
 	<script
 		src=${pageContext.request.contextPath}/resources/js/owl.carousel.min.js></script>
-	<!-- <script src=js/countdown.js></script> -->
+	<script src=js/countdown.js></script>
 	<script src=${pageContext.request.contextPath}/resources/js/script.js></script>
-
+ -->
 </body>
 </html>

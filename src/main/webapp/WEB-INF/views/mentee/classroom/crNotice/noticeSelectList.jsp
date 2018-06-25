@@ -136,7 +136,7 @@
                     </div>
                 </div>
             </div>
-            <div class="page">
+<!--             <div class="page">
                 <ul class="pagination">
                     <li class="disabled"><a href="#"><i class="fa fa-long-arrow-left"></i></a></li>
                     <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
@@ -146,6 +146,6 @@
                     <li><a href="#">5</a></li>
                     <li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </section>

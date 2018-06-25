@@ -17,7 +17,7 @@
 </head>
 
 <div class="popular-course course-page">
-	<div class="container">
+	<div class="container" style="margin-bottom:60px">
 		<div class="pupular-course-inner clear">
 			<div class="row">
 				<!-- <div style="text-align: center; width: 100%;">
@@ -90,7 +90,7 @@
 	</div>
 
 </div>
-<div class="page">
+<!-- <div class="page">
 	<ul class="pagination">
 		<li class="disabled"><a href="#"><i
 				class="fa fa-long-arrow-left"></i></a></li>
@@ -101,7 +101,7 @@
 		<li><a href="#">5</a></li>
 		<li><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>
 	</ul>
-</div>
+</div> -->
 </body>
 
 </html>

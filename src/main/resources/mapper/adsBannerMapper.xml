@@ -23,10 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 광고등록 리스트 출력 -->
 	<select id="bannerSelectList" resultMap="adsBannerSelectMap">
-		select *
+		<!-- select *
 		from ads_banner
 		where ads_end_date <![CDATA[>]]>
 		sysdate
+		order by ads_code -->
+		select *
+		from ads_banner
+		where ads_end_date > (select to_char(sysdate,'YY/MM/DD') from dual)
 		order by ads_code
 	</select>
 

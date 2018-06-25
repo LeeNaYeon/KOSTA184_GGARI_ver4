@@ -214,8 +214,15 @@
                         	 <!-- <label class="btn btn-primary">
                                     이력서 등록
                                     <input type="file" name="file" style="display: none;">
-                             </label>  -->    
-                             <input type="file" name="file">
+                             </label> --> 
+                              <label class="btn btn-primary" style="margin-top: 0px;">
+                                    이력서 등록
+                                    <input type="file" name="file" style="display: none;" onchange="javascript:document.getElementById('file_route').value=this.value">
+                             </label>     
+                            
+							<input type="text" readonly="readonly"  class="form-control" title="File Route" id="file_route" style="height: 40px; margin-top: 15px;">
+							 
+                             <!-- <input type="file" name="file"> -->
                         </div>
                         <br>                                                  
                         <div class="form-join" id="checkbox">

@@ -18,11 +18,17 @@
 			f.crSubasgnContent.focus();
 			return false;
 		}
-		if ( f.crSubasgnFile.value == "" ) {
+		/* if ( f.crSubasgnFile.value == "" ) {
 			alert( "제출과제 내용을 입력해 주세요." );
 			f.crSubasgnContent.focus();
 			return false;
-		}
+		} */
+		
+		if($("input[name=file]").val().trim()==""){
+            alert("과제를 업로드하세요");            
+            return false;
+         } 
+
 	    return true;
 	}
 </script>

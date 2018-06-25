@@ -34,8 +34,8 @@
 					<div class="col-sm-12 ">
 						<input type="hidden" name="userId" value="<sec:authentication property="principal.userId" />">
 						<div class="form-group">
-							<label>게시물 제목 :</label> <input type="text" name="qaTitle"
-								class="form-control" placeholder="title">
+							<label>게시물 제목 :</label> 
+							<input type="text" name="qaTitle" class="form-control" placeholder="title">
 						</div>
 						<div class="form-group">
 							<label>게시물 내용 :</label>

@@ -45,23 +45,27 @@
             function checkValid() {
                var f = window.document.NoticeWriteForm;
          
-               if (f.qaTitle.value == "") {
+               if (f.noticeTitle.value == "") {
                   alert("게시물 제목을 입력해 주세요.");
-                  f.crNoticeTitle.focus();
+                  //f.crNoticeTitle.focus();
                   return false;
                }
-               if (f.qaContent.value == "") {
+               if (f.noticeContent.value == "") {
                   alert("게시물 내용을 입력해 주세요.");
-                  f.crNoticeContent.focus();
+                 // f.crNoticeContent.focus();
                   return false;
                }
+               if($("input[name=file]").val().trim()==""){
+                   alert("파일을 업로드하세요");            
+                   return false;
+               } 
                return true;
             }
          </script>
 <div class="container">
 	<div>
 		<div class="title inner-page-title">
-			<h3>QnA 등록</h3>
+			<h3>Notice 등록</h3>
 		</div>
 		<div style="width: 70%; margin-left: 200px;">
 			<form name="NoticeWriteForm" action="${pageContext.request.contextPath}/notice/insert?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data" onsubmit="return checkValid()">

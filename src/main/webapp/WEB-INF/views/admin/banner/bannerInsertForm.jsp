@@ -41,8 +41,16 @@
 		</style>
 	</head>
 	
-	
-    <script type="text/javascript">
+<%-- <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> --%>
+
+<!-- datepicker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+    //아이디 체크
+
 		function checkValid() {
 		    var f = window.document.bannerInsertForm;
 		    
@@ -57,11 +65,11 @@
 			      return false;
 			   }
 		    
-		   if ( f.adsStartDate.value == "" ) {
+		   if ( f.datepickerStart.value == "" ) {
 			      alert( "시작일을 선택해주세요." );
 			      return false;
 			   }
-		   if ( f.adsEndDate.value == "" ) {
+		   if ( f.datepickerEnd.value == "" ) {
 			      alert( "마감일을 선택해주세요." );
 			      return false;
 			   }
@@ -70,12 +78,58 @@
 			      f.adsLink.focus();
 			      return false;
 			   }
-		   if ( f.adsFileName.value == "" ) {
+		   /* if ( f.adsFileName.value == "" ) {
 			      alert( "이미지를 등록해주세요." );
 			      return false;
-			   }
+			   } */
+		   if($("input[name=file]").val().trim()==""){
+               alert("이미지을 업로드하세요");            
+               return false;
+           }  
 		    return true;
 		}
+    
+		$(function(){
+			//datepicker 한국어로 사용하기 위한 언어설정
+	        $.datepicker.setDefaults($.datepicker.regional['ko']); 
+	        
+	        // 시작일(fromDate)은 종료일(toDate) 이후 날짜 선택 불가
+	        // 종료일(toDate)은 시작일(fromDate) 이전 날짜 선택 불가
+	
+	        //시작일.
+	        $('#datepickerStart').datepicker({
+	            //showOn: "both",                     // 달력을 표시할 타이밍 (both: focus or button)
+	           // buttonImage: "images/calendar.gif", // 버튼 이미지
+	          //  buttonImageOnly : true,             // 버튼 이미지만 표시할지 여부
+	           // buttonText: "날짜선택",             // 버튼의 대체 텍스트
+	            dateFormat: "y/mm/dd",             // 날짜의 형식
+	            changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
+	            //minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
+	            onClose: function( selectedDate ) {    
+	                // 시작일(fromDate) datepicker가 닫힐때
+	                // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+	                $("#datepickerEnd").datepicker( "option", "minDate", selectedDate );
+	            }       
+	       
+	        });
+	
+	        //종료일
+	        $('#datepickerEnd').datepicker({
+	          //  showOn: "both", 
+	          //  buttonImage: "images/calendar.gif", 
+	          //  buttonImageOnly : true,
+	          //  buttonText: "날짜선택",
+	            dateFormat: "y/mm/dd",
+	            changeMonth: true,
+	            //minDate: 0, // 오늘 이전 날짜 선택 불가
+	            onClose: function( selectedDate ) {
+	                // 종료일(toDate) datepicker가 닫힐때
+	                // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+	                $("#datepickerStart").datepicker( "option", "maxDate", selectedDate );
+	            }                
+	        });
+		});
+
 	</script>
 
 <body>
@@ -103,13 +157,25 @@
                                    </div><hr style="background:LightGrey">
                                    <!-- 시작일 마감일 설정 -->
                                    <div class="form-group" style="width: 400px; float:left;">
-                                      <h5 style="color: cornFlowerBlue">시작일</h5>
-                                    <div style="width: 150px; float:left;">
+                                      <h5 style="color: cornFlowerBlue">기간</h5>
+                                    <!-- <div style="width: 150px; float:left;">
                                        <input id="adsStartDate" name="adsStartDate" type="date" style="border-radius:5px"/>
                                     </div>
                                     <div  style="width:150px; float:left;">
                                        <input id="adsEndDate" name="adsEndDate" type="date" style="border-radius: 5px"/>
-                                    </div>
+                                    </div> -->
+                                    
+		                            <div style="width: 150px; float:left; margin-left:5px;">
+	                            	   <input type="text" name="adsStartDate" id="datepickerStart" style="border-radius: 8px;" placeholder="시작일">  
+		                            </div> 
+		                            <div style="margin-left:5px; float: left;">
+		                            	<span> ~ </span> 
+		                            </div>
+		                            <div style="width: 150px; float:left; border-radius: 10px;">
+						            	<input type="text" name="adsEndDate" id="datepickerEnd" style="border-radius: 8px;" placeholder="마감일">    
+		                            </div> 
+                                    
+                                    
                                    </div>
                                    <!-- 연결주소 -->
                                    <div class="form-group" style="width: 200px; float:left; margin-left: 100px">
