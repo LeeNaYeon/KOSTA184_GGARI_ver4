@@ -26,8 +26,6 @@ import kosta.spring.postIT.model.service.ClassroomService;
 @Controller
 public class ClassroomController {
 
-	private final String savePath = "C:/Users/onething/dev/Java/SpringWorkSpace/springUserBoardTilesSaveFolder";
-
 	@Autowired
 	ClassroomService classroomService;
 
@@ -121,11 +119,13 @@ public class ClassroomController {
 	}
 
 	@RequestMapping("cr/subAsgn/insert")
-	public String insertSubAsgn(CrSubAsgnDTO crSubAsgnDTO) throws IllegalStateException, IOException {
+	public String insertSubAsgn(CrSubAsgnDTO crSubAsgnDTO, HttpSession session) throws IllegalStateException, IOException {
 		MultipartFile file = crSubAsgnDTO.getFile();
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
+
 		if (file.getSize() > 0) {
 			crSubAsgnDTO.setCrSubasgnFile(file.getOriginalFilename());
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 		}
 
 		classroomService.insertSubAsgn(crSubAsgnDTO);
@@ -133,11 +133,13 @@ public class ClassroomController {
 	}
 
 	@RequestMapping("cr/subAsgn/update")
-	public String updateSubAsgn(CrSubAsgnDTO crSubAsgnDTO) throws IllegalStateException, IOException {
+	public String updateSubAsgn(CrSubAsgnDTO crSubAsgnDTO, HttpSession session) throws IllegalStateException, IOException {
 		MultipartFile file = crSubAsgnDTO.getFile();
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
+
 		if (file.getSize() > 0) {
 			crSubAsgnDTO.setCrSubasgnFile(file.getOriginalFilename());
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 		}
 
 		classroomService.updateSubAsgn(crSubAsgnDTO);
@@ -174,7 +176,8 @@ public class ClassroomController {
 
 	@RequestMapping("cr/asgn/subAsgn/downLoad")
 	public ModelAndView downLoad(HttpSession session, String fname) {
-		return new ModelAndView("downLoadView", "fname", new File(savePath + "/" + fname));
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
+		return new ModelAndView("downLoadView", "fname", new File(path + "/" + fname));
 	}
 
 	@RequestMapping("cr/notice/insert")

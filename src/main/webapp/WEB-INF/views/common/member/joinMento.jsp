@@ -352,7 +352,7 @@
                        <div class="col-md-12 col-sm-12 col-xs-12">
                            <button type="submit" class="login-btn btn" id="joinButton">가입하기</button>
                        </div>
-                       <input type="hidden" name="applicantMajor1" value="" id="applicantMajor1">
+                       <input type="hidden" name="applicantMajor" value="" id="applicantMajor1">
                        <input type="hidden" name="applicantMajor2" value="" id="applicantMajor2">
                        <input type="hidden" name="applicantMajor3" value="" id="applicantMajor3">
                        

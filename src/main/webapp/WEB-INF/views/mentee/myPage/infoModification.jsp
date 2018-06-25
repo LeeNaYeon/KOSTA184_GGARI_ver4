@@ -129,39 +129,43 @@
 </script>
 </head>
 <body>
-
+	<div class="popular-course course-page inner-page"
+		style="margin-top: 20px">
+		<div class="container">
 	
-	<section id="gallery" style="padding-top: 30px; padding-bottom: 30px">
+		<section id="gallery" style="padding-top: 30px; padding-bottom: 30px">
 			<div class="course-filter">
-				<div class="gallery-nav">
-					<sec:authorize access="hasRole('ROLE_MENTO')">
-						<input type="hidden" name="isMento" value="mento" />
-					</sec:authorize>
-					<c:set var="userId">
-						<sec:authentication property="principal.userId" />
-					</c:set>
-
-					<ul>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
-								수정</a></li>
+					<div class="gallery-nav">
 						<sec:authorize access="hasRole('ROLE_MENTO')">
-							<li class="filter"><a
-								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
+							<c:set var="validation" value="Mento" />
 						</sec:authorize>
-					</ul>
-
+						<c:set var="userId">
+							<sec:authentication property="principal.userId" />
+						</c:set>
+	
+						<ul>
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+									스터디</a></li>
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+									스터디</a></li>
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+									스터디</a></li>
+	
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/profile/updateForm?validation=${validation}">프로필
+									수정</a></li>
+							<sec:authorize access="hasRole('ROLE_MENTO')">
+								<li class="filter"><a
+									href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+										만들기</a></li>
+							</sec:authorize>
+						</ul>
+	
+					</div>
 				</div>
-			</div>
 			</section>
 				<!--/ End gallery Nav -->
 
@@ -376,25 +380,8 @@
 	<!-- scroll top -->
 	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
 	<!-- srolltop end -->
-
-	<!-- <script
-		src=${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/bootstrap.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/jquery.mixitup.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/jquery.fancybox.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/jquery.counterup.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/waypoints.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js></script>
-	<script
-		src=${pageContext.request.contextPath}/resources/js/owl.carousel.min.js></script>
-	<script src=js/countdown.js></script>
-	<script src=${pageContext.request.contextPath}/resources/js/script.js></script> -->
+</div>
+</div>
 
 </body>
 </html>

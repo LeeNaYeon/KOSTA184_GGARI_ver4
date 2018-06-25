@@ -124,17 +124,17 @@ public class HomeController {
 		return "admin/selectCourse";
 	}
 	
-	@RequestMapping("/search")
-	public ModelAndView search(String search) {
-		List<CourseDTO> mainCourseList = courseService.mainCourseSearch(search);
-		
-		ModelAndView mv=new ModelAndView();
-		
-		mv.addObject("mainCourseList", mainCourseList);
-		mv.setViewName("common/courese/course2");
-		return mv;
-		
-	}
+   @RequestMapping("/search")
+   public ModelAndView search(String search) {
+      List<CourseDTO> courseListSelect = courseService.mainCourseSearch(search);
+      
+      ModelAndView mv=new ModelAndView();
+      
+      mv.addObject("courseListSelect", courseListSelect);
+      mv.setViewName("common/courese/course");
+      return mv;
+      
+   }
 
 	
 }

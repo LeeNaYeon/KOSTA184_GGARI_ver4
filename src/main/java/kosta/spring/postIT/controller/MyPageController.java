@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +34,6 @@ public class MyPageController {
 	MyPageService myPageService;
 
 	List<TestProblemSolutionDTO> testProblemList;
-
-	private final String savePath = "C:\\edu_j\\springworkspace\\springUserBoardTilesSaveFolder";
 
 	@RequestMapping("/myPage/studyInsert/insertForm")
 	public String studyInsertForm(Model model) throws Exception {
@@ -142,12 +141,13 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/courseInsertConfirm")
-	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO) throws Exception {
+	public String courseInsertConfirm(HttpServletRequest request, Model model, CourseDTO courseDTO, HttpSession session) throws Exception {
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 		MultipartFile file = courseDTO.getFile();
 		if (courseDTO.getFile().getSize() > 0) {
 			courseDTO.setCourseBackpic(file.getOriginalFilename());
 
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 
 		}
 		String userId = null;
@@ -174,8 +174,8 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/userUpdateResult")
-	public String userUpdateResult(HttpServletRequest request, Model model, MenteeDTO menteeDTO) throws Exception {
-
+	public String userUpdateResult(HttpServletRequest request, Model model, MenteeDTO menteeDTO, HttpSession session) throws Exception {
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 		MultipartFile file = menteeDTO.getFile();
 
 		/*
@@ -191,7 +191,7 @@ public class MyPageController {
 		if (menteeDTO.getFile().getSize() > 0) {
 			menteeDTO.setUserPhoto(file.getOriginalFilename());
 
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 
 		}
 
@@ -386,14 +386,15 @@ public class MyPageController {
 	}
 
 	@RequestMapping("myPage/insertApplicant")
-	public String insertApplicant(ApplicantDTO applicantDTO, HttpServletRequest request, Model model) throws Exception {
+	public String insertApplicant(ApplicantDTO applicantDTO, HttpServletRequest request, Model model, HttpSession session) throws Exception {
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 
 		MultipartFile file = applicantDTO.getFile();
 
 		if (applicantDTO.getFile().getSize() > 0) {
 			applicantDTO.setApplicantResume(file.getOriginalFilename());
 
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 
 		}
 

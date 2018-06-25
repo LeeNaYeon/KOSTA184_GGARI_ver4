@@ -258,7 +258,21 @@
 
 
     <header>
-        <div class="top-header">
+    <sec:authorize access="isAuthenticated()">
+	    <c:set var="loginedId"><sec:authentication property="principal.userId"/></c:set>
+	    <c:choose>
+	    	<c:when test="${loginedId eq 'admin'}">
+	    		<div class="top-header" style="background-color: red;">	
+	    	</c:when>
+	    	<c:otherwise>
+	    		<div class="top-header">
+	    	</c:otherwise>
+	    </c:choose>
+    </sec:authorize>
+    <sec:authorize access="isAnonymous()">
+    	<div class="top-header">
+    </sec:authorize>
+	
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-5 col-xs-5">
@@ -266,6 +280,7 @@
                             <li><a href="${pageContext.request.contextPath}/"><i > Welcome to PostIT center!</i></a></li>
                         </ul>
                     </div>
+                    
                     <div class="col-md-7 col-sm-7 col-xs-7 tophead-right">
                         <ul class="tophead-link">
                             <c:choose>
@@ -343,7 +358,6 @@
                                 <li><a href="#">Contact</a></li>
                                 
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                
                                  <li><a href="${pageContext.request.contextPath}/admin/dashboard/selectAll">Dashboard</a></li>
                                  <li><a href="${pageContext.request.contextPath}/admin/menteeSelect">Member</a></li>
                                  <li><a href="${pageContext.request.contextPath}/admin/applicationSelect">Applicant</a></li>

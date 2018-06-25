@@ -20,8 +20,6 @@ import kosta.spring.postIT.model.service.NoticeService;
 @Controller
 public class NoticeController {
 	
-	private final String savePath = "C:/Users/onething/dev/Java/SpringWorkSpace/springUserBoardTilesSaveFolder";
-
 	@Autowired
 	NoticeService noticeService;
 	
@@ -38,12 +36,15 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/insert")
-	public String insertNotice(NoticeDTO noticeDTO) throws IllegalStateException, IOException{
+	public String insertNotice(NoticeDTO noticeDTO, HttpSession session) throws IllegalStateException, IOException{
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 		MultipartFile file = noticeDTO.getFile();
 		if (file.getSize() > 0) {
 			noticeDTO.setNoticeFileName(file.getOriginalFilename());
-			file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+			file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 		}
+		
+		System.out.println(noticeDTO.getNoticeContent()+", "+noticeDTO.getNoticeWriter()+", "+noticeDTO.getNoticeFileName()+", "+ noticeDTO.getNoticeTitle());
 		noticeService.insertNotice(noticeDTO);
 		return "redirect:/notice/mainPage";
 	}
@@ -59,7 +60,8 @@ public class NoticeController {
 	
 	@RequestMapping("notice/downLoad")
 	public ModelAndView downLoad(HttpSession session, String fname) {
-		return new ModelAndView("downLoadView", "fname", new File(savePath + "/" + fname));
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
+		return new ModelAndView("downLoadView", "fname", new File(path + "/" + fname));
 	}
 	
 	@RequestMapping("/notice/delete/{noticeCode}")
@@ -76,13 +78,13 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/update")
-	public String updateNotice(NoticeDTO noticeDTO) throws IllegalStateException, IOException{
+	public String updateNotice(NoticeDTO noticeDTO, HttpSession session) throws IllegalStateException, IOException{
 		MultipartFile file = noticeDTO.getFile();
-		
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
 			if (file.getSize() > 0) {
 				if (noticeDTO.getNoticeFileName()==null) {
 					noticeDTO.setNoticeFileName(file.getOriginalFilename());
-					file.transferTo(new File(savePath + "/" + file.getOriginalFilename()));
+					file.transferTo(new File(path + "/" + file.getOriginalFilename()));
 				}
 			}
 		

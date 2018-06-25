@@ -179,33 +179,44 @@
 </head>
 
 <body>
-
+<div class="popular-course course-page inner-page"
+	style="margin-top: 20px">
 	<section id="gallery">
 	<div class="container">
 		<div class="col-md-12">
 			<div class="row">
 				<!-- gallery Nav -->
 
-				<div class="course-filter" >
+				<div class="course-filter">
 					<div class="gallery-nav">
+						<sec:authorize access="hasRole('ROLE_MENTO')">
+							<c:set var="validation" value="Mento" />
+						</sec:authorize>
+						<c:set var="userId">
+							<sec:authentication property="principal.userId" />
+						</c:set>
+	
 						<ul>
 							<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
-								스터디</a></li>
-						<li class="filter" data-filter="all"><a
-							href="${pageContext.request.contextPath}/myPage/profile/updateForm">프로필
-								수정</a></li>
-						<sec:authorize access="hasRole('ROLE_MENTO')">
-							<li class="filter"><a
-								href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디 만들기</a></li>
-						</sec:authorize>
+								href="${pageContext.request.contextPath}/myPage/study/select?userId=${userId}">내
+									스터디</a></li>
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/favStudy/select?userId=${userId}">찜한
+									스터디</a></li>
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/exStudy/select?userId=${userId}">완료된
+									스터디</a></li>
+	
+							<li class="filter" data-filter="all"><a
+								href="${pageContext.request.contextPath}/myPage/profile/updateForm?validation=${validation}">프로필
+									수정</a></li>
+							<sec:authorize access="hasRole('ROLE_MENTO')">
+								<li class="filter"><a
+									href="${pageContext.request.contextPath}/myPage/studyInsert/insertForm">스터디
+										만들기</a></li>
+							</sec:authorize>
 						</ul>
+	
 					</div>
 				</div>
 				<!--/ End gallery Nav -->
@@ -332,17 +343,17 @@
 						<div class="form-group">
 							<!-- 강좌 시작 날짜<input type="date" name="courseStartDate"> ~ 강좌
 							종료 날짜<input type="date" name="courseEndDate"> -->
-							스터디 시작 날짜
-							<div style="width: 100%; border-radius: 10px;">
-								<input type="text" name="adsEndDate" id="datepickerEnd"
-									style="border-radius: 8px;" placeholder="스터디 시작 날짜 선택하기">
-							</div>
-							
-							스터디 종료 날짜
-							<div style="width: 100%; margin-left: 5px; ">
-								<input type="text" name="adsStartDate" id="datepickerStart"
-									style="border-radius: 8px;" placeholder="스터디 종료 날짜 선택하기">
-							</div>
+							 스터디 시작 날짜
+		                     <div style="width: 100%; margin-left: 5px; ">
+		                        <input type="text" name="courseStartDate" id="datepickerStart"
+		                           style="border-radius: 8px;" placeholder="스터디 시작 날짜 선택하기">
+		                     </div>
+		                     
+		                     스터디 종료 날짜
+		                     <div style="width: 100%; border-radius: 10px;">
+		                        <input type="text" name="courseEndDate" id="datepickerEnd"
+		                           style="border-radius: 8px;" placeholder="스터디 종료 날짜 선택하기">
+		                     </div>
 						</div>
 						
 						<div class="form-group">
@@ -544,26 +555,7 @@
 	<a class="scroll-top fa fa-angle-up" href="javascript:void(0)"></a>
 	<!-- srolltop end -->
 
-<%-- 
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/owl.carousel.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.mixitup.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.fancybox.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.counterup.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/countdown.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/script.js"></script> --%>
+</div>
 </body>
 
 </html>

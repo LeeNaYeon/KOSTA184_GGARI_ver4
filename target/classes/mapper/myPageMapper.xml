@@ -165,7 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="courseInsert" parameterType="courseDTO">
 		insert into course values
 		('c'||lpad(course_seq.nextval,4,'0'),#{userId},#{courseTitle},'스킬업단과',#{courseSubGroup},
-		#{courseDetail},#{courseLevel},#{courseRecruitMax},#{courseRecruitCurrent},#{courseRecruitPerid},#{courseStartDate},#{courseEndDate},
+		#{courseDetail},#{courseLevel},#{courseRecruitMax},#{courseRecruitCurrent},sysdate,#{courseStartDate},#{courseEndDate},
 		#{courseFrequency},#{courseStartTime},#{courseEndTime},#{courseLoc},#{coursePrice}
 		<if test="courseUrl!=null">
 			,#{courseUrl}
@@ -231,7 +231,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="userInterUpdate" parameterType="interestedDTO">
 		update interested
-		set inter_field=#{interField1}
+		set inter_field1=#{interField1}
 		<if test="#{interField2}!=null">,inter_field2=#{interField2}</if>		
 		<if test="#{interField3}!=null">,inter_field3=#{interField3}</if>
 		where user_id=#{userId}

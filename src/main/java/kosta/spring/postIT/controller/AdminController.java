@@ -1,6 +1,9 @@
 package kosta.spring.postIT.controller;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -121,5 +124,11 @@ public class AdminController {
 		
 		return "redirect:/admin/mentoSelect";
 		
+	}
+    
+	@RequestMapping("/resumeDownLoad")
+	public ModelAndView downLoad(HttpSession session, String fileName) {
+		String path = session.getServletContext().getRealPath("/resources/images/save/");
+		return new ModelAndView("downLoadView", "fname", new File(path + "/" + fileName));
 	}
 }
