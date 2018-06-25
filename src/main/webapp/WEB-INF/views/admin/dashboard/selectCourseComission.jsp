@@ -26,9 +26,9 @@
                       <li>
                         <a ${pageContext.request.contextPath}/admin/memberMgr/selectBanner">광고 수익</a>
                       </li>
-                      <li>
+                  <%--     <li>
                         <a ${pageContext.request.contextPath}/admin/memberMgr/selectByMonthYear">월/년 총매출</a>
-                      </li>
+                      </li> --%>
                     </ul>                    
                 	</div>
                   </div>
