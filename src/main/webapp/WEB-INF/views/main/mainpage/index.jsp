@@ -253,7 +253,7 @@ a.scroll-top {
         <div class="container" style="width: 2030px;"> 
             <div class="title sec-title">
                 <h2>추천 강좌</h2>
-                <p>문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다. 문구가 들어갈 자리입니다.  </p>
+                <p>많은 분들의 사랑을 받아온 강좌입니다. 따라서, 저희 postIT가 자신있게 여러분에게 추천합니다.</p>
                 <p><a href="course">전체강좌 보러가기</a></p>
             </div>
             
