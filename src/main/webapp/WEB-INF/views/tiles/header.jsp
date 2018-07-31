@@ -349,8 +349,8 @@
                                 <i class="fa fa-close"></i>
                             </div>
                             <ul>
-                                <li class="current-menu-item "><a href="index">Home</a></li>
-                                <li><a href="#">About</a> </li>
+                                <li class="current-menu-item "><a href="${pageContext.request.contextPath}/">Home</a></li>
+                                <!-- <li><a href="#">About</a> </li> -->
                                 <li><a href="${pageContext.request.contextPath}/notice/mainPage">Notice</a> </li>
                                 <li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/course">courses</a></li>
                                 
